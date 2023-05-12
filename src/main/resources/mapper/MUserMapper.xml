@@ -16,4 +16,8 @@
 	<select id="getLoginUser" resultType="MUser">
 		select * from m_user where user_id = #{userId}
 	</select>
+	<!--ユーザー一覧取得-->
+	<select id="getUserList" resultType="MUser">
+		select * from m_user
+	</select>
 </mapper>
