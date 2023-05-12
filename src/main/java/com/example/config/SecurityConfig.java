@@ -83,12 +83,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//userを追加
 				.withUser("user")
 				.password(encoder.encode("user"))
-				.roles("GENERAL")
+				.roles("user")
 			.and()
 				//adminを追加
 				.withUser("admin")
 				.password(encoder.encode("admin"))
-				.roles("ADMIN");
+				.roles("admin");
 		auth
 			.userDetailsService(userDetailsService)
 			.passwordEncoder(encoder);
