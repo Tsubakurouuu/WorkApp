@@ -34,9 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//"/css/**"にはセキュリティを適用しない
 				.antMatchers("/css/**")
 				//"/js/**"にはセキュリティを適用しない
-				.antMatchers("/js/**")
-				//"/h2-console/**"にはセキュリティを適用しない
-				.antMatchers("/h2-console/**");
+				.antMatchers("/js/**");
 	}
 	
 	//セキュリティの各種設定をする処理
@@ -45,12 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		//ログイン不要ページの設定
 		http
 			.authorizeRequests()
-				//トップページにはログイン不要でアクセスできる
-				.antMatchers("/").permitAll()
 				//ログインページにはログイン不要でアクセスできる
 				.antMatchers("/login").permitAll()
-				//新規登録画面にはログイン不要でアクセスできる
-				.antMatchers("/signup").permitAll()
 				//それ以外はログインしないとアクセスできない
 				.anyRequest().authenticated();
 		//ログイン処理
