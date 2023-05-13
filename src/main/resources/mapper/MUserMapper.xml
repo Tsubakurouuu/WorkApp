@@ -24,4 +24,9 @@
 	<select id="getUserDetail" resultMap="user">
 		select * from m_user where user_id = #{userId}
 	</select>
+	<!--ユーザー新規登録-->
+	<insert id="insertUser">
+		insert into m_user(user_id, password, last_name, first_name, birthday, role)
+		values(#{userId}, #{password}, #{lastName}, #{firstName}, #{birthday}, #{role})
+	</insert>
 </mapper>

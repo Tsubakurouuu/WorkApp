@@ -29,4 +29,11 @@ public class MUserServiceImpl implements MUserService {
 	public MUser getUserDetail(String userId) {
 		return mapper.getUserDetail(userId);
 	}
+	//ユーザー新規登録
+	@Override
+	public void insertUser(MUser user) {
+		//ロールを"USER"でセット
+		user.setRole("USER");
+		mapper.insertUser(user);
+	}
 }
