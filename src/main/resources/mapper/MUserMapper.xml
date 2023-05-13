@@ -20,4 +20,8 @@
 	<select id="getUserList" resultType="MUser">
 		select * from m_user
 	</select>
+	<!--ユーザー詳細取得-->
+	<select id="getUserDetail" resultMap="user">
+		select * from m_user where user_id = #{userId}
+	</select>
 </mapper>

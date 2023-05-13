@@ -12,4 +12,6 @@ public interface MUserMapper {
 	public MUser getLoginUser(String userId);
 	//ユーザー一覧取得
 	public List<MUser> getUserList();
+	//ユーザー詳細取得
+	public MUser getUserDetail(String userId);
 }

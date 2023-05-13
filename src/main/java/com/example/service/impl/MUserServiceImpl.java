@@ -24,4 +24,9 @@ public class MUserServiceImpl implements MUserService {
 	public List<MUser> getUserList() {
 		return mapper.getUserList();
 	}
+	//ユーザー詳細取得
+	@Override
+	public MUser getUserDetail(String userId) {
+		return mapper.getUserDetail(userId);
+	}
 }

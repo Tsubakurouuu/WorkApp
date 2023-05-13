@@ -25,7 +25,9 @@
 				</thead>
 				<tbody th:each="obj:${userList}">
 					<tr>
-						<td th:text="${obj.userId}"></td>
+						<td>
+							<a th:text="${obj.userId}" th:href="@{'/admin/' + ${obj.userId}}"></a>
+						</td>
 						<td th:text="${obj.lastName}"></td>
 						<td th:text="${obj.firstName}"></td>
 					</tr>
