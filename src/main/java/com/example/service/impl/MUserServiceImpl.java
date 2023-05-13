@@ -3,6 +3,7 @@ package com.example.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.model.MUser;
@@ -13,6 +14,9 @@ import com.example.service.MUserService;
 public class MUserServiceImpl implements MUserService {
 	@Autowired
 	private MUserMapper mapper;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 
 	//ログインユーザー取得処理
 	@Override
@@ -34,6 +38,10 @@ public class MUserServiceImpl implements MUserService {
 	public void insertUser(MUser user) {
 		//ロールを"USER"でセット
 		user.setRole("USER");
+		//パスワードを取得
+		String rawPassword = user.getPassword();
+		//取得したパスワードを暗号化
+		user.setPassword(encoder.encode(rawPassword));
 		mapper.insertUser(user);
 	}
 }

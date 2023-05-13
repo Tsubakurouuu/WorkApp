@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+		<meta charset="UTF-8"></meta>
+		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+		<!--CSS読込-->
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+		<!--JS読込-->
+		<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+		<title>WorkManagement</title>
+	</head>
+	<body>
+		<!--テンプレートの呼び出し-->
+		<header layout:replace="~{layout/header::header}"></header>
+		<div class="container">
+			<h2>新規登録</h2>
+			<form method="post" th:action="@{/admin/user/new}" th:object="${userNewForm}">
+				<!--ユーザーID-->
+				<div class="field">
+					<label for="userId">ユーザーID</label>
+					<input type="text" class="form-control" th:field="*{userId}" th:errorclass="is-invalid"/>
+					<div class="invalid-feedback" th:errors="*{userId}"></div>
+				</div>
+				<!--パスワード-->
+				<div class="field">
+					<label for="password">パスワード</label>
+					<input type="text" class="form-control" th:field="*{password}" th:errorclass="is-invalid"/>
+					<div class="invalid-feedback" th:errors="*{password}"></div>
+				</div>
+				<!--姓-->
+				<div class="field">
+					<label for="lastName">姓</label>
+					<input type="text" class="form-control" th:field="*{lastName}" th:errorclass="is-invalid"/>
+					<div class="invalid-feedback" th:errors="*{lastName}"></div>
+				</div>
+				<!--名-->
+				<div class="field">
+					<label for="firstName">名</label>
+					<input type="text" class="form-control" th:field="*{firstName}" th:errorclass="is-invalid"/>
+					<div class="invalid-feedback" th:errors="*{firstName}"></div>
+				</div>
+				<!--誕生日-->
+				<div class="field">
+					<label for="birthday">誕生日</label>
+					<input type="text" class="form-control" placeholder="yyyy/MM/dd" th:field="*{birthday}" th:errorclass="is-invalid"/>
+					<div class="invalid-feedback" th:errors="*{birthday}"></div>
+				</div>
+				<!--ログインボタン-->
+				<input type="submit" value="新規登録" class="btn btn-primary"/>
+				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			</form>
+		</div>
+	</body>
+</html>
