@@ -30,11 +30,23 @@ public class UserController {
 		return "user/form";
 	}
 	
-	//申請フォーム登録処理
+	//確認画面へボタン押下時の処理
 	@PostMapping("/form/confirm")
-	public String postUserFormConfirm(@ModelAttribute RequestFormForm form, MUser loginUser) {
-		//RequestFormFormをRequestFormに変換
-//		RequestForm requestForm = modelMapper.map(form, RequestForm.class);
+	public String postUserFormConfirm() {
+		//user/form_confirm.htmlを呼び出す
+		return "redirect:/form/confirm";
+	}
+	
+	//出退勤申請確認画面に遷移するための処理
+	@GetMapping("/form/confirm")
+	public String getUserFormConfirm(@ModelAttribute RequestFormForm form) {
+		//user/form_confirm.htmlを呼び出す
+		return "user/form_confirm";
+	}
+	
+	//申請ボタン押下時の処理
+	@PostMapping("/form/complete")
+	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser) {
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//formの内容をmodelに詰め替える

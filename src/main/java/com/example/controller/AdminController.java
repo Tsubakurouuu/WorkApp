@@ -56,7 +56,7 @@ public class AdminController {
 		return "admin/user_new";
 	}
 	
-	//ユーザー新規登録処理
+	//新規登録ボタン押下時の処理
 	@PostMapping("/user/new")
 	public String postAdminUserNew(@ModelAttribute @Validated(GroupOrder.class) UserNewForm form, BindingResult bindingResult) {
 		//入力チェック結果
