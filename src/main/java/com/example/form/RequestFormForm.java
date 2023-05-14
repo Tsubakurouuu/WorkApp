@@ -3,7 +3,7 @@ package com.example.form;
 import lombok.Data;
 
 @Data
-public class FormForm {
+public class RequestFormForm {
 	//出勤ステータス
 	private Integer workStatus;
 	//出勤(時)

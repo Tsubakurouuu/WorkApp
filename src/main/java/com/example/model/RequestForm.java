@@ -3,7 +3,7 @@ package com.example.model;
 import lombok.Data;
 
 @Data
-public class Form {
+public class RequestForm {
 	//ID
 	private Integer id;
 	//ユーザーID

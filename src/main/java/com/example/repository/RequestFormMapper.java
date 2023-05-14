@@ -2,10 +2,10 @@ package com.example.repository;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.example.model.Form;
+import com.example.model.RequestForm;
 
 @Mapper
-public interface FormMapper {
+public interface RequestFormMapper {
 	//申請フォーム登録
-	public int insertForm(Form form);
+	public int insertForm(RequestForm form);
 }

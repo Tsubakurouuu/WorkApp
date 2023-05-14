@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--Mapperとxmlのマッピング-->
-<mapper namespace="com.example.repository.FormMapper">
+<mapper namespace="com.example.repository.RequestFormMapper">
 	<!--マッピング定義(フォーム)-->
-	<resultMap id="form" type="com.example.model.Form">
+	<resultMap id="requestForm" type="com.example.model.RequestForm">
 		<id column="id" property="id"/>
 		<result column="user_id" property="userId"/>
 		<result column="year" property="year"/>
@@ -20,7 +20,7 @@
 	</resultMap>
 	<!--申請フォーム登録-->
 	<insert id="insertForm">
-		insert into form(user_id, year, month, day, work_status, attendance_hour, attendance_minute, leaving_hour, leaving_minute, rest_hour, rest_minute, comment)
-		values(#{userId}, #{year}, #{month}, #{day}, #{workStatus}, #{attendanceHour}, #{attendanceMinute}, #{leavingHour}, #{leavingMinute}, #{comment})
+		insert into request_form(user_id, year, month, day, work_status, attendance_hour, attendance_minute, leaving_hour, leaving_minute, rest_hour, rest_minute, comment)
+		values(#{userId}, #{year}, #{month}, #{day}, #{workStatus}, #{attendanceHour}, #{attendanceMinute}, #{leavingHour}, #{leavingMinute}, #{restHour}, #{restMinute}, #{comment})
 	</insert>
 </mapper>

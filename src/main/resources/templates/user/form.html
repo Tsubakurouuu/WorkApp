@@ -15,7 +15,7 @@
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
 			<h2>申請フォーム</h2>
-			<form method="post" th:action="@{/form/confirm}" th:object="${formForm}">
+			<form method="post" th:action="@{/form/confirm}" th:object="${requestFormForm}">
 				<!--出勤ステータス-->
 				<div class="field">
 					<label for="workStatus">出勤ステータス</label>
