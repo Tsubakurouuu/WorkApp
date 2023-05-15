@@ -16,6 +16,8 @@
 		<div class="container">
 			<h2>申請フォーム</h2>
 			<form method="post" th:action="@{/form/confirm}" th:object="${requestFormForm}">
+				<!--ユーザーID-->
+				<input type="hidden" th:field="*{userId}"/>
 				<!--出勤ステータス-->
 				<div class="field">
 					<label for="workStatus">出勤ステータス</label>

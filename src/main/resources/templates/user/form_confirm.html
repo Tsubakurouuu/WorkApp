@@ -37,6 +37,18 @@
 				<input type="hidden" th:field="*{comment}"/>
 				<input type="submit" value="戻る" class="btn btn-danger"/>
 			</form>
+			<form method="post" th:action="@{/form/complete}" th:object="${requestFormForm}">
+				<input type="hidden" th:field="*{userId}"/>
+				<input type="hidden" th:field="*{workStatus}"/>
+				<input type="hidden" th:field="*{attendanceHour}"/>
+				<input type="hidden" th:field="*{attendanceMinute}"/>
+				<input type="hidden" th:field="*{leavingHour}"/>
+				<input type="hidden" th:field="*{leavingMinute}"/>
+				<input type="hidden" th:field="*{restHour}"/>
+				<input type="hidden" th:field="*{restMinute}"/>
+				<input type="hidden" th:field="*{comment}"/>
+				<input type="submit" value="申請" class="btn btn-primary"/>
+			</form>
 		</div>
 	</body>
 </html>

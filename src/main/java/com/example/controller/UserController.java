@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.form.RequestFormForm;
 import com.example.model.MUser;
@@ -56,7 +57,9 @@ public class UserController {
 	
 	//申請ボタン押下時の処理
 	@PostMapping("/form/complete")
-	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser) {
+	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser, Model model, RedirectAttributes redirectAttributes) {
+		//フラッシュスコープ
+		redirectAttributes.addFlashAttribute("complete", "申請が完了しました。");
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//formの内容をmodelに詰め替える
@@ -74,6 +77,14 @@ public class UserController {
 		requestFormService.insertForm(requestForm);
 		//ログを表示
 		log.info(form.toString());
-		return "redirect:/form/confirm";
+		//出退勤一覧画面にリダイレクト
+		return "redirect:/works";
+	}
+	
+	//出退勤一覧画面に遷移するための処理
+	@GetMapping("/works")
+	public String getWorkIndex(@ModelAttribute("complete") String complete) {
+		//user/work_index.htmlを呼び出す
+		return "user/work_index";
 	}
 }
