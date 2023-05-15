@@ -23,4 +23,8 @@
 		insert into request_form(user_id, year, month, day, work_status, attendance_hour, attendance_minute, leaving_hour, leaving_minute, rest_hour, rest_minute, comment)
 		values(#{userId}, #{year}, #{month}, #{day}, #{workStatus}, #{attendanceHour}, #{attendanceMinute}, #{leavingHour}, #{leavingMinute}, #{restHour}, #{restMinute}, #{comment})
 	</insert>
+	<!--申請フォーム一覧取得-->
+	<select id="getRequestFormList" resultType="MUser">
+		select * from request_form
+	</select>
 </mapper>

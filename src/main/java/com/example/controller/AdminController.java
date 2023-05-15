@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.form.GroupOrder;
 import com.example.form.UserNewForm;
 import com.example.model.MUser;
+import com.example.model.RequestForm;
 import com.example.service.MUserService;
+import com.example.service.RequestFormService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,13 +27,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AdminController {
 	@Autowired
-	private MUserService service;
+	private MUserService userService;
+	
+	@Autowired
+	private RequestFormService requestFormService;
 	
 	//ユーザー一覧画面に遷移するための処理
 	@GetMapping("/users")
 	public String getAdminUserIndex(Model model) {
 		//ユーザー一覧取得
-		List<MUser> userList = service.getUserList();
+		List<MUser> userList = userService.getUserList();
 		//Modelに登録
 		model.addAttribute("userList", userList);
 		//admin/user_index.htmlを呼び出す
@@ -42,7 +47,7 @@ public class AdminController {
 	@GetMapping("/{userId:.+}")
 	public String getAdminUserDetail(Model model, @PathVariable("userId") String userId) {
 		//ユーザーを1件取得
-		MUser userDetail = service.getUserDetail(userId);
+		MUser userDetail = userService.getUserDetail(userId);
 		//Modelに登録
 		model.addAttribute("userDetail", userDetail);
 		//admin/user_detail.htmlを呼び出す
@@ -74,9 +79,20 @@ public class AdminController {
 		user.setFirstName(form.getFirstName());
 		user.setBirthday(form.getBirthday());
 		//ユーザー新規登録
-		service.insertUser(user);
+		userService.insertUser(user);
 		//ユーザー一覧画面にリダイレクト
 		return "redirect:/admin/users";
+	}
+	
+	//申請、通知一覧画面に遷移するための処理
+	@GetMapping("/forms")
+	public String getAdminFormIndex(Model model) {
+		//申請フォーム一覧取得
+		List<RequestForm> requestFormList = requestFormService.getRequestFormList();
+		//Modelに登録
+		model.addAttribute("requestFormList", requestFormList);
+		//admin/work_index.htmlを呼び出す
+		return "admin/form_index";
 	}
 	
 }
