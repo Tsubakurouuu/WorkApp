@@ -27,4 +27,8 @@
 	<select id="getRequestFormList" resultType="MUser">
 		select * from request_form
 	</select>
+	<!--申請フォーム詳細取得-->
+	<select id="getRequestFormDetail" resultType="RequestForm">
+		select * from request_form where id = #{id}
+	</select>
 </mapper>

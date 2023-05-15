@@ -25,5 +25,11 @@ public class RequestFormServiceImpl implements RequestFormService {
 	public List<RequestForm> getRequestFormList() {
 		return mapper.getRequestFormList();
 	}
+	
+	//申請フォーム詳細取得
+	@Override
+	public RequestForm getRequestFormDetail(int id) {
+		return mapper.getRequestFormDetail(id);
+	}
 
 }

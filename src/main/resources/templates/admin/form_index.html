@@ -26,7 +26,9 @@
 				<tbody th:each="obj:${requestFormList}">
 					<tr>
 						<td></td>
-						<td th:text="${obj.userId}"></td>
+						<td>
+							<a th:text="${obj.userId}" th:href="@{'/admin/form/' + ${obj.id}}"></a>
+						</td>
 						<td></td>
 					</tr>
 				</tbody>

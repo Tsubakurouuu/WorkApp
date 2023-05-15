@@ -12,4 +12,6 @@ public interface RequestFormMapper {
 	public int insertForm(RequestForm form);
 	//申請フォーム一覧取得
 	public List<RequestForm> getRequestFormList();
+	//申請フォーム詳細取得
+	public RequestForm getRequestFormDetail(int id);
 }

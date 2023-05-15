@@ -95,4 +95,16 @@ public class AdminController {
 		return "admin/form_index";
 	}
 	
+	//申請、通知詳細画面に遷移するための処理
+	@GetMapping("/form/{id}")
+	public String getAdminFormDetail(Model model, @PathVariable("id") int id) {
+		//ユーザーを1件取得
+		RequestForm requestFormDetail = requestFormService.getRequestFormDetail(id);
+		//Modelに登録
+		model.addAttribute("requestFormDetail", requestFormDetail);
+		//admin/form_detail.htmlを呼び出す
+		return "admin/form_detail";
+	}
+	
+	
 }

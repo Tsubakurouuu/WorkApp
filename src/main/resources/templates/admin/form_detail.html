@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+		<meta charset="UTF-8"></meta>
+		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+		<!--CSS読込-->
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+		<!--JS読込-->
+		<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+		<title>WorkApp</title>
+	</head>
+	<body>
+		<!--テンプレートの呼び出し-->
+		<header layout:replace="~{layout/header::header}"></header>
+		<div class="container">
+			<h2>申請、通知詳細画面</h2>
+			<div th:object="${requestFormDetail}">
+				<p th:text="|出勤ステータス *{workStatus}|"></p>
+				<p th:text="|出勤(時) *{attendanceHour}|"></p>
+				<p th:text="|出勤(分) *{attendanceMinute}|"></p>
+				<p th:text="|退勤(時) *{leavingHour}|"></p>
+				<p th:text="|退勤(分) *{leavingMinute}|"></p>
+				<p th:text="|休憩(時) *{restHour}|"></p>
+				<p th:text="|休憩(分) *{restMinute}|"></p>
+				<p th:text="|申請理由 *{comment}|"></p>
+			</div>
+		</div>
+	</body>
+</html>
