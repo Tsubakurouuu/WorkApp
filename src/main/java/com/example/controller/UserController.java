@@ -83,7 +83,11 @@ public class UserController {
 	
 	//出退勤一覧画面に遷移するための処理
 	@GetMapping("/works")
-	public String getWorkIndex(@ModelAttribute("complete") String complete) {
+	public String getWorkIndex(@ModelAttribute("complete") String complete, Model model, MUser loginUser) {
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
+		//Modelに登録
+		model.addAttribute("loginUser", loginUser);
 		//user/work_index.htmlを呼び出す
 		return "user/work_index";
 	}
