@@ -18,6 +18,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserDetailsService userDetailsService;
 	
+	@Autowired
+	private AuthenticationSuccessHandler AuthenticationSuccessHandler;
+	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -45,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				//ログインページにはログイン不要でアクセスできる
 				.antMatchers("/login").permitAll()
+				//"/admin/**には"ADMIN"ロールを持つユーザーしか遷移できない
+				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
 				//それ以外はログインしないとアクセスできない
 				.anyRequest().authenticated();
 		//ログイン処理
@@ -61,16 +66,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//ログインページのパスワード
 				.passwordParameter("password")
 				//ログイン成功時の遷移先
-				.defaultSuccessUrl("/my_page", true);
+				.successHandler(AuthenticationSuccessHandler);
 		//ログアウト処理
 		http
 			.logout()
 				//ログアウトのリクエスト先パス
 				.logoutUrl("/logout")
 				//ログアウト成功時の遷移先
-				.logoutSuccessUrl("/");
-//		//CSRF対策を無効に設定
-//		http.csrf().disable();
+				.logoutSuccessUrl("/login");
 	}
 	
 	//認証設定の処理
