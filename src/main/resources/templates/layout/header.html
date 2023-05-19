@@ -12,6 +12,21 @@
 		      		</button>
 		      		<div class="collapse navbar-collapse" id="navbarNavDropdown">
 				        <ul class="navbar-nav ml-auto" sec:authorize="authenticated">
+							<li role="presentation" sec:authorize="hasAuthority('ADMIN')">
+								<form method="get" th:action="@{/admin/users}">
+									<button class="btn btn-link text-white" type="submit">ユーザー一覧</button>
+								</form>
+							</li>
+							<li role="presentation" sec:authorize="hasAuthority('ADMIN')">
+								<form method="get" th:action="@{/admin/forms}">
+									<button class="btn btn-link text-white" type="submit">申請通知一覧</button>
+								</form>
+							</li>
+							<li role="presentation" sec:authorize="hasAuthority('ADMIN')">
+								<form method="get" th:action="@{/admin/user/new}">
+									<button class="btn btn-link text-white" type="submit">新規登録</button>
+								</form>
+							</li>
 							<li>
 								<form method="post" th:action="@{/logout}">
 									<button class="btn btn-link text-white" type="submit">ログアウト</button>
