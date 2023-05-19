@@ -16,6 +16,34 @@
 		<div class="container">
 			<h2 th:text="|${loginUser.lastName} ${loginUser.firstName}さんの勤怠情報|"></h2>
 			<h3 th:text="${complete}"></h3>
+			<h4 th:text="|${myCalendar.year}年 ${myCalendar.month}月|"></h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>日付</th>
+						<th>出勤ステータス</th>
+						<th>出勤</th>
+						<th>退勤</th>
+						<th>休憩</th>
+						<th>就業時間</th>
+						<th>残業時間</th>
+						<th>修正申請</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</body>
 </html>

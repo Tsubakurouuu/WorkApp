@@ -1,5 +1,7 @@
 package com.example.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.form.RequestFormForm;
 import com.example.model.MUser;
+import com.example.model.MyCalendar;
+import com.example.model.MyCalendarLogic;
 import com.example.model.RequestForm;
 import com.example.service.RequestFormService;
 import com.example.service.impl.UserDetailsServiceImpl;
@@ -83,11 +87,35 @@ public class UserController {
 	
 	//出退勤一覧画面に遷移するための処理
 	@GetMapping("/works")
-	public String getWorkIndex(@ModelAttribute("complete") String complete, Model model, MUser loginUser) {
+	public String getWorkIndex(@ModelAttribute("complete") String complete, Model model, MUser loginUser, HttpServletRequest request) {
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//Modelに登録
 		model.addAttribute("loginUser", loginUser);
+		//↓コピー
+		String s_year = request.getParameter("year");
+		String s_month = request.getParameter("month");
+		MyCalendarLogic logic = new MyCalendarLogic();
+		MyCalendar myCalendar = null;
+		if(s_year != null && s_month != null) {
+			int year = Integer.parseInt(s_year);
+			int month= Integer.parseInt(s_month);
+			if(month == 0) {
+				month = 12;
+				year--;
+			}
+			if(month == 13) {
+				month = 1;
+				year++;
+			}
+			//年と月のクエリパラメーターが来ている場合にはその年月でカレンダーを生成する
+			myCalendar = logic.createMyCalendar(year,month);
+		}else {
+			//クエリパラメータが来ていないときは実行日時のカレンダーを生成する。
+			myCalendar = logic.createMyCalendar();
+		}
+		request.setAttribute("myCalendar", myCalendar);
+		//↑コピー
 		//user/work_index.htmlを呼び出す
 		return "user/work_index";
 	}
