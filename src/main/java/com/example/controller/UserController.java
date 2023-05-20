@@ -118,4 +118,32 @@ public class UserController {
 		//出退勤時間入力画面にリダイレクト
 		return "redirect:/work/input";
 	}
+	
+	//退勤ボタン押下時の処理
+	@PostMapping("/work/leaving")
+	public String postUserWorkLeaving(Work work, MUser loginUser) {
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
+		//Workにユーザーを登録
+		work.setUserId(loginUser.getUserId());
+		//Workに就業時間、残業時間を登録
+//		work.setWorkingTimeHour(work.getLeavingHour() - work.getAttendanceHour());
+//		if(work.getLeavingMinute() - work.getAttendanceMinute() >= 0) {
+//			work.setWorkingTimeMinute(work.getLeavingMinute() - work.getAttendanceMinute());
+//		} else if (work.getLeavingMinute() - work.getAttendanceMinute() < 0) {
+//			work.setWorkingTimeMinute(-(work.getLeavingMinute() - work.getAttendanceMinute()));
+//		}
+//		work.setOverTimeHour(work.getLeavingHour() - work.getAttendanceHour() - 8);
+//		if(work.getLeavingMinute() - work.getAttendanceMinute() >= 0) {
+//			work.setOverTimeMinute(work.getLeavingMinute() - work.getAttendanceMinute());
+//		} else if (work.getLeavingMinute() - work.getAttendanceMinute() < 0) {
+//			work.setOverTimeMinute(-(work.getLeavingMinute() - work.getAttendanceMinute()));
+//		}
+		//退勤時間登録（更新）
+		workService.updateLeaving(work);
+		//ログを表示
+		log.info(work.toString());
+		//出退勤時間入力画面にリダイレクト
+		return "redirect:/work/input";
+	}
 }

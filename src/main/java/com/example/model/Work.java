@@ -26,10 +26,14 @@ public class Work {
 	private Integer restHour;
 	//休憩（分）
 	private Integer restMinute;
-	//就業時間
-	private Integer workingTime;
-	//残業時間
-	private Integer overTime;
+	//就業時間（時）
+	private Integer workingTimeHour;
+	//就業時間（分）
+	private Integer workingTimeMinute;
+	//残業時間（時）
+	private Integer overTimeHour;
+	//残業時間（分）
+	private Integer overTimeMinute;
 	//出勤ステータス
 	private Integer workStatus;
 	
