@@ -19,7 +19,7 @@
 		<result column="working_time_minute" property="workingTimeMinute"/>
 		<result column="over_time_hour" property="overTimeHour"/>
 		<result column="over_time_minute" property="overTimeMinute"/>
-		<result column="work_status" property="work_status"/>
+		<result column="work_status" property="workStatus"/>
 	</resultMap>
 	<!--出勤時間登録-->
 	<insert id="insertAttendance">
@@ -32,12 +32,19 @@
 		leaving_hour = #{work.leavingHour},
 		leaving_minute = #{work.leavingMinute},
 		rest_hour = #{work.restHour},
-		rest_minute = #{work.restMinute}
-
+		rest_minute = #{work.restMinute},
+		working_time_hour = #{work.workingTimeHour},
+		working_time_minute = #{work.workingTimeMinute},
+		over_time_hour = #{work.overTimeHour},
+		over_time_minute = #{work.overTimeMinute}
 		where
 		user_id = #{work.userId} and
 		year = #{work.year} and
 		month = #{work.month} and
 		date = #{work.date}
 	</update>
+	<!--勤怠情報取得-->
+	<select id="selectWork" resultMap="work">
+		select * from work where id = #{id}
+	</select>
 </mapper>

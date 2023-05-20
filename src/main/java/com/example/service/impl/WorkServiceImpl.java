@@ -43,4 +43,11 @@ public class WorkServiceImpl implements WorkService {
 		work.setRestMinute(0);
 		mapper.updateLeaving(work);
 	}
+	
+	//勤怠情報取得
+	@Override
+	public Work selectWork(Integer id) {
+		return mapper.selectWork(id);
+	}
 }
+

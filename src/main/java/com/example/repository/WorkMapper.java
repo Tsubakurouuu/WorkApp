@@ -11,4 +11,6 @@ public interface WorkMapper {
 	public int insertAttendance(Work work);
 	//退勤時間登録（更新）
 	public void updateLeaving(@Param("work") Work work);
+	//勤怠情報取得
+	public Work selectWork(Integer id);
 }

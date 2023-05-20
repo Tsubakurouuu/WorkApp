@@ -7,4 +7,6 @@ public interface WorkService {
 	public void insertAttendance(Work work);
 	//退勤時間登録（更新）
 	public void updateLeaving(Work work);
+	//勤怠情報取得
+	public Work selectWork(Integer id);
 }

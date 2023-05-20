@@ -14,14 +14,7 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
-			<h2>出退勤時間入力画面</h2>
-			<form method="post" th:action="@{/work/attendance}">
-				<input type="submit" value="出勤"/>
-			</form>
-			<form method="post" th:action="@{/work/leaving}" th:object="${workDetail}">
-				<input type="hidden" th:field="*{id}"/>
-				<input type="submit" value="退勤"/>
-			</form>
+			<h2>example</h2>
 		</div>
 	</body>
 </html>
