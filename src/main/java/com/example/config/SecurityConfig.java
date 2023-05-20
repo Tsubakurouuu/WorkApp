@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//ログインページにはログイン不要でアクセスできる
 				.antMatchers("/login").permitAll()
 				//"/admin/**には"ADMIN"ロールを持つユーザーしか遷移できない
-				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+//				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
 				//それ以外はログインしないとアクセスできない
 				.anyRequest().authenticated();
 		//ログイン処理
@@ -81,17 +81,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		PasswordEncoder encoder = passwordEncoder();
 		//インメモリ認証
-		auth
-			.inMemoryAuthentication()
-				//userを追加
-				.withUser("user")
-				.password(encoder.encode("user"))
-				.roles("user")
-			.and()
-				//adminを追加
-				.withUser("admin")
-				.password(encoder.encode("admin"))
-				.roles("admin");
+//		auth
+//			.inMemoryAuthentication()
+//				//userを追加
+//				.withUser("user")
+//				.password(encoder.encode("user"))
+//				.roles("USER")
+//			.and()
+//				//adminを追加
+//				.withUser("adminadmin")
+//				.password(encoder.encode("admin"))
+//				.roles("ADMIN");
 		auth
 			.userDetailsService(userDetailsService)
 			.passwordEncoder(encoder);
