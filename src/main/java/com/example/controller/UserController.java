@@ -11,7 +11,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.example.form.RequestFormForm;
 import com.example.model.MUser;
 import com.example.model.RequestForm;
+import com.example.model.Work;
 import com.example.service.RequestFormService;
+import com.example.service.WorkService;
 import com.example.service.impl.UserDetailsServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class UserController {
+	@Autowired
+	private WorkService workService;
+	
 	@Autowired
 	private RequestFormService requestFormService;
 	
@@ -83,12 +88,34 @@ public class UserController {
 	
 	//出退勤一覧画面に遷移するための処理
 	@GetMapping("/works")
-	public String getWorkIndex(@ModelAttribute("complete") String complete, Model model, MUser loginUser) {
+	public String getUserWorkIndex(@ModelAttribute("complete") String complete, Model model, MUser loginUser) {
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//Modelに登録
 		model.addAttribute("loginUser", loginUser);
 		//user/work_index.htmlを呼び出す
 		return "user/work_index";
+	}
+	
+	//出退勤時間入力画面に遷移するための処理
+	@GetMapping("/work/input")
+	public String getUserWorkInput() {
+		//user/work_input.htmlを呼び出す
+		return "user/work_input";
+	}
+	
+	//出勤ボタン押下時の処理
+	@PostMapping("/work/attendance")
+	public String postUserWorkAttendance(Work work, MUser loginUser) {
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
+		//Workにユーザーを登録
+		work.setUserId(loginUser.getUserId());
+		//出勤時間登録
+		workService.insertAttendance(work);
+		//ログを表示
+		log.info(work.toString());
+		//出退勤時間入力画面にリダイレクト
+		return "redirect:/work/input";
 	}
 }

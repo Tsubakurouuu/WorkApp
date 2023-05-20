@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--Mapperとxmlのマッピング-->
+<mapper namespace="com.example.repository.WorkMapper">
+	<!--マッピング定義(勤怠)-->
+	<resultMap id="work" type="com.example.model.Work">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="year" property="year"/>
+		<result column="month" property="month"/>
+		<result column="date" property="date"/>
+		<result column="attendance_hour" property="attendanceHour"/>
+		<result column="attendancce_minute" property="attendanceMinute"/>
+		<result column="leaving_hour" property="leavingHour"/>
+		<result column="leaving_minute" property="leavingMinute"/>
+		<result column="rest_hour" property="restHour"/>
+		<result column="rest_minute" property="restMinute"/>
+		<result column="working_time" property="workingTime"/>
+		<result column="over_time" property="overTime"/>
+		<result column="work_status" property="work_status"/>
+	</resultMap>
+	<!--出勤時間登録-->
+	<insert id="insertAttendance">
+		insert into work(user_id, year, month, date, attendance_hour, attendance_minute)
+		values (#{userId}, #{year}, #{month}, #{date}, #{attendanceHour}, #{attendanceMinute})
+	</insert>
+</mapper>
