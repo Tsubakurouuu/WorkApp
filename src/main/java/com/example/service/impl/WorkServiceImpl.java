@@ -24,7 +24,23 @@ public class WorkServiceImpl implements WorkService {
 		work.setMonth(calendar.get(Calendar.MONTH) + 1);
 		work.setDate(calendar.get(Calendar.DATE));
 		work.setAttendanceHour(calendar.get(Calendar.HOUR_OF_DAY));
-		work.setAttendanceMinute(calendar.get(Calendar.MINUTE));
+		//5捨6入処理
+		if(calendar.get(Calendar.MINUTE) >= 6 && calendar.get(Calendar.MINUTE) <= 15) {
+			work.setAttendanceMinute(10);
+		} else if(calendar.get(Calendar.MINUTE) >= 16 && calendar.get(Calendar.MINUTE) <= 25) {
+			work.setAttendanceMinute(20);
+		} else if(calendar.get(Calendar.MINUTE) >= 26 && calendar.get(Calendar.MINUTE) <= 35) {
+			work.setAttendanceMinute(30);
+		} else if(calendar.get(Calendar.MINUTE) >= 36 && calendar.get(Calendar.MINUTE) <= 45) {
+			work.setAttendanceMinute(40);
+		} else if(calendar.get(Calendar.MINUTE) >= 46 && calendar.get(Calendar.MINUTE) <= 55) {
+			work.setAttendanceMinute(50);
+		}else if(calendar.get(Calendar.MINUTE) <= 5) {
+			work.setAttendanceMinute(0);
+		}else if(calendar.get(Calendar.MINUTE) >= 56) {
+			work.setAttendanceHour(calendar.get(Calendar.HOUR_OF_DAY) + 1);
+			work.setAttendanceMinute(0);
+		}
 		mapper.insertAttendance(work);
 	}
 	
@@ -38,7 +54,23 @@ public class WorkServiceImpl implements WorkService {
 		work.setMonth(calendar.get(Calendar.MONTH) + 1);
 		work.setDate(calendar.get(Calendar.DATE));
 		work.setLeavingHour(calendar.get(Calendar.HOUR_OF_DAY));
-		work.setLeavingMinute(calendar.get(Calendar.MINUTE));
+		//5捨6入処理
+		if(calendar.get(Calendar.MINUTE) >= 6 && calendar.get(Calendar.MINUTE) <= 15) {
+			work.setLeavingMinute(10);
+		} else if(calendar.get(Calendar.MINUTE) >= 16 && calendar.get(Calendar.MINUTE) <= 25) {
+			work.setLeavingMinute(20);
+		} else if(calendar.get(Calendar.MINUTE) >= 26 && calendar.get(Calendar.MINUTE) <= 35) {
+			work.setLeavingMinute(30);
+		} else if(calendar.get(Calendar.MINUTE) >= 36 && calendar.get(Calendar.MINUTE) <= 45) {
+			work.setLeavingMinute(40);
+		} else if(calendar.get(Calendar.MINUTE) >= 46 && calendar.get(Calendar.MINUTE) <= 55) {
+			work.setLeavingMinute(50);
+		}else if(calendar.get(Calendar.MINUTE) <= 5) {
+			work.setLeavingMinute(0);
+		}else if(calendar.get(Calendar.MINUTE) >= 56) {
+			work.setLeavingHour(calendar.get(Calendar.HOUR_OF_DAY) + 1);
+			work.setLeavingMinute(0);
+		}
 		work.setRestHour(1);
 		work.setRestMinute(0);
 //		work.setWorkingTimeHour(work.getLeavingHour() - work.getAttendanceHour());
