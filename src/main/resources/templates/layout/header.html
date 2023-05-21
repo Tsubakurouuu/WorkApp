@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"　xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
 	<head>
 	</head>
 	<body>
@@ -11,7 +11,26 @@
 		        		<span class="navbar-toggler-icon"></span>
 		      		</button>
 		      		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+						<!--ログインしている時のみ表示-->
 				        <ul class="navbar-nav ml-auto" sec:authorize="authenticated">
+							<!--"ADMIN"ロールを持っている場合のみ表示-->
+							<li role="presentation" sec:authorize="hasAuthority('ADMIN')">
+								<form method="get" th:action="@{/admin/users}">
+									<button class="btn btn-link text-white" type="submit">ユーザー一覧</button>
+								</form>
+							</li>
+							<!--"ADMIN"ロールを持っている場合のみ表示-->
+							<li role="presentation" sec:authorize="hasAuthority('ADMIN')">
+								<form method="get" th:action="@{/admin/forms}">
+									<button class="btn btn-link text-white" type="submit">申請通知一覧</button>
+								</form>
+							</li>
+							<!--"ADMIN"ロールを持っている場合のみ表示-->
+							<li role="presentation" sec:authorize="hasAuthority('ADMIN')">
+								<form method="get" th:action="@{/admin/user/new}">
+									<button class="btn btn-link text-white" type="submit">新規登録</button>
+								</form>
+							</li>
 							<li>
 								<form method="post" th:action="@{/logout}">
 									<button class="btn btn-link text-white" type="submit">ログアウト</button>

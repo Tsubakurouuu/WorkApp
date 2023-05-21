@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +12,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.form.RequestFormForm;
 import com.example.model.MUser;
-import com.example.model.MyCalendar;
-import com.example.model.MyCalendarLogic;
 import com.example.model.RequestForm;
+import com.example.model.Work;
 import com.example.service.RequestFormService;
+import com.example.service.WorkService;
 import com.example.service.impl.UserDetailsServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Slf4j
 public class UserController {
+	@Autowired
+	private WorkService workService;
+	
 	@Autowired
 	private RequestFormService requestFormService;
 	
@@ -68,7 +71,7 @@ public class UserController {
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//formの内容をmodelに詰め替える
 		RequestForm requestForm = new RequestForm();
-		requestForm.setUserId(loginUser.getUserId());
+		requestForm.setUserId(loginUser.getId());
 		requestForm.setWorkStatus(form.getWorkStatus());
 		requestForm.setAttendanceHour(form.getAttendanceHour());
 		requestForm.setAttendanceMinute(form.getAttendanceMinute());
@@ -87,36 +90,61 @@ public class UserController {
 	
 	//出退勤一覧画面に遷移するための処理
 	@GetMapping("/works")
-	public String getWorkIndex(@ModelAttribute("complete") String complete, Model model, MUser loginUser, HttpServletRequest request) {
+	public String getUserWorkIndex(@ModelAttribute("complete") String complete, Model model, MUser loginUser) {
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//Modelに登録
 		model.addAttribute("loginUser", loginUser);
-		//↓コピー
-		String s_year = request.getParameter("year");
-		String s_month = request.getParameter("month");
-		MyCalendarLogic logic = new MyCalendarLogic();
-		MyCalendar myCalendar = null;
-		if(s_year != null && s_month != null) {
-			int year = Integer.parseInt(s_year);
-			int month= Integer.parseInt(s_month);
-			if(month == 0) {
-				month = 12;
-				year--;
-			}
-			if(month == 13) {
-				month = 1;
-				year++;
-			}
-			//年と月のクエリパラメーターが来ている場合にはその年月でカレンダーを生成する
-			myCalendar = logic.createMyCalendar(year,month);
-		}else {
-			//クエリパラメータが来ていないときは実行日時のカレンダーを生成する。
-			myCalendar = logic.createMyCalendar();
-		}
-		request.setAttribute("myCalendar", myCalendar);
-		//↑コピー
+		//勤怠情報一覧取得
+		List<Work> workList = workService.selectWorkList();
+		//Modelに登録
+		model.addAttribute("workList", workList);
 		//user/work_index.htmlを呼び出す
 		return "user/work_index";
 	}
+	
+	//出退勤時間入力画面に遷移するための処理
+	@GetMapping("/work/input")
+	public String getUserWorkInput() {
+		//user/work_input.htmlを呼び出す
+		return "user/work_input";
+	}
+	
+	//出勤ボタン押下時の処理
+	@PostMapping("/work/attendance")
+	public String postUserWorkAttendance(Work work, MUser loginUser) {
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
+		//Workにユーザーを登録
+		work.setUserId(loginUser.getId());
+		//出勤時間登録
+		workService.insertAttendance(work);
+		//ログを表示
+		log.info(work.toString());
+		//出退勤時間入力画面にリダイレクト
+		return "redirect:/work/input";
+	}
+	
+	//退勤ボタン押下時の処理
+	@PostMapping("/work/leaving")
+	public String postUserWorkLeaving(Work work, Model model, MUser loginUser) {
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
+		//Workにユーザーを登録
+		work.setUserId(loginUser.getId());
+		//退勤時間登録（更新）
+		workService.updateLeaving(work);
+		//ログを表示
+		log.info(work.toString());
+		//出退勤時間入力画面にリダイレクト
+		return "redirect:/work/input";
+	}
+	
+	//仮
+//	@GetMapping("/{id}")
+//	public String getExample(@PathVariable("id") Integer id, Model model) {
+//		Work work = workService.selectWork(id);
+//		model.addAttribute("work", work);
+//		return "example";
+//	}
 }

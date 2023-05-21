@@ -7,13 +7,13 @@ public class RequestForm {
 	//ID
 	private Integer id;
 	//ユーザーID
-	private String userId;
+	private Integer userId;
 	//年
 	private Integer year;
 	//月
 	private Integer month;
 	//日
-	private Integer day;
+	private Integer date;
 	//出勤ステータス
 	private Integer workStatus;
 	//出勤(時)

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--Mapperとxmlのマッピング-->
+<mapper namespace="com.example.repository.WorkMapper">
+	<!--マッピング定義(勤怠)-->
+	<resultMap id="work" type="com.example.model.Work">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="year" property="year"/>
+		<result column="month" property="month"/>
+		<result column="date" property="date"/>
+		<result column="attendance_hour" property="attendanceHour"/>
+		<result column="attendancce_minute" property="attendanceMinute"/>
+		<result column="leaving_hour" property="leavingHour"/>
+		<result column="leaving_minute" property="leavingMinute"/>
+		<result column="rest_hour" property="restHour"/>
+		<result column="rest_minute" property="restMinute"/>
+		<result column="working_time_hour" property="workingTimeHour"/>
+		<result column="working_time_minute" property="workingTimeMinute"/>
+		<result column="over_time_hour" property="overTimeHour"/>
+		<result column="over_time_minute" property="overTimeMinute"/>
+		<result column="work_status" property="workStatus"/>
+	</resultMap>
+	<!--出勤時間登録-->
+	<insert id="insertAttendance">
+		insert into work(user_id, year, month, date, attendance_hour, attendance_minute)
+		values (#{userId}, #{year}, #{month}, #{date}, #{attendanceHour}, #{attendanceMinute})
+	</insert>
+	<!--退勤時間登録（更新）-->
+	<update id="updateLeaving">
+		update work set
+		leaving_hour = #{work.leavingHour},
+		leaving_minute = #{work.leavingMinute},
+		rest_hour = #{work.restHour},
+		rest_minute = #{work.restMinute},
+		working_time_hour = #{work.workingTimeHour},
+		working_time_minute = #{work.workingTimeMinute},
+		over_time_hour = #{work.overTimeHour},
+		over_time_minute = #{work.overTimeMinute}
+		where
+		user_id = #{work.userId} and
+		year = #{work.year} and
+		month = #{work.month} and
+		date = #{work.date}
+	</update>
+	<!--勤怠情報取得-->
+	<select id="selectWork" resultMap="work">
+		select * from work where id = #{id}
+	</select>
+	<!--勤怠情報一覧取得-->
+	<select id="selectWorkList" resultType="Work">
+		select * from work 
+	</select>
+</mapper>

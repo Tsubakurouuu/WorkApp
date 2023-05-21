@@ -16,7 +16,6 @@
 		<div class="container">
 			<h2 th:text="|${loginUser.lastName} ${loginUser.firstName}さんの勤怠情報|"></h2>
 			<h3 th:text="${complete}"></h3>
-			<h4 th:text="|${myCalendar.year}年 ${myCalendar.month}月|"></h4>
 			<table class="table">
 				<thead>
 					<tr>
@@ -31,15 +30,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
+					<tr th:each="obj : ${workList}">
+						<td th:text="|${obj.month}月 ${obj.date}日|"></td>
+						<td th:text="${obj.workStatus}"></td>
+						<td th:text="|${obj.attendanceHour}:${obj.attendanceMinute}|"></td>
+						<td th:text="|${obj.leavingHour}:${obj.leavingMinute}|"></td>
+						<td th:text="|${obj.restHour}:${obj.restMinute}|"></td>
+						<td th:text="|${obj.workingTimeHour}:${obj.workingTimeMinute}|"></td>
+						<td th:text="|${obj.overTimeHour}:${obj.overTimeMinute}|"></td>
 						<td></td>
 					</tr>
 				</tbody>
