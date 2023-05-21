@@ -10,7 +10,7 @@
 		<result column="month" property="month"/>
 		<result column="date" property="date"/>
 		<result column="attendance_hour" property="attendanceHour"/>
-		<result column="attendancce_minute" property="attendanceMinute"/>
+		<result column="attendance_minute" property="attendanceMinute"/>
 		<result column="leaving_hour" property="leavingHour"/>
 		<result column="leaving_minute" property="leavingMinute"/>
 		<result column="rest_hour" property="restHour"/>
@@ -20,6 +20,18 @@
 		<result column="over_time_hour" property="overTimeHour"/>
 		<result column="over_time_minute" property="overTimeMinute"/>
 		<result column="work_status" property="workStatus"/>
+		<association property="mUser" resultMap="user" columnPrefix="user_"/>
+	</resultMap>
+	<!--マッピング定義(ユーザー)-->
+	<resultMap id="user" type="com.example.model.MUser">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="password" property="password"/>
+		<result column="last_name" property="lastName"/>
+		<result column="first_name" property="firstName"/>
+		<result column="birthday" property="birthday"/>
+		<result column="role" property="role"/>
+		<collection property="workList" resultMap="work" columnPrefix="work_"/>
 	</resultMap>
 	<!--出勤時間登録-->
 	<insert id="insertAttendance">
@@ -47,8 +59,35 @@
 	<select id="selectWork" resultMap="work">
 		select * from work where id = #{id}
 	</select>
-	<!--勤怠情報一覧取得-->
+	<!--勤怠情報一覧取得（ユーザーごと）-->
 	<select id="selectWorkList" resultType="Work">
-		select * from work 
+		select
+			work.id,
+			work.user_id,
+			work.year,
+			work.month,
+			work.date,
+			work.attendance_hour,
+			work.attendance_minute,
+			work.leaving_hour,
+			work.leaving_minute,
+			work.rest_hour,
+			work.rest_minute,
+			work.working_time_hour,
+			work.working_time_minute,
+			work.over_time_hour,
+			work.over_time_minute,
+			work.work_status,
+			m_user.id as user_id,
+			m_user.user_id as user_user_id,
+			m_user.password as user_password,
+			m_user.first_name as user_first_name,
+			m_user.last_name as user_last_name,
+			m_user.birthday as user_birthday,
+			m_user.role as user_role
+		from 
+			work left join m_user on work.user_id = m_user.id
+		where
+			work.user_id = #{userId}
 	</select>
 </mapper>

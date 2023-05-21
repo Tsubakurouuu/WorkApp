@@ -36,4 +36,6 @@ public class Work {
 	private Integer overTimeMinute;
 	//出勤ステータス
 	private Integer workStatus;
+	//ユーザーテーブル
+	private MUser mUser;
 }

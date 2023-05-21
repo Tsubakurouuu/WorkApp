@@ -11,6 +11,6 @@ public interface WorkService {
 	public void updateLeaving(Work work);
 	//勤怠情報取得
 	public Work selectWork(Integer id);
-	//勤怠情報一覧取得
-	public List<Work> selectWorkList();
+	//勤怠情報一覧取得（ユーザーごと）
+	public List<Work> selectWorkList(Integer userId);
 }

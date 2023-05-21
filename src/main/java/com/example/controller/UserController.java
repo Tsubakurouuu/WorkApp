@@ -95,8 +95,8 @@ public class UserController {
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//Modelに登録
 		model.addAttribute("loginUser", loginUser);
-		//勤怠情報一覧取得
-		List<Work> workList = workService.selectWorkList();
+		//勤怠情報一覧取得（ユーザーごと）
+		List<Work> workList = workService.selectWorkList(loginUser.getId());
 		//Modelに登録
 		model.addAttribute("workList", workList);
 		//user/work_index.htmlを呼び出す

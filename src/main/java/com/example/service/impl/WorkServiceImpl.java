@@ -95,10 +95,10 @@ public class WorkServiceImpl implements WorkService {
 		return mapper.selectWork(id);
 	}
 	
-	//勤怠情報一覧取得
+	//勤怠情報一覧取得（ユーザーごと）
 	@Override
-	public List<Work> selectWorkList() {
-		return mapper.selectWorkList();
+	public List<Work> selectWorkList(Integer userId) {
+		return mapper.selectWorkList(userId);
 	}
 }
 
