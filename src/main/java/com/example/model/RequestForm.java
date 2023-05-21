@@ -13,7 +13,7 @@ public class RequestForm {
 	//月
 	private Integer month;
 	//日
-	private Integer day;
+	private Integer date;
 	//出勤ステータス
 	private Integer workStatus;
 	//出勤(時)

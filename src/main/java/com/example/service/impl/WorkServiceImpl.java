@@ -41,6 +41,18 @@ public class WorkServiceImpl implements WorkService {
 		work.setLeavingMinute(calendar.get(Calendar.MINUTE));
 		work.setRestHour(1);
 		work.setRestMinute(0);
+//		work.setWorkingTimeHour(work.getLeavingHour() - work.getAttendanceHour());
+//		if(work.getLeavingMinute() - work.getAttendanceMinute() >= 0) {
+//			work.setWorkingTimeMinute(work.getLeavingMinute() - work.getAttendanceMinute());
+//		} else if (work.getLeavingMinute() - work.getAttendanceMinute() < 0) {
+//			work.setWorkingTimeMinute(-(work.getLeavingMinute() - work.getAttendanceMinute()));
+//		}
+//		work.setOverTimeHour(work.getLeavingHour() - work.getAttendanceHour() - 8);
+//		if(work.getLeavingMinute() - work.getAttendanceMinute() >= 0) {
+//			work.setOverTimeMinute(work.getLeavingMinute() - work.getAttendanceMinute());
+//		} else if (work.getLeavingMinute() - work.getAttendanceMinute() < 0) {
+//			work.setOverTimeMinute(-(work.getLeavingMinute() - work.getAttendanceMinute()));
+//		}
 		mapper.updateLeaving(work);
 	}
 	

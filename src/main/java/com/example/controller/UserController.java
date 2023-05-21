@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -122,23 +121,11 @@ public class UserController {
 	
 	//退勤ボタン押下時の処理
 	@PostMapping("/work/leaving")
-	public String postUserWorkLeaving(Work work, Integer id, Model model) {
-		//勤怠情報取得
-		Work workDetail = workService.selectWork(id);
-		model.addAttribute("workDetail", workDetail);
-		//Workに就業時間、残業時間を登録
-//		work.setWorkingTimeHour(work.getLeavingHour() - work.getAttendanceHour());
-//		if(work.getLeavingMinute() - work.getAttendanceMinute() >= 0) {
-//			work.setWorkingTimeMinute(work.getLeavingMinute() - work.getAttendanceMinute());
-//		} else if (work.getLeavingMinute() - work.getAttendanceMinute() < 0) {
-//			work.setWorkingTimeMinute(-(work.getLeavingMinute() - work.getAttendanceMinute()));
-//		}
-//		work.setOverTimeHour(work.getLeavingHour() - work.getAttendanceHour() - 8);
-//		if(work.getLeavingMinute() - work.getAttendanceMinute() >= 0) {
-//			work.setOverTimeMinute(work.getLeavingMinute() - work.getAttendanceMinute());
-//		} else if (work.getLeavingMinute() - work.getAttendanceMinute() < 0) {
-//			work.setOverTimeMinute(-(work.getLeavingMinute() - work.getAttendanceMinute()));
-//		}
+	public String postUserWorkLeaving(Work work, Model model, MUser loginUser) {
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
+		//Workにユーザーを登録
+		work.setUserId(loginUser.getUserId());
 		//退勤時間登録（更新）
 		workService.updateLeaving(work);
 		//ログを表示
@@ -148,10 +135,10 @@ public class UserController {
 	}
 	
 	//仮
-	@GetMapping("/{id}")
-	public String getExample(@PathVariable("id") Integer id, Model model) {
-		Work work = workService.selectWork(id);
-		model.addAttribute("work", work);
-		return "example";
-	}
+//	@GetMapping("/{id}")
+//	public String getExample(@PathVariable("id") Integer id, Model model) {
+//		Work work = workService.selectWork(id);
+//		model.addAttribute("work", work);
+//		return "example";
+//	}
 }

@@ -49,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				//ログインページにはログイン不要でアクセスできる
 				.antMatchers("/login").permitAll()
 				//"/admin/**には"ADMIN"ロールを持つユーザーしか遷移できない
-//				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
+				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
 				//それ以外はログインしないとアクセスできない
 				.anyRequest().authenticated();
 		//ログイン処理
