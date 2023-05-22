@@ -38,7 +38,9 @@
 						<td th:text="|${obj.restHour}:${obj.restMinute}|"></td>
 						<td th:text="|${obj.workingTimeHour}:${obj.workingTimeMinute}|"></td>
 						<td th:text="|${obj.overTimeHour}:${obj.overTimeMinute}|"></td>
-						<td></td>
+						<td>
+							<a th:href="@{'/form/' + ${obj.id}}">修正申請</a>
+						</td>
 					</tr>
 				</tbody>
 			</table>

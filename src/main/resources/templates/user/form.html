@@ -14,10 +14,29 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
-			<h2>申請フォーム</h2>
+			<tr
+			<h2>登録内容</h2>
+			<table class="table" th:object="${workDetail}">
+				<tr>
+					<th>日付</th>
+					<th>出勤ステータス</th>
+					<th>出勤時間</th>
+					<th>退勤時間</th>
+					<th>休憩時間</th>
+					<th>就業時間</th>
+					<th>残業時間</th>
+				</tr>
+				<tr>
+					<td th:text="|*{month}月 *{date}日|"></td>
+					<td th:text="*{workStatus}"></td>
+					<td th:text="|*{attendanceHour}:*{attendanceMinute}|"></td>
+					<td th:text="|*{leavingHour}:*{leavingMinute}|"></td>
+					<td th:text="|*{restHour}:*{restMinute}|"></td>
+					<td th:text="|*{workingTimeHour}:*{workingTimeMinute}|"></td>
+					<td th:text="|*{overTimeHour}:*{overTimeMinute}|"></td>
+				</tr>
+			</table>
 			<form method="post" th:action="@{/form/confirm}" th:object="${requestFormForm}">
-				<!--ユーザーID-->
-				<input type="hidden" th:field="*{userId}"/>
 				<!--出勤ステータス-->
 				<div class="field">
 					<label for="workStatus">出勤ステータス</label>

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -33,8 +34,12 @@ public class UserController {
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 	
 	//出退勤申請画面に遷移するための処理
-	@GetMapping("/form")
-	public String getUserForm(@ModelAttribute RequestFormForm form) {
+	@GetMapping("/form/{id}")
+	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model) {
+		//勤怠情報取得
+		Work workDetail = workService.selectWork(id);
+		//Modelに登録
+		model.addAttribute("workDetail", workDetail);
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
@@ -71,7 +76,7 @@ public class UserController {
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//formの内容をmodelに詰め替える
 		RequestForm requestForm = new RequestForm();
-		requestForm.setUserId(loginUser.getId());
+//		requestForm.setUserId(loginUser.getId());
 		requestForm.setWorkStatus(form.getWorkStatus());
 		requestForm.setAttendanceHour(form.getAttendanceHour());
 		requestForm.setAttendanceMinute(form.getAttendanceMinute());

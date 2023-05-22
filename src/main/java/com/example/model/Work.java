@@ -38,4 +38,6 @@ public class Work {
 	private Integer workStatus;
 	//ユーザーテーブル
 	private MUser mUser;
+	//申請フォームテーブル
+//	private RequestForm requestForm;
 }

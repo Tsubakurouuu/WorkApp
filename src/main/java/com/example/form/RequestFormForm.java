@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class RequestFormForm {
 	//ユーザーID
-	private String userId;
+	private String workId;
 	//出勤ステータス
 	private Integer workStatus;
 	//出勤(時)
