@@ -18,7 +18,7 @@
 	</select>
 	<!--ユーザー一覧取得-->
 	<select id="getUserList" resultType="MUser">
-		select * from m_user
+		select * from m_user where role = 'USER'
 	</select>
 	<!--ユーザー詳細取得-->
 	<select id="getUserDetail" resultMap="user">
