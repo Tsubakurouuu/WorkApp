@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	<head>
+		<meta charset="UTF-8"></meta>
+		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+		<!--CSS読込-->
+		<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+		<!--JS読込-->
+		<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
+		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+		<title>WorkApp</title>
+	</head>
+	<body>
+		<!--テンプレートの呼び出し-->
+		<header layout:replace="~{layout/header::header}"></header>
+		<div class="container">
+			<h2>出退勤修正画面</h2>
+			<form method="post" th:object="${workDetail}">
+				<p th:text="|*{month}月 *{date}日|"></p>
+				<p>出勤ステータス</p>
+				<input type="text" th:field="*{workStatus}"/><br>
+				<p>出勤（時）</p>
+				<input type="text" th:field="*{attendanceHour}"/><br>
+				<p>出勤（分）</p>
+				<input type="text" th:field="*{attendanceMinute}"/><br>
+				<p>退勤（時）</p>
+				<input type="text" th:field="*{leavingHour}"/><br>
+				<p>退勤（分）</p>
+				<input type="text" th:field="*{leavingMinute}"/><br>
+				<p>休憩（時）</p>
+				<input type="text" th:field="*{restHour}"/><br>
+				<p>休憩（分）</p>
+				<input type="text" th:field="*{restMinute}"/><br>
+				<input type="submit" th:value="修正"/><br>
+			</form>
+		</div>
+	</body>
+</html>

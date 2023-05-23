@@ -115,5 +115,14 @@ public class AdminController {
 		return "admin/form_detail";
 	}
 	
-	
+	//出退勤修正画面に遷移するための処理
+	@GetMapping("/{id}/edit")
+	public String getAdminUserWorkEdit(@PathVariable("id") Integer id, Model model) {
+		//勤怠情報取得
+		Work workDetail = workService.selectWork(id);
+		//Modelに登録
+		model.addAttribute("workDetail", workDetail);
+		//admin/user_work_edit.htmlを呼び出す
+		return "admin/user_work_edit";
+	}
 }

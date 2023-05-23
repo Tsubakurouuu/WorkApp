@@ -38,7 +38,7 @@
 						<td th:text="|${obj.workingTimeHour}:${obj.workingTimeMinute}|"></td>
 						<td th:text="|${obj.overTimeHour}:${obj.overTimeMinute}|"></td>
 						<td>
-							<a th:href="@{'/form/' + ${obj.id}}">修正</a>
+							<a th:href="@{'/admin/' + ${obj.id} + '/edit'}">修正</a>
 						</td>
 					</tr>
 				</tbody>
