@@ -17,8 +17,10 @@ import com.example.form.GroupOrder;
 import com.example.form.UserNewForm;
 import com.example.model.MUser;
 import com.example.model.RequestForm;
+import com.example.model.Work;
 import com.example.service.MUserService;
 import com.example.service.RequestFormService;
+import com.example.service.WorkService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,6 +30,9 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminController {
 	@Autowired
 	private MUserService userService;
+	
+	@Autowired
+	private WorkService workService;
 	
 	@Autowired
 	private RequestFormService requestFormService;
@@ -50,6 +55,10 @@ public class AdminController {
 		MUser userDetail = userService.getUserDetail(userId);
 		//Modelに登録
 		model.addAttribute("userDetail", userDetail);
+		//勤怠情報一覧取得（ユーザーごと）
+		List<Work> workList = workService.selectWorkList(userDetail.getId());
+		//Modelに登録
+		model.addAttribute("workList", workList);
 		//admin/user_detail.htmlを呼び出す
 		return "admin/user_detail";
 	}

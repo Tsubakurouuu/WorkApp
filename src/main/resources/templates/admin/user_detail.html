@@ -15,6 +15,34 @@
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
 			<h2 th:text="|${userDetail.lastName} ${userDetail.firstName}さんの勤怠情報|"></h2>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>日付</th>
+						<th>出勤ステータス</th>
+						<th>出勤</th>
+						<th>退勤</th>
+						<th>休憩</th>
+						<th>就業時間</th>
+						<th>残業時間</th>
+						<th>修正</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="obj : ${workList}">
+						<td th:text="|${obj.month}月 ${obj.date}日|"></td>
+						<td th:text="${obj.workStatus}"></td>
+						<td th:text="|${obj.attendanceHour}:${obj.attendanceMinute}|"></td>
+						<td th:text="|${obj.leavingHour}:${obj.leavingMinute}|"></td>
+						<td th:text="|${obj.restHour}:${obj.restMinute}|"></td>
+						<td th:text="|${obj.workingTimeHour}:${obj.workingTimeMinute}|"></td>
+						<td th:text="|${obj.overTimeHour}:${obj.overTimeMinute}|"></td>
+						<td>
+							<a th:href="@{'/form/' + ${obj.id}}">修正</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</body>
 </html>
