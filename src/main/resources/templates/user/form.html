@@ -80,7 +80,7 @@
 					<label for="comment">コメント</label>
 					<input type="text" class="form-control" th:field="*{comment}"/>
 				</div>
-				<!--ログインボタン-->
+				<!--確認画面へボタン-->
 				<input type="submit" value="確認画面へ" class="btn btn-primary"/>
 				<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 			</form>
