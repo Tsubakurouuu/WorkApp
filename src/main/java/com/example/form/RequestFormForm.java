@@ -5,7 +5,13 @@ import lombok.Data;
 @Data
 public class RequestFormForm {
 	//ユーザーID
-	private String workId;
+	private String userId;
+	//年
+	private Integer year;
+	//月
+	private Integer month;
+	//日
+	private Integer date;
 	//出勤ステータス
 	private Integer workStatus;
 	//出勤(時)

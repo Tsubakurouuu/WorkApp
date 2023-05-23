@@ -38,6 +38,10 @@ public class UserController {
 	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
+		//年月日をセット
+		form.setYear(workDetail.getYear());
+		form.setMonth(workDetail.getMonth());
+		form.setDate(workDetail.getDate());
 		//Modelに登録
 		model.addAttribute("workDetail", workDetail);
 		//user/form.htmlを呼び出す
@@ -62,7 +66,7 @@ public class UserController {
 	
 	//出退勤申請確認画面に遷移するための処理
 	@GetMapping("/form/confirm")
-	public String getUserFormConfirm(@ModelAttribute RequestFormForm form) {
+	public String getUserFormConfirm(@ModelAttribute RequestFormForm form, Integer id) {
 		//user/form_confirm.htmlを呼び出す
 		return "user/form_confirm";
 	}
@@ -76,7 +80,10 @@ public class UserController {
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//formの内容をmodelに詰め替える
 		RequestForm requestForm = new RequestForm();
-//		requestForm.setUserId(loginUser.getId());
+		requestForm.setUserId(loginUser.getId());
+		requestForm.setYear(form.getYear());
+		requestForm.setMonth(form.getMonth());
+		requestForm.setDate(form.getDate());
 		requestForm.setWorkStatus(form.getWorkStatus());
 		requestForm.setAttendanceHour(form.getAttendanceHour());
 		requestForm.setAttendanceMinute(form.getAttendanceMinute());

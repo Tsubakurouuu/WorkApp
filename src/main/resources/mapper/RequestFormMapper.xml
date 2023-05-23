@@ -5,7 +5,7 @@
 	<!--マッピング定義(申請フォーム)-->
 	<resultMap id="requestForm" type="com.example.model.RequestForm">
 		<id column="id" property="id"/>
-		<result column="work_id" property="workId"/>
+		<result column="user_id" property="userId"/>
 		<result column="year" property="year"/>
 		<result column="month" property="month"/>
 		<result column="date" property="date"/>
@@ -20,8 +20,8 @@
 	</resultMap>
 	<!--申請フォーム登録-->
 	<insert id="insertForm">
-		insert into request_form(work_id, year, month, date, work_status, attendance_hour, attendance_minute, leaving_hour, leaving_minute, rest_hour, rest_minute, comment)
-		values(#{workId}, #{year}, #{month}, #{date}, #{workStatus}, #{attendanceHour}, #{attendanceMinute}, #{leavingHour}, #{leavingMinute}, #{restHour}, #{restMinute}, #{comment})
+		insert into request_form(user_id, year, month, date, work_status, attendance_hour, attendance_minute, leaving_hour, leaving_minute, rest_hour, rest_minute, comment)
+		values(#{userId}, #{year}, #{month}, #{date}, #{workStatus}, #{attendanceHour}, #{attendanceMinute}, #{leavingHour}, #{leavingMinute}, #{restHour}, #{restMinute}, #{comment})
 	</insert>
 	<!--申請フォーム一覧取得-->
 	<select id="getRequestFormList" resultType="MUser">

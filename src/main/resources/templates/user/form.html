@@ -37,6 +37,9 @@
 				</tr>
 			</table>
 			<form method="post" th:action="@{/form/confirm}" th:object="${requestFormForm}">
+				<input type="hidden" th:field="*{year}"/>
+				<input type="hidden" th:field="*{month}"/>
+				<input type="hidden" th:field="*{date}"/>
 				<!--出勤ステータス-->
 				<div class="field">
 					<label for="workStatus">出勤ステータス</label>
