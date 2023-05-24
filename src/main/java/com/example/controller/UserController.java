@@ -79,7 +79,7 @@ public class UserController {
 	//↓エラー発生
 	//戻るボタン押下時の処理
 	@PostMapping("/form")
-	public String postUserForm(@ModelAttribute RequestFormForm form, Model model) {
+	public String postUserForm(@ModelAttribute RequestFormForm form) {
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
