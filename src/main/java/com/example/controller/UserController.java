@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,33 +34,44 @@ public class UserController {
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 	
+	@Autowired
+	private ModelMapper modelMapper;
+	
 	//出退勤申請画面に遷移するための処理
 	@GetMapping("/form/{id}")
-	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model) {
+	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model, MUser loginUser) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		//Modelに登録
 		model.addAttribute("workDetail", workDetail);
-		//年月日をセット
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
+		//form外のmodelをセット
+		form.setUserId(loginUser.getId());
 		form.setYear(workDetail.getYear());
 		form.setMonth(workDetail.getMonth());
 		form.setDate(workDetail.getDate());
+		form.setWorkStatusOld(workDetail.getWorkStatus());
+		form.setAttendanceHourOld(workDetail.getAttendanceHour());
+		form.setAttendanceMinuteOld(workDetail.getAttendanceMinute());
+		form.setLeavingHourOld(workDetail.getLeavingHour());
+		form.setLeavingMinuteOld(workDetail.getLeavingMinute());
+		form.setRestHourOld(workDetail.getRestHour());
+		form.setRestMinuteOld(workDetail.getRestMinute());
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
 	
 	//確認画面へボタン押下時の処理
 	@PostMapping("/form/confirm")
-	public String postUserFormConfirm(@ModelAttribute RequestFormForm form, Model model) {
-		//画面から受け取った文字列をModelに登録
-		model.addAttribute("requestFormForm", form);
+	public String postUserFormConfirm(@ModelAttribute RequestFormForm form) {
 		//user/form_confirm.htmlを呼び出す
 		return "user/form_confirm";
 	}
 	
 	//出退勤申請確認画面に遷移するための処理
 	@GetMapping("/form/confirm")
-	public String getUserFormConfirm(@ModelAttribute RequestFormForm form, Integer id, Model model) {
+	public String getUserFormConfirm(@ModelAttribute RequestFormForm form) {
 		//user/form_confirm.htmlを呼び出す
 		return "user/form_confirm";
 	}
@@ -77,22 +89,8 @@ public class UserController {
 	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser, Model model, RedirectAttributes redirectAttributes) {
 		//フラッシュスコープ
 		redirectAttributes.addFlashAttribute("complete", "申請が完了しました。");
-		//ログインユーザー情報取得
-		loginUser = userDetailsServiceImpl.getLoginUser();
-		//formの内容をmodelに詰め替える
-		RequestForm requestForm = new RequestForm();
-		requestForm.setUserId(loginUser.getId());
-		requestForm.setYear(form.getYear());
-		requestForm.setMonth(form.getMonth());
-		requestForm.setDate(form.getDate());
-		requestForm.setWorkStatus(form.getWorkStatus());
-		requestForm.setAttendanceHour(form.getAttendanceHour());
-		requestForm.setAttendanceMinute(form.getAttendanceMinute());
-		requestForm.setLeavingHour(form.getLeavingHour());
-		requestForm.setLeavingMinute(form.getLeavingMinute());
-		requestForm.setRestHour(form.getRestHour());
-		requestForm.setRestMinute(form.getRestMinute());
-		requestForm.setComment(form.getComment());
+		//formをRequestFormクラスに変換
+		RequestForm requestForm = modelMapper.map(form, RequestForm.class);
 		//申請フォーム登録
 		requestFormService.insertForm(requestForm);
 		//ログを表示
@@ -145,10 +143,10 @@ public class UserController {
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//Workにユーザーを登録
 		work.setUserId(loginUser.getId());
-		//退勤時間登録（更新）
-		workService.updateLeaving(work);
 		//ログを表示
 		log.info(work.toString());
+		//退勤時間登録（更新）
+		workService.updateLeaving(work);
 		//出退勤時間入力画面にリダイレクト
 		return "redirect:/work/input";
 	}

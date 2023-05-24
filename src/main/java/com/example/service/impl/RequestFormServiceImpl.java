@@ -22,14 +22,14 @@ public class RequestFormServiceImpl implements RequestFormService {
 	
 	//申請フォーム一覧取得
 	@Override
-	public List<RequestForm> getRequestFormList() {
-		return mapper.getRequestFormList();
+	public List<RequestForm> selectRequestFormList() {
+		return mapper.selectRequestFormList();
 	}
 	
 	//申請フォーム詳細取得
 	@Override
-	public RequestForm getRequestFormDetail(int id) {
-		return mapper.getRequestFormDetail(id);
+	public RequestForm selectRequestFormDetail(int id) {
+		return mapper.selectRequestFormDetail(id);
 	}
 
 }

@@ -102,7 +102,7 @@ public class AdminController {
 	@GetMapping("/forms")
 	public String getAdminFormIndex(Model model) {
 		//申請フォーム一覧取得
-		List<RequestForm> requestFormList = requestFormService.getRequestFormList();
+		List<RequestForm> requestFormList = requestFormService.selectRequestFormList();
 		//Modelに登録
 		model.addAttribute("requestFormList", requestFormList);
 		//admin/work_index.htmlを呼び出す
@@ -113,7 +113,7 @@ public class AdminController {
 	@GetMapping("/form/{id}")
 	public String getAdminFormDetail(Model model, @PathVariable("id") int id) {
 		//ユーザーを1件取得
-		RequestForm requestFormDetail = requestFormService.getRequestFormDetail(id);
+		RequestForm requestFormDetail = requestFormService.selectRequestFormDetail(id);
 		//Modelに登録
 		model.addAttribute("requestFormDetail", requestFormDetail);
 		//admin/form_detail.htmlを呼び出す

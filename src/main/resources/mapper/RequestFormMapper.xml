@@ -9,26 +9,33 @@
 		<result column="year" property="year"/>
 		<result column="month" property="month"/>
 		<result column="date" property="date"/>
-		<result column="work_status" property="workStatus"/>
-		<result column="attendance_hour" property="attendanceHour"/>
-		<result column="attendance_minute" property="attendanceMinute"/>
-		<result column="leaving_hour" property="leavingHour"/>
-		<result column="leaving_minute" property="leavingMinute"/>
-		<result column="rest_hour" property="restHour"/>
-		<result column="rest_minute" property="restMinute"/>
+		<result column="work_status_new" property="workStatusNew"/>
+		<result column="attendance_hour_new" property="attendanceHourNew"/>
+		<result column="attendance_minute_new" property="attendanceMinuteNew"/>
+		<result column="leaving_hour_new" property="leavingHourNew"/>
+		<result column="leaving_minute_new" property="leavingMinuteNew"/>
+		<result column="rest_hour_new" property="restHourNew"/>
+		<result column="rest_minute_new" property="restMinuteNew"/>
 		<result column="comment" property="comment"/>
+		<result column="work_status_old" property="workStatusOld"/>
+		<result column="attendance_hour_old" property="attendanceHourOld"/>
+		<result column="attendance_minute_old" property="attendanceMinuteOld"/>
+		<result column="leaving_hour_old" property="leavingHourOld"/>
+		<result column="leaving_minute_old" property="leavingMinuteOld"/>
+		<result column="rest_hour_old" property="restHourOld"/>
+		<result column="rest_minute_old" property="restMinuteOld"/>
 	</resultMap>
 	<!--申請フォーム登録-->
 	<insert id="insertForm">
-		insert into request_form(user_id, year, month, date, work_status, attendance_hour, attendance_minute, leaving_hour, leaving_minute, rest_hour, rest_minute, comment)
-		values(#{userId}, #{year}, #{month}, #{date}, #{workStatus}, #{attendanceHour}, #{attendanceMinute}, #{leavingHour}, #{leavingMinute}, #{restHour}, #{restMinute}, #{comment})
+		insert into request_form(user_id, year, month, date, work_status_new, attendance_hour_new, attendance_minute_new, leaving_hour_new, leaving_minute_new, rest_hour_new, rest_minute_new, comment, work_status_old, attendance_hour_old, attendance_minute_old, leaving_hour_old, leaving_minute_old, rest_hour_old, rest_minute_old)
+		values(#{userId}, #{year}, #{month}, #{date}, #{workStatusNew}, #{attendanceHourNew}, #{attendanceMinuteNew}, #{leavingHourNew}, #{leavingMinuteNew}, #{restHourNew}, #{restMinuteNew}, #{comment}, #{workStatusOld}, #{attendanceHourOld}, #{attendanceMinuteOld}, #{leavingHourOld}, #{leavingMinuteOld}, #{restHourOld}, #{restMinuteOld})
 	</insert>
 	<!--申請フォーム一覧取得-->
-	<select id="getRequestFormList" resultType="MUser">
+	<select id="selectRequestFormList" resultType="MUser">
 		select * from request_form
 	</select>
 	<!--申請フォーム詳細取得-->
-	<select id="getRequestFormDetail" resultType="RequestForm">
+	<select id="selectRequestFormDetail" resultType="RequestForm">
 		select * from request_form where id = #{id}
 	</select>
 </mapper>
