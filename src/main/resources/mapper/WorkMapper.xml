@@ -144,4 +144,24 @@
 		where
 			work.user_id = #{userId}
 	</select>
+	<!--勤怠情報更新-->
+	<update id="updateWork">
+		update
+			work
+		set
+			attendance_hour = #{work.attendanceHour},
+			attendance_minute = #{work.attendanceMinute},
+			leaving_hour = #{work.leavingHour},
+			leaving_minute = #{work.leavingMinute},
+			rest_hour = #{work.restHour},
+			rest_minute = #{work.restMinute},
+			working_time_hour = #{work.workingTimeHour},
+			working_time_minute = #{work.workingTimeMinute},
+			over_time_hour = #{work.overTimeHour},
+			over_time_minute = #{work.overTimeMinute},
+			work_status = #{work.workStatus}
+		where
+			id = #{work.id} 
+			
+	</update>
 </mapper>

@@ -100,5 +100,11 @@ public class WorkServiceImpl implements WorkService {
 	public List<Work> selectWorkList(Integer userId) {
 		return mapper.selectWorkList(userId);
 	}
+	
+	//勤怠情報更新
+	@Override
+	public void updateWork(Work work) {
+		mapper.updateWork(work);
+	}
 }
 

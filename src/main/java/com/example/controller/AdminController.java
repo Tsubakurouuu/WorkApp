@@ -2,6 +2,7 @@ package com.example.controller;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.form.GroupOrder;
 import com.example.form.UserNewForm;
+import com.example.form.WorkEditForm;
 import com.example.model.MUser;
 import com.example.model.RequestForm;
 import com.example.model.Work;
@@ -36,6 +38,9 @@ public class AdminController {
 	
 	@Autowired
 	private RequestFormService requestFormService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
 	
 	//ユーザー一覧画面に遷移するための処理
 	@GetMapping("/users")
@@ -117,12 +122,27 @@ public class AdminController {
 	
 	//出退勤修正画面に遷移するための処理
 	@GetMapping("/{id}/edit")
-	public String getAdminUserWorkEdit(@PathVariable("id") Integer id, Model model) {
+	public String getAdminUserWorkEdit(@PathVariable("id") Integer id, Model model, WorkEditForm form) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
+		//Workをformに変換
+		form = modelMapper.map(workDetail, WorkEditForm.class);
 		//Modelに登録
-		model.addAttribute("workDetail", workDetail);
+		model.addAttribute("workEditForm", form);
 		//admin/user_work_edit.htmlを呼び出す
 		return "admin/user_work_edit";
+	}
+	
+	//修正ボタン押下時の処理
+	@PostMapping("/edit")
+	public String postAdminUserWorkEdit(WorkEditForm form) {
+		//formをWorkクラスに変換
+		Work work = modelMapper.map(form, Work.class);
+		//ログの表示
+		log.info(form.toString());
+		//勤怠情報更新
+		workService.updateWork(work);
+		//ユーザー一覧画面にリダイレクト
+		return "redirect:/admin/users";
 	}
 }

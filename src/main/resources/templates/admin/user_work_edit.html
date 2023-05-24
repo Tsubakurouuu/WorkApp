@@ -15,8 +15,17 @@
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
 			<h2>出退勤修正画面</h2>
-			<form method="post" th:object="${workDetail}">
-				<p th:text="|*{month}月 *{date}日|"></p>
+			<form method="post" th:action="@{/admin/edit}" th:object="${workEditForm}">
+				<p th:text="|*{year}年 *{month}月 *{date}日|"></p>
+				<input type="hidden" th:field="*{id}"/>
+				<input type="hidden" th:field="*{userId}"/>
+				<input type="hidden" th:field="*{year}"/>
+				<input type="hidden" th:field="*{month}"/>
+				<input type="hidden" th:field="*{date}"/>
+				<input type="hidden" th:field="*{workingTimeHour}"/>
+				<input type="hidden" th:field="*{workingTimeMinute}"/>
+				<input type="hidden" th:field="*{overTimeHour}"/>
+				<input type="hidden" th:field="*{overTimeMinute}"/>
 				<p>出勤ステータス</p>
 				<input type="text" th:field="*{workStatus}"/><br>
 				<p>出勤（時）</p>
