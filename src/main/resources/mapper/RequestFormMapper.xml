@@ -53,7 +53,7 @@
 		)
 	</insert>
 	<!--申請フォーム一覧取得-->
-	<select id="selectRequestFormList" resultType="MUser">
+	<select id="selectRequestFormList" resultType="RequestForm">
 		select * from request_form
 	</select>
 	<!--申請フォーム詳細取得-->
