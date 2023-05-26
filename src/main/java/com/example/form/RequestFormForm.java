@@ -1,5 +1,7 @@
 package com.example.form;
 
+import com.example.model.Work;
+
 import lombok.Data;
 
 @Data
@@ -24,4 +26,6 @@ public class RequestFormForm {
 	private Integer restMinute;
 	//申請理由
 	private String comment;
+	//勤怠テーブル
+	private Work work;
 }

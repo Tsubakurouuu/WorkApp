@@ -13,5 +13,5 @@ public interface RequestFormMapper {
 	//申請フォーム一覧取得
 	public List<RequestForm> selectRequestFormList();
 	//申請フォーム詳細取得
-	public RequestForm selectRequestFormDetail(int id);
+	public RequestForm selectRequestFormDetail(Integer id);
 }

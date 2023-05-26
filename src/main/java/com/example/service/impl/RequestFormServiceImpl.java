@@ -28,7 +28,7 @@ public class RequestFormServiceImpl implements RequestFormService {
 	
 	//申請フォーム詳細取得
 	@Override
-	public RequestForm selectRequestFormDetail(int id) {
+	public RequestForm selectRequestFormDetail(Integer id) {
 		return mapper.selectRequestFormDetail(id);
 	}
 

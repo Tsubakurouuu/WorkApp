@@ -24,4 +24,6 @@ public class RequestForm {
 	private Integer restMinute;
 	//申請理由
 	private String comment;
+	//勤怠テーブル
+	private Work work;
 }

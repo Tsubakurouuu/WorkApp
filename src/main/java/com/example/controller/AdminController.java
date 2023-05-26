@@ -111,7 +111,7 @@ public class AdminController {
 	
 	//申請、通知詳細画面に遷移するための処理
 	@GetMapping("/form/{id}")
-	public String getAdminFormDetail(Model model, @PathVariable("id") int id) {
+	public String getAdminFormDetail(Model model, @PathVariable("id") Integer id) {
 		//ユーザーを1件取得
 		RequestForm requestFormDetail = requestFormService.selectRequestFormDetail(id);
 		//Modelに登録
