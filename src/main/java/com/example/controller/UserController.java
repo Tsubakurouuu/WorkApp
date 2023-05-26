@@ -44,20 +44,8 @@ public class UserController {
 		Work workDetail = workService.selectWork(id);
 		//Modelに登録
 		model.addAttribute("workDetail", workDetail);
-		//ログインユーザー情報取得
-		loginUser = userDetailsServiceImpl.getLoginUser();
-		//form外のmodelをセット
-		form.setUserId(loginUser.getId());
-		form.setYear(workDetail.getYear());
-		form.setMonth(workDetail.getMonth());
-		form.setDate(workDetail.getDate());
-		form.setWorkStatusOld(workDetail.getWorkStatus());
-		form.setAttendanceHourOld(workDetail.getAttendanceHour());
-		form.setAttendanceMinuteOld(workDetail.getAttendanceMinute());
-		form.setLeavingHourOld(workDetail.getLeavingHour());
-		form.setLeavingMinuteOld(workDetail.getLeavingMinute());
-		form.setRestHourOld(workDetail.getRestHour());
-		form.setRestMinuteOld(workDetail.getRestMinute());
+		//RequestFormのworkIdカラムに値をセット
+		form.setWorkId(id);
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}

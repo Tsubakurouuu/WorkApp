@@ -37,51 +37,41 @@
 				</tr>
 			</table>
 			<form method="post" th:action="@{/form/confirm}" th:object="${requestFormForm}">
-				<input type="hidden" th:field="*{userId}"/>
-				<input type="hidden" th:field="*{year}"/>
-				<input type="hidden" th:field="*{month}"/>
-				<input type="hidden" th:field="*{date}"/>
-				<input type="hidden" th:field="*{workStatusOld}"/>
-				<input type="hidden" th:field="*{attendanceHourOld}"/>
-				<input type="hidden" th:field="*{attendanceMinuteOld}"/>
-				<input type="hidden" th:field="*{leavingHourOld}"/>
-				<input type="hidden" th:field="*{leavingMinuteOld}"/>
-				<input type="hidden" th:field="*{restHourOld}"/>
-				<input type="hidden" th:field="*{restMinuteOld}"/>
+				<input type="hidden" th:field="*{workId}"/>
 				<!--出勤ステータス-->
 				<div class="field">
-					<label for="workStatusNew">出勤ステータス</label>
-					<input type="text" class="form-control" th:field="*{workStatusNew}"/>
+					<label for="workStatus">出勤ステータス</label>
+					<input type="text" class="form-control" th:field="*{workStatus}"/>
 				</div>
 				<!--出勤(時)-->
 				<div class="field">
-					<label for="attendanceHourNew">出勤(時)</label>
-					<input type="text" class="form-control" th:field="*{attendanceHourNew}"/>
+					<label for="attendanceHour">出勤(時)</label>
+					<input type="text" class="form-control" th:field="*{attendanceHour}"/>
 				</div>
 				<!--出勤(分)-->
 				<div class="field">
-					<label for="attendanceMinuteNew">出勤(分)</label>
-					<input type="text" class="form-control" th:field="*{attendanceMinuteNew}"/>
+					<label for="attendanceMinute">出勤(分)</label>
+					<input type="text" class="form-control" th:field="*{attendanceMinute}"/>
 				</div>
 				<!--退勤(時)-->
 				<div class="field">
-					<label for="leavingHourNew">退勤(時)</label>
-					<input type="text" class="form-control" th:field="*{leavingHourNew}"/>
+					<label for="leavingHour">退勤(時)</label>
+					<input type="text" class="form-control" th:field="*{leavingHour}"/>
 				</div>
 				<!--退勤(分)-->
 				<div class="field">
-					<label for="leavingMinuteNew">退勤(分)</label>
-					<input type="text" class="form-control" th:field="*{leavingMinuteNew}"/>
+					<label for="leavingMinute">退勤(分)</label>
+					<input type="text" class="form-control" th:field="*{leavingMinute}"/>
 				</div>
 				<!--休憩(時)-->
 				<div class="field">
-					<label for="restHourNew">休憩(時)</label>
-					<input type="text" class="form-control" th:field="*{restHourNew}"/>
+					<label for="restHour">休憩(時)</label>
+					<input type="text" class="form-control" th:field="*{restHour}"/>
 				</div>
 				<!--休憩(分)-->
 				<div class="field">
-					<label for="restMinuteNew">休憩(分)</label>
-					<input type="text" class="form-control" th:field="*{restMinuteNew}"/>
+					<label for="restMinute">休憩(分)</label>
+					<input type="text" class="form-control" th:field="*{restMinute}"/>
 				</div>
 				<!--コメント-->
 				<div class="field">

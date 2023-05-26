@@ -27,8 +27,30 @@
 	</resultMap>
 	<!--申請フォーム登録-->
 	<insert id="insertForm">
-		insert into request_form(user_id, year, month, date, work_status_new, attendance_hour_new, attendance_minute_new, leaving_hour_new, leaving_minute_new, rest_hour_new, rest_minute_new, comment, work_status_old, attendance_hour_old, attendance_minute_old, leaving_hour_old, leaving_minute_old, rest_hour_old, rest_minute_old)
-		values(#{userId}, #{year}, #{month}, #{date}, #{workStatusNew}, #{attendanceHourNew}, #{attendanceMinuteNew}, #{leavingHourNew}, #{leavingMinuteNew}, #{restHourNew}, #{restMinuteNew}, #{comment}, #{workStatusOld}, #{attendanceHourOld}, #{attendanceMinuteOld}, #{leavingHourOld}, #{leavingMinuteOld}, #{restHourOld}, #{restMinuteOld})
+		insert 
+		into 
+			request_form (
+				work_id,
+				work_status,
+				attendance_hour,
+				attendance_minute,
+				leaving_hour,
+				leaving_minute,
+				rest_hour,
+				rest_minute,
+				comment
+			) 
+		values (
+			#{workId},
+			#{workStatus},
+			#{attendanceHour},
+			#{attendanceMinute},
+			#{leavingHour},
+			#{leavingMinute},
+			#{restHour},
+			#{restMinute},
+			#{comment}
+		)
 	</insert>
 	<!--申請フォーム一覧取得-->
 	<select id="selectRequestFormList" resultType="MUser">
