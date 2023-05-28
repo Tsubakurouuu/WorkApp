@@ -120,6 +120,27 @@ public class AdminController {
 		return "admin/form_detail";
 	}
 	
+	//申請内容を反映するボタン押下時の処理
+	@PostMapping("/form/update")
+	public String postAdminFormUpdate(Integer id) {
+		//ユーザーを1件取得
+		RequestForm requestFormDetail = requestFormService.selectRequestFormDetail(id);
+		//RequestFormの内容をWorkに反映させる処理
+		Work work = new Work();
+		work.setId(requestFormDetail.getWork().getId());
+		work.setAttendanceHour(requestFormDetail.getAttendanceHour());
+		work.setAttendanceMinute(requestFormDetail.getAttendanceMinute());
+		work.setLeavingHour(requestFormDetail.getLeavingHour());
+		work.setLeavingMinute(requestFormDetail.getLeavingMinute());
+		work.setRestHour(requestFormDetail.getRestHour());
+		work.setRestMinute(requestFormDetail.getRestMinute());
+		work.setWorkStatus(requestFormDetail.getWorkStatus());
+		//勤怠情報更新（申請フォーム）
+		workService.updateWorkRequestForm(work);
+		//ユーザー一覧画面にリダイレクト
+		return "redirect:/admin/users";
+	}
+	
 	//出退勤修正画面に遷移するための処理
 	@GetMapping("/{id}/edit")
 	public String getAdminUserWorkEdit(@PathVariable("id") Integer id, Model model, WorkEditForm form) {

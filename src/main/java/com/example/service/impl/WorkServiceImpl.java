@@ -106,5 +106,11 @@ public class WorkServiceImpl implements WorkService {
 	public void updateWork(Work work) {
 		mapper.updateWork(work);
 	}
+	
+	//勤怠情報更新（申請フォーム）
+	@Override
+	public void updateWorkRequestForm(Work work) {
+		mapper.updateWorkRequestForm(work);
+	}
 }
 

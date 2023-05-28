@@ -78,7 +78,16 @@ public class UserController {
 		//フラッシュスコープ
 		redirectAttributes.addFlashAttribute("complete", "申請が完了しました。");
 		//formをRequestFormクラスに変換
-		RequestForm requestForm = modelMapper.map(form, RequestForm.class);
+		RequestForm requestForm = new RequestForm();
+		requestForm.setWorkId(form.getWorkId());
+		requestForm.setWorkStatus(form.getWorkStatus());
+		requestForm.setAttendanceHour(form.getAttendanceHour());
+		requestForm.setAttendanceMinute(form.getAttendanceMinute());
+		requestForm.setLeavingHour(form.getLeavingHour());
+		requestForm.setLeavingMinute(form.getLeavingMinute());
+		requestForm.setRestHour(form.getRestHour());
+		requestForm.setRestMinute(form.getRestMinute());
+		requestForm.setComment(form.getComment());
 		//申請フォーム登録
 		requestFormService.insertForm(requestForm);
 		//ログを表示

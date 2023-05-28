@@ -19,4 +19,6 @@ public interface WorkMapper {
 	public List<Work> selectWorkList(Integer userId);
 	//勤怠情報更新
 	public void updateWork(@Param("work") Work work);
+	//勤怠情報更新（申請フォーム）
+	public void updateWorkRequestForm(@Param("work") Work work);
 }

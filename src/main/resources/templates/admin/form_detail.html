@@ -50,6 +50,18 @@
 				<p th:text="|休憩(分) *{restMinute}|"></p>
 				<p th:text="|申請理由 *{comment}|"></p>
 			</div>
+			<form method="post" th:action="@{/admin/form/update}" th:object="${requestFormDetail}">
+				<input type="hidden" th:field="*{id}" />
+				<input type="hidden" th:field="*{work.id}" />
+				<input type="hidden" th:field="*{work.attendanceHour}" />
+				<input type="hidden" th:field="*{work.attendanceMinute}" />
+				<input type="hidden" th:field="*{work.leavingHour}" />
+				<input type="hidden" th:field="*{work.leavingMinute}" />
+				<input type="hidden" th:field="*{work.restHour}" />
+				<input type="hidden" th:field="*{work.restMinute}" />
+				<input type="hidden" th:field="*{work.workStatus}" />
+				<input type="submit" th:value="申請内容を反映する" class="btn btn-success">
+			</form>
 		</div>
 	</body>
 </html>

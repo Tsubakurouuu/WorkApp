@@ -15,4 +15,6 @@ public interface WorkService {
 	public List<Work> selectWorkList(Integer userId);
 	//勤怠情報更新
 	public void updateWork(Work work);
+	//勤怠情報更新（申請フォーム）
+	public void updateWorkRequestForm(Work work);
 }
