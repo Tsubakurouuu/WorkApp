@@ -14,7 +14,7 @@
 		<result column="rest_hour" property="restHour"/>
 		<result column="rest_minute" property="restMinute"/>
 		<result column="comment" property="comment"/>
-		<association property="Work" resultMap="work" columnPrefix="work_"/>
+		<association property="work" resultMap="work" columnPrefix="work_"/>
 	</resultMap>
 	<!--マッピング定義(勤怠)-->
 	<resultMap id="work" type="com.example.model.Work">
@@ -67,7 +67,7 @@
 		select * from request_form
 	</select>
 	<!--申請フォーム詳細取得-->
-	<select id="selectRequestFormDetail" resultType="RequestForm">
+	<select id="selectRequestFormDetail" resultMap="requestForm" resultType="RequestForm">
 		select
 			request_form.id,
 			request_form.work_id,

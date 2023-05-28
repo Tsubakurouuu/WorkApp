@@ -15,7 +15,32 @@
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
 			<h2>申請、通知詳細画面</h2>
+			<h4>登録内容</h4>
 			<div th:object="${requestFormDetail}">
+				<table>
+					<thead>
+						<tr>
+							<th>日付</th>
+							<th>出勤ステータス</th>
+							<th>出勤時間</th>
+							<th>退勤時間</th>
+							<th>休憩時間</th>
+							<th>就業時間</th>
+							<th>残業時間</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td th:text="|*{work.year}年 *{work.month}月 *{work.date}日|"></td>
+							<td th:text="*{work.workStatus}"></td>
+							<td th:text="|*{work.attendanceHour}時 *{work.attendanceMinute}分|"></td>
+							<td th:text="|*{work.leavingHour}時 *{work.leavingMinute}分|"></td>
+							<td th:text="|*{work.restHour}時 *{work.restMinute}分|"></td>
+							<td th:text="|*{work.workingTimeHour}時 *{work.workingTimeMinute}分|"></td>
+							<td th:text="|*{work.overTimeHour}時 *{work.overTimeMinute}分|"></td>
+						</tr>
+					</tbody>
+				</table>
 				<p th:text="|出勤ステータス *{workStatus}|"></p>
 				<p th:text="|出勤(時) *{attendanceHour}|"></p>
 				<p th:text="|出勤(分) *{attendanceMinute}|"></p>
