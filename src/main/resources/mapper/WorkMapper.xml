@@ -53,26 +53,62 @@
 	-->
 	<!--出勤時間登録-->
 	<insert id="insertAttendance">
-		insert into work(user_id, year, month, date, attendance_hour, attendance_minute)
-		values (#{userId}, #{year}, #{month}, #{date}, #{attendanceHour}, #{attendanceMinute})
+		insert
+		into
+			work (
+				user_id,
+				year,
+				month,
+				date,
+				attendance_hour,
+				attendance_minute
+			)
+		values (
+			#{userId},
+			#{year},
+			#{month},
+			#{date},
+			#{attendanceHour},
+			#{attendanceMinute}
+		)
 	</insert>
 	<!--退勤時間登録（更新）-->
 	<update id="updateLeaving">
-		update work set
-		leaving_hour = #{work.leavingHour},
-		leaving_minute = #{work.leavingMinute},
-		rest_hour = #{work.restHour},
-		rest_minute = #{work.restMinute},
-		working_time_hour = #{work.workingTimeHour},
-		working_time_minute = #{work.workingTimeMinute},
-		over_time_hour = #{work.overTimeHour},
-		over_time_minute = #{work.overTimeMinute}
+		update
+			work
+		set
+			leaving_hour = #{work.leavingHour},
+			leaving_minute = #{work.leavingMinute},
+			rest_hour = #{work.restHour},
+			rest_minute = #{work.restMinute},
+			working_time_hour = #{work.workingTimeHour},
+			working_time_minute = #{work.workingTimeMinute},
+			over_time_hour = #{work.overTimeHour},
+			over_time_minute = #{work.overTimeMinute}
 		where
-		user_id = #{work.userId} and
-		year = #{work.year} and
-		month = #{work.month} and
-		date = #{work.date}
+			user_id = #{work.userId}
+		and
+			year = #{work.year}
+		and
+			month = #{work.month}
+		and
+			date = #{work.date}
 	</update>
+	<!--勤怠情報取得（退勤ボタン押下時）-->
+	<select id="selectWorkLeaving" resultMap="work">
+		select
+			*
+		from
+			work
+		where
+			user_id = #{userId}
+		and
+			year = #{year}
+		and
+			month = #{month}
+		and
+			date = #{date}
+	</select>
 	<!--勤怠情報取得-->
 	<select id="selectWork" resultMap="work">
 		select * from work where id = #{id}

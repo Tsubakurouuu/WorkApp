@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -138,6 +139,28 @@ public class UserController {
 	public String postUserWorkLeaving(Work work, Model model, MUser loginUser) {
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
+		String userId = loginUser.getUserId();
+		//カレンダークラスのオブジェクトを生成
+		Calendar calendar = Calendar.getInstance();
+		Integer year = calendar.get(Calendar.YEAR);
+		Integer month = calendar.get(Calendar.MONTH) + 1;
+		Integer date = calendar.get(Calendar.DATE);
+		work = workService.selectWorkLeaving(userId, year, month, date);
+		//就業時間、時間のセット
+//		work.setWorkingTimeHour(work.getLeavingHour() - work.getAttendanceHour());
+//		if(work.getLeavingMinute() - work.getAttendanceMinute() >= 0) {
+//			work.setWorkingTimeMinute(work.getLeavingMinute() - work.getAttendanceMinute());
+//		} else if (work.getLeavingMinute() - work.getAttendanceMinute() < 0) {
+//			work.setWorkingTimeMinute(-(work.getLeavingMinute() - work.getAttendanceMinute()));
+//		}
+//		work.setOverTimeHour(work.getLeavingHour() - work.getAttendanceHour() - 8);
+//		if(work.getLeavingMinute() - work.getAttendanceMinute() >= 0) {
+//			work.setOverTimeMinute(work.getLeavingMinute() - work.getAttendanceMinute());
+//		} else if (work.getLeavingMinute() - work.getAttendanceMinute() < 0) {
+//			work.setOverTimeMinute(-(work.getLeavingMinute() - work.getAttendanceMinute()));
+//		}
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
 		//Workにユーザーを登録
 		work.setUserId(loginUser.getId());
 		//ログを表示
@@ -147,12 +170,4 @@ public class UserController {
 		//出退勤時間入力画面にリダイレクト
 		return "redirect:/work/input";
 	}
-	
-	//仮
-//	@GetMapping("/{id}")
-//	public String getExample(@PathVariable("id") Integer id, Model model) {
-//		Work work = workService.selectWork(id);
-//		model.addAttribute("work", work);
-//		return "example";
-//	}
 }

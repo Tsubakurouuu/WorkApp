@@ -74,18 +74,6 @@ public class WorkServiceImpl implements WorkService {
 		}
 		work.setRestHour(1);
 		work.setRestMinute(0);
-//		work.setWorkingTimeHour(work.getLeavingHour() - work.getAttendanceHour());
-//		if(work.getLeavingMinute() - work.getAttendanceMinute() >= 0) {
-//			work.setWorkingTimeMinute(work.getLeavingMinute() - work.getAttendanceMinute());
-//		} else if (work.getLeavingMinute() - work.getAttendanceMinute() < 0) {
-//			work.setWorkingTimeMinute(-(work.getLeavingMinute() - work.getAttendanceMinute()));
-//		}
-//		work.setOverTimeHour(work.getLeavingHour() - work.getAttendanceHour() - 8);
-//		if(work.getLeavingMinute() - work.getAttendanceMinute() >= 0) {
-//			work.setOverTimeMinute(work.getLeavingMinute() - work.getAttendanceMinute());
-//		} else if (work.getLeavingMinute() - work.getAttendanceMinute() < 0) {
-//			work.setOverTimeMinute(-(work.getLeavingMinute() - work.getAttendanceMinute()));
-//		}
 		mapper.updateLeaving(work);
 	}
 	
@@ -112,5 +100,13 @@ public class WorkServiceImpl implements WorkService {
 	public void updateWorkRequestForm(Work work) {
 		mapper.updateWorkRequestForm(work);
 	}
+
+	//勤怠情報取得（退勤ボタン押下時）
+	@Override
+	public Work selectWorkLeaving(String userId, Integer year, Integer month, Integer date) {
+		return mapper.selectWorkLeaving(userId, year, month, date);
+	}
+	
+	
 }
 
