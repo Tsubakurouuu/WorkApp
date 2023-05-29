@@ -112,5 +112,11 @@ public class WorkServiceImpl implements WorkService {
 	public void updateWorkRequestForm(Work work) {
 		mapper.updateWorkRequestForm(work);
 	}
+	
+	
+	@Override
+	public Work selectWorkLeaving(Integer userId, Integer year, Integer month, Integer date) {
+		return mapper.selectWorkLeaving(userId, year, month, date);
+	}
 }
 

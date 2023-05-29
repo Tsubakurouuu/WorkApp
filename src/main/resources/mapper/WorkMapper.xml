@@ -86,11 +86,29 @@
 			over_time_hour = #{work.overTimeHour},
 			over_time_minute = #{work.overTimeMinute}
 		where
-			user_id = #{work.userId} and
-			year = #{work.year} and
-			month = #{work.month} and
+			user_id = #{work.userId}
+		and
+			year = #{work.year}
+		and
+			month = #{work.month}
+		and
 			date = #{work.date}
 	</update>
+	
+	<select id="selectWorkLeaving" resultType="work">
+		select
+			*
+		from
+			work
+		where
+			user_id = #{userId}
+		and
+			year = #{year}
+		and
+			month = #{month}
+		and
+			date = #{date}
+	</select>
 	<!--勤怠情報取得-->
 	<select id="selectWork" resultMap="work">
 		select * from work where id = #{id}

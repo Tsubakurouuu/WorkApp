@@ -17,4 +17,6 @@ public interface WorkService {
 	public void updateWork(Work work);
 	//勤怠情報更新（申請フォーム）
 	public void updateWorkRequestForm(Work work);
+	
+	public Work selectWorkLeaving(Integer userId, Integer year, Integer month, Integer date);
 }

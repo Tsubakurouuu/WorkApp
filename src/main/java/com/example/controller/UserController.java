@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -135,9 +136,17 @@ public class UserController {
 	
 	//退勤ボタン押下時の処理
 	@PostMapping("/work/leaving")
-	public String postUserWorkLeaving(Work work, Model model, MUser loginUser) {
+	public String postUserWorkLeaving(Model model, MUser loginUser) {
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
+		Integer userId = loginUser.getId();
+		//カレンダークラスのオブジェクトを生成
+		Calendar calendar = Calendar.getInstance();
+		//Workに現在日時をセット
+		Integer year = calendar.get(Calendar.YEAR);
+		Integer month = calendar.get(Calendar.MONTH) + 1;
+		Integer date = calendar.get(Calendar.DATE);
+		Work work = workService.selectWorkLeaving(userId, year, month, date);
 		//Workにユーザーを登録
 		work.setUserId(loginUser.getId());
 		//ログを表示
