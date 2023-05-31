@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 		<!--CSS読込-->
 		<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/css/user/form_confirm.css}">
 		<!--JS読込-->
 		<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
 		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
@@ -13,44 +14,101 @@
 	<body>
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
-		<div class="container">
-			<h2>申請確認画面</h2>
-			<div th:object="${requestFormForm}">
-				<!--<p th:text="|*{year}年 *{month}月 *{date}日|"></p>-->
-				<p th:text="|出勤ステータス *{workStatus}|"></p>
-				<p th:text="|出勤(時) *{attendanceHour}|"></p>
-				<p th:text="|出勤(分) *{attendanceMinute}|"></p>
-				<p th:text="|退勤(時) *{leavingHour}|"></p>
-				<p th:text="|退勤(分) *{leavingMinute}|"></p>
-				<p th:text="|休憩(時) *{restHour}|"></p>
-				<p th:text="|休憩(分) *{restMinute}|"></p>
-				<p th:text="|申請理由 *{comment}|"></p>
+		<div class="container mt-3">
+			<div class="page" th:object="${requestFormForm}">
+				<div class="row">
+					<div class="col-md-3">
+						<p>出勤ステータス</p>
+					</div>
+					<div class="col-md-2">
+						<p th:text="*{workStatus}"></p>
+					</div>
+				</div>
+				<div class="row mt-3">
+					<div class="col-md-2">
+						<p>出勤(時)</p>
+					</div>
+					<div class="col-md-1">
+						<p th:text="*{attendanceHour}"></p>
+					</div>
+					<div class="col-md-1"></div>
+					<div class="col-md-2">
+						<p>出勤(分)</p>
+					</div>
+					<div class="col-md-1">
+						<p th:text="*{attendanceMinute}"></p>
+					</div>
+				</div>
+				<div class="row mt-3">
+					<div class="col-md-2">
+						<p>退勤(時)</p>
+					</div>
+					<div class="col-md-1">
+						<p th:text="*{leavingHour}"></p>
+					</div>
+					<div class="col-md-1"></div>
+					<div class="col-md-2">
+						<p>退勤(分)</p>
+					</div>
+					<div class="col-md-1">
+						<p th:text="*{leavingMinute}"></p>
+					</div>
+				</div>
+				<div class="row mt-3">
+					<div class="col-md-2">
+						<p>休憩(時)</p>
+					</div>
+					<div class="col-md-1">
+						<p th:text="*{restHour}"></p>
+					</div>
+					<div class="col-md-1"></div>
+					<div class="col-md-2">
+						<p>休憩(分)</p>
+					</div>
+					<div class="col-md-1">
+						<p th:text="*{restMinute}"></p>
+					</div>
+				</div>
+				<p>コメント</p>
+				<div class="row">
+					<div class="col-md-7">
+						<p th:text="*{comment}"></p>
+					</div>
+				</div>
+				<p class="confirm text-center">上記の内容で管理者に申請します。<br>よろしいですか？</p>
+				<div class="row">
+					<div class="col-md-4"></div>
+					<div class="col-md-2">
+						<form method="post" th:action="@{/form/complete}" th:object="${requestFormForm}">
+							<input type="hidden" th:field="*{workId}"/>
+							<input type="hidden" th:field="*{workStatus}"/>
+							<input type="hidden" th:field="*{attendanceHour}"/>
+							<input type="hidden" th:field="*{attendanceMinute}"/>
+							<input type="hidden" th:field="*{leavingHour}"/>
+							<input type="hidden" th:field="*{leavingMinute}"/>
+							<input type="hidden" th:field="*{restHour}"/>
+							<input type="hidden" th:field="*{restMinute}"/>
+							<input type="hidden" th:field="*{comment}"/>
+							<input type="submit" value="申請" class="btn btn-primary"/>
+						</form>
+					</div>
+					<div class="col-md-2">
+						<form method="post" th:action="@{/form}" th:object="${requestFormForm}">
+							<input type="hidden" th:field="*{workId}"/>
+							<input type="hidden" th:field="*{workStatus}"/>
+							<input type="hidden" th:field="*{attendanceHour}"/>
+							<input type="hidden" th:field="*{attendanceMinute}"/>
+							<input type="hidden" th:field="*{leavingHour}"/>
+							<input type="hidden" th:field="*{leavingMinute}"/>
+							<input type="hidden" th:field="*{restHour}"/>
+							<input type="hidden" th:field="*{restMinute}"/>
+							<input type="hidden" th:field="*{comment}"/>
+							<input type="submit" value="戻る" class="btn btn-danger"/>
+						</form>
+					</div>
+					<div class="col-md-4"></div>
+				</div>
 			</div>
-			<p>上記の内容で管理者に申請します。<br>よろしいですか？</p>
-			<form method="post" th:action="@{/form}" th:object="${requestFormForm}">
-				<input type="hidden" th:field="*{workId}"/>
-				<input type="hidden" th:field="*{workStatus}"/>
-				<input type="hidden" th:field="*{attendanceHour}"/>
-				<input type="hidden" th:field="*{attendanceMinute}"/>
-				<input type="hidden" th:field="*{leavingHour}"/>
-				<input type="hidden" th:field="*{leavingMinute}"/>
-				<input type="hidden" th:field="*{restHour}"/>
-				<input type="hidden" th:field="*{restMinute}"/>
-				<input type="hidden" th:field="*{comment}"/>
-				<input type="submit" value="戻る" class="btn btn-danger"/>
-			</form>
-			<form method="post" th:action="@{/form/complete}" th:object="${requestFormForm}">
-				<input type="hidden" th:field="*{workId}"/>
-				<input type="hidden" th:field="*{workStatus}"/>
-				<input type="hidden" th:field="*{attendanceHour}"/>
-				<input type="hidden" th:field="*{attendanceMinute}"/>
-				<input type="hidden" th:field="*{leavingHour}"/>
-				<input type="hidden" th:field="*{leavingMinute}"/>
-				<input type="hidden" th:field="*{restHour}"/>
-				<input type="hidden" th:field="*{restMinute}"/>
-				<input type="hidden" th:field="*{comment}"/>
-				<input type="submit" value="申請" class="btn btn-primary"/>
-			</form>
 		</div>
 	</body>
 </html>
