@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 		<!--CSS読込-->
 		<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/css/admin/user_new.css}">
 		<!--JS読込-->
 		<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
 		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
@@ -14,40 +15,36 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
-			<h2>新規登録</h2>
-			<form method="post" th:action="@{/admin/user/new}" th:object="${userNewForm}">
-				<!--ユーザーID-->
+			<form method="post" th:action="@{/admin/user/new}" th:object="${userNewForm}" class="form-signup">
+				<h2 class="text-center">新規登録</h2>
 				<div class="field">
 					<label for="userId">ユーザーID</label>
 					<input type="text" class="form-control" th:field="*{userId}" th:errorclass="is-invalid"/>
 					<div class="invalid-feedback" th:errors="*{userId}"></div>
 				</div>
-				<!--パスワード-->
-				<div class="field">
+				<div class="field mt-3">
 					<label for="password">パスワード</label>
 					<input type="text" class="form-control" th:field="*{password}" th:errorclass="is-invalid"/>
 					<div class="invalid-feedback" th:errors="*{password}"></div>
 				</div>
-				<!--姓-->
-				<div class="field">
+				<div class="field mt-3">
 					<label for="lastName">姓</label>
 					<input type="text" class="form-control" th:field="*{lastName}" th:errorclass="is-invalid"/>
 					<div class="invalid-feedback" th:errors="*{lastName}"></div>
 				</div>
-				<!--名-->
-				<div class="field">
+				<div class="field mt-3">
 					<label for="firstName">名</label>
 					<input type="text" class="form-control" th:field="*{firstName}" th:errorclass="is-invalid"/>
 					<div class="invalid-feedback" th:errors="*{firstName}"></div>
 				</div>
-				<!--誕生日-->
-				<div class="field">
+				<div class="field mt-3">
 					<label for="birthday">誕生日</label>
 					<input type="text" class="form-control" placeholder="yyyy/MM/dd" th:field="*{birthday}" th:errorclass="is-invalid"/>
 					<div class="invalid-feedback" th:errors="*{birthday}"></div>
 				</div>
-				<!--ログインボタン-->
-				<input type="submit" value="新規登録" class="btn btn-primary"/>
+				<div class="mx-auto mt-3 w-50">
+					<input type="submit" value="新規登録" class="btn btn-primary btn-block mt-5"/>
+				</div>
 			</form>
 		</div>
 	</body>

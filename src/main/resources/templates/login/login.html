@@ -16,12 +16,12 @@
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
 			<form method="post" th:action="@{/login}" class="form-login">
-			<h2 class="text-center">ログイン</h2>
-			<p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null"
-           		th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
-           		class="text-danger">
-            	ログインエラーメッセージ
-        	</p>
+				<h2 class="text-center">ログイン</h2>
+				<p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null"
+	           		th:text="${session['SPRING_SECURITY_LAST_EXCEPTION'].message}"
+	           		class="text-danger">
+	            	ログインエラーメッセージ
+	        	</p>
 				<!--ユーザーID-->
 				<div class="field">
 					<label for="userId">ユーザーID</label>
