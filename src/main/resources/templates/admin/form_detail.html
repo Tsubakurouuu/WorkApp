@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 		<!--CSS読込-->
 		<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/css/admin/form_detail.css}">
 		<!--JS読込-->
 		<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
 		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
@@ -13,55 +14,118 @@
 	<body>
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
-		<div class="container">
-			<h2>申請、通知詳細画面</h2>
-			<h4>登録内容</h4>
-			<div th:object="${requestFormDetail}">
-				<table>
-					<thead>
-						<tr>
-							<th>日付</th>
-							<th>出勤ステータス</th>
-							<th>出勤時間</th>
-							<th>退勤時間</th>
-							<th>休憩時間</th>
-							<th>就業時間</th>
-							<th>残業時間</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td th:text="|*{work.year}年 *{work.month}月 *{work.date}日|"></td>
-							<td th:text="*{work.workStatus}"></td>
-							<td th:text="|*{work.attendanceHour}時 *{work.attendanceMinute}分|"></td>
-							<td th:text="|*{work.leavingHour}時 *{work.leavingMinute}分|"></td>
-							<td th:text="|*{work.restHour}時 *{work.restMinute}分|"></td>
-							<td th:text="|*{work.workingTimeHour}時 *{work.workingTimeMinute}分|"></td>
-							<td th:text="|*{work.overTimeHour}時 *{work.overTimeMinute}分|"></td>
-						</tr>
-					</tbody>
-				</table>
-				<p th:text="|出勤ステータス *{workStatus}|"></p>
-				<p th:text="|出勤(時) *{attendanceHour}|"></p>
-				<p th:text="|出勤(分) *{attendanceMinute}|"></p>
-				<p th:text="|退勤(時) *{leavingHour}|"></p>
-				<p th:text="|退勤(分) *{leavingMinute}|"></p>
-				<p th:text="|休憩(時) *{restHour}|"></p>
-				<p th:text="|休憩(分) *{restMinute}|"></p>
-				<p th:text="|申請理由 *{comment}|"></p>
+		<div class="container" th:object="${requestFormDetail}">
+			<div class="row mt-5">
+				<div class="col-md-2">
+					<h4 class="mt-5">登録内容</h4>		
+				</div>
+				<div class="col-md-10" >
+					<table class="table table-borderless">
+						<thead>
+							<tr>
+								<th>日付</th>
+								<th>出勤ステータス</th>
+								<th>出勤時間</th>
+								<th>退勤時間</th>
+								<th>休憩時間</th>
+								<th>就業時間</th>
+								<th>残業時間</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td th:text="|*{work.year}年 *{work.month}月 *{work.date}日|"></td>
+								<td th:text="*{work.workStatus}"></td>
+								<td th:text="|*{work.attendanceHour}時*{work.attendanceMinute}分|"></td>
+								<td th:text="|*{work.leavingHour}時*{work.leavingMinute}分|"></td>
+								<td th:text="|*{work.restHour}時間*{work.restMinute}分|"></td>
+								<td th:text="|*{work.workingTimeHour}時間*{work.workingTimeMinute}分|"></td>
+								<td th:text="|*{work.overTimeHour}時間*{work.overTimeMinute}分|"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<form method="post" th:action="@{/admin/form/update}" th:object="${requestFormDetail}">
-				<input type="hidden" th:field="*{id}" />
-				<input type="hidden" th:field="*{work.id}" />
-				<input type="hidden" th:field="*{work.attendanceHour}" />
-				<input type="hidden" th:field="*{work.attendanceMinute}" />
-				<input type="hidden" th:field="*{work.leavingHour}" />
-				<input type="hidden" th:field="*{work.leavingMinute}" />
-				<input type="hidden" th:field="*{work.restHour}" />
-				<input type="hidden" th:field="*{work.restMinute}" />
-				<input type="hidden" th:field="*{work.workStatus}" />
-				<input type="submit" th:value="申請内容を反映する" class="btn btn-success">
-			</form>
+			<div class="row mt-5">
+				<div class="col-md-2">
+					<h4 class="mt-5">申請内容</h4>	
+				</div>
+				<div class="col-md-10">
+					<div class="row">
+						<div class="col-md-2">
+							<p>出勤ステータス</p>
+						</div>
+						<div class="col-md-3">
+							<p th:text="*{workStatus}"></p>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-2">
+							<p>出勤(時)</p>
+						</div>
+						<div class="col-md-1">
+							<p th:text="*{attendanceHour}"></p>
+						</div>
+						<div class="col-md-1"></div>
+						<div class="col-md-2">
+							<p>出勤(分)</p>
+						</div>
+						<div class="col-md-1">
+							<p th:text="*{attendanceMinute}"></p>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-2">
+							<p>退勤(時)</p>
+						</div>
+						<div class="col-md-1">
+							<p th:text="*{leavingHour}"></p>
+						</div>
+						<div class="col-md-1"></div>
+						<div class="col-md-2">
+							<p>退勤(分)</p>
+						</div>
+						<div class="col-md-1">
+							<p th:text="*{leavingMinute}"></p>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-md-2">
+							<p>休憩(時)</p>
+						</div>
+						<div class="col-md-1">
+							<p th:text="*{restHour}"></p>
+						</div>
+						<div class="col-md-1"></div>
+						<div class="col-md-2">
+							<p>休憩(分)</p>
+						</div>
+						<div class="col-md-1">
+							<p th:text="*{restMinute}"></p>
+						</div>
+					</div>
+					<p>コメント</p>
+					<div class="row">
+						<div class="col-md-7">
+							<p th:text="*{comment}"></p>
+						</div>
+						<div class="col-md-5">
+							<form method="post" th:action="@{/admin/form/update}" th:object="${requestFormDetail}">
+								<input type="hidden" th:field="*{id}" />
+								<input type="hidden" th:field="*{work.id}" />
+								<input type="hidden" th:field="*{work.attendanceHour}" />
+								<input type="hidden" th:field="*{work.attendanceMinute}" />
+								<input type="hidden" th:field="*{work.leavingHour}" />
+								<input type="hidden" th:field="*{work.leavingMinute}" />
+								<input type="hidden" th:field="*{work.restHour}" />
+								<input type="hidden" th:field="*{work.restMinute}" />
+								<input type="hidden" th:field="*{work.workStatus}" />
+								<input type="submit" th:value="申請内容を反映する" class="btn btn-success button">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
