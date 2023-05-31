@@ -108,6 +108,7 @@
 			month = #{month}
 		and
 			date = #{date}
+		limit 1
 	</select>
 	<!--勤怠情報取得-->
 	<select id="selectWork" resultMap="work">
