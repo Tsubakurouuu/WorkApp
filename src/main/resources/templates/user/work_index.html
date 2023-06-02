@@ -5,6 +5,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
 		<!--CSS読込-->
 		<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}">
+		<link rel="stylesheet" th:href="@{/css/user/work_index.css}">
 		<!--JS読込-->
 		<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
 		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
@@ -14,19 +15,21 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
-			<h2 th:text="|${loginUser.lastName} ${loginUser.firstName}さんの勤怠情報|"></h2>
+			<div class="row mt-5">
+				<div class="col-md-6">
+					<h2 th:text="|${loginUser.lastName} ${loginUser.firstName}さんの勤怠情報|"></h2>
+				</div>
+				<div class="col-md-1 text-right">
+					<a th:href="@{/work/{year}/{month}/previous(year=${year}, month=${month})}" class="button">◀︎︎️</a>
+				</div>
+				<div class="col-md-4 text-center">
+					<h3 th:text="|${year}年 ${month}月|"></h3>
+				</div>
+				<div class="col-md-1">
+					<a th:href="@{/work/{year}/{month}/next(year=${year}, month=${month})}" class="button">▶︎︎</a>
+				</div>
+			</div>
 			<h3 th:text="${complete}"></h3>
-			<!-- 先月ボタン -->
-			<form method="get" th:action="@{}">
-			  <input type="hidden" th:field="${year}">
-			  <input type="hidden" th:field="${month}">
-			  <input type="submit">先月</input>
-			</form>
-			<!-- 翌月ボタン -->
-			<form method="get" th:action="@{}">
-			  <input type="hidden" th:field="${year}">
-			  <input type="hidden" th:field="${month}">
-			  <input type="submit">翌月</input>
 			</form>
 			<table class="table">
 				<thead>

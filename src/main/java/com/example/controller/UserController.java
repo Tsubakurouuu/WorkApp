@@ -151,23 +151,52 @@ public class UserController {
 	
 	//出退勤一覧画面に遷移するための処理
 	@GetMapping("/work/{year}/{month}")
-	public String getUserWorkIndex(Integer userId, @PathVariable Integer year, @PathVariable Integer month, Model model, MUser loginUser) {
+	public String getUserWorkIndex(Integer userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model, MUser loginUser) {
+		// 年と月が指定されていない場合、現在の年と月を取得
+		if (year == null || month == null) {
+	      Calendar calendar = Calendar.getInstance();
+	      year = calendar.get(Calendar.YEAR);
+	      month = calendar.get(Calendar.MONTH) + 1;
+	    }
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//Modelに登録
 		model.addAttribute("loginUser", loginUser);
 		//ログインユーザーのIDを取得
 		userId = loginUser.getId();
-		//カレンダークラスのオブジェクトを生成
-		Calendar calendar = Calendar.getInstance();
-		//年日を取得
-		year = calendar.get(Calendar.YEAR);
-		month = calendar.get(Calendar.MONTH) + 1;
 		//勤怠情報月毎取得
 		List<Work> workList = workService.selectWorkListMonth(userId, year, month);
 		//Modelに登録
 		model.addAttribute("workList", workList);
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);	
 		//user/work_index.htmlを呼び出す
 		return "user/work_index";
 	}
+	
+	@GetMapping("/work/{year}/{month}/previous")
+	  public String showPreviousMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
+	    // 1ヶ月前の年と月を計算
+	    if (month == 1) {
+	      year--;
+	      month = 12;
+	    } else {
+	      month--;
+	    }
+
+	    return "redirect:/work/" + year + "/" + month;
+	  }
+	
+	@GetMapping("/work/{year}/{month}/next")
+	  public String showNextMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
+	    // 1ヶ月後の年と月を計算
+	    if (month == 12) {
+	      year++;
+	      month = 1;
+	    } else {
+	      month++;
+	    }
+
+	    return "redirect:/work/" + year + "/" + month;
+	  }
 }
