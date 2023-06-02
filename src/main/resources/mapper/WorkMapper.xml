@@ -200,4 +200,17 @@
 		where
 			id = #{work.id}
 	</update>
+	<!--勤怠情報月毎取得-->
+	<select id="selectWorkListMonth" resultType="Work">
+		select
+			*
+		from
+			work
+		where
+			user_id = #{userId}
+		and
+			year = #{year}
+		and
+			month = #{month}
+	</select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -148,11 +149,25 @@ public class UserController {
 		return "redirect:/work/input";
 	}
 	
-	//仮
-//	@GetMapping("/{id}")
-//	public String getExample(@PathVariable("id") Integer id, Model model) {
-//		Work work = workService.selectWork(id);
-//		model.addAttribute("work", work);
-//		return "example";
-//	}
+	//出退勤一覧画面に遷移するための処理
+	@GetMapping("/work/{year}/{month}")
+	public String getUserWorkIndex(Integer userId, @PathVariable Integer year, @PathVariable Integer month, Model model, MUser loginUser) {
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
+		//Modelに登録
+		model.addAttribute("loginUser", loginUser);
+		//ログインユーザーのIDを取得
+		userId = loginUser.getId();
+		//カレンダークラスのオブジェクトを生成
+		Calendar calendar = Calendar.getInstance();
+		//年日を取得
+		year = calendar.get(Calendar.YEAR);
+		month = calendar.get(Calendar.MONTH) + 1;
+		//勤怠情報月毎取得
+		List<Work> workList = workService.selectWorkListMonth(userId, year, month);
+		//Modelに登録
+		model.addAttribute("workList", workList);
+		//user/work_index.htmlを呼び出す
+		return "user/work_index";
+	}
 }

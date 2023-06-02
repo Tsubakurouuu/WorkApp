@@ -21,4 +21,6 @@ public interface WorkMapper {
 	public void updateWork(@Param("work") Work work);
 	//勤怠情報更新（申請フォーム）
 	public void updateWorkRequestForm(@Param("work") Work work);
+	//勤怠情報月毎取得
+	public List<Work> selectWorkListMonth(Integer userId, Integer year, Integer month);
 }

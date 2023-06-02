@@ -112,5 +112,11 @@ public class WorkServiceImpl implements WorkService {
 	public void updateWorkRequestForm(Work work) {
 		mapper.updateWorkRequestForm(work);
 	}
+	
+	//勤怠情報月毎取得
+	@Override
+	public List<Work> selectWorkListMonth(Integer userId, Integer year, Integer month) {
+		return mapper.selectWorkListMonth(userId, year, month);
+	}
 }
 
