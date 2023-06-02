@@ -35,9 +35,6 @@ public class UserController {
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 	
-	@Autowired
-	private ModelMapper modelMapper;
-	
 	//出退勤申請画面に遷移するための処理
 	@GetMapping("/form/{id}")
 	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model, MUser loginUser) {
@@ -114,7 +111,16 @@ public class UserController {
 	
 	//出退勤時間入力画面に遷移するための処理
 	@GetMapping("/work/input")
-	public String getUserWorkInput() {
+	public String getUserWorkInput(Model model, Integer year, Integer month) {
+		//カレンダークラスのオブジェクトを生成
+		Calendar calendar = Calendar.getInstance();
+		//現在の年を取得
+        year = calendar.get(Calendar.YEAR);
+        //現在の月を取得
+        month = calendar.get(Calendar.MONTH) + 1;
+        //Modelに登録
+        model.addAttribute("year", year);
+		model.addAttribute("month", month);	
 		//user/work_input.htmlを呼び出す
 		return "user/work_input";
 	}
@@ -152,11 +158,11 @@ public class UserController {
 	//出退勤一覧画面に遷移するための処理
 	@GetMapping("/work/{year}/{month}")
 	public String getUserWorkIndex(Integer userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model, MUser loginUser) {
-		// 年と月が指定されていない場合、現在の年と月を取得
+		//年と月が指定されていない場合、現在の年と月を取得
 		if (year == null || month == null) {
-	      Calendar calendar = Calendar.getInstance();
-	      year = calendar.get(Calendar.YEAR);
-	      month = calendar.get(Calendar.MONTH) + 1;
+			Calendar calendar = Calendar.getInstance();
+			year = calendar.get(Calendar.YEAR);
+			month = calendar.get(Calendar.MONTH) + 1;
 	    }
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
@@ -175,28 +181,28 @@ public class UserController {
 	}
 	
 	@GetMapping("/work/{year}/{month}/previous")
-	  public String showPreviousMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
-	    // 1ヶ月前の年と月を計算
+	public String showPreviousMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
+		//1ヶ月前の年と月を計算
 	    if (month == 1) {
-	      year--;
-	      month = 12;
+	    	year--;
+	    	month = 12;
 	    } else {
-	      month--;
+	    	month--;
 	    }
-
+	    //指定した年月日画面へリダイレクト
 	    return "redirect:/work/" + year + "/" + month;
-	  }
+	}
 	
 	@GetMapping("/work/{year}/{month}/next")
-	  public String showNextMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
-	    // 1ヶ月後の年と月を計算
+	public String showNextMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
+		//1ヶ月後の年と月を計算
 	    if (month == 12) {
-	      year++;
-	      month = 1;
+	    	year++;
+	    	month = 1;
 	    } else {
-	      month++;
+	    	month++;
 	    }
-
+	    //指定した年月日画面へリダイレクト
 	    return "redirect:/work/" + year + "/" + month;
-	  }
+	}
 }
