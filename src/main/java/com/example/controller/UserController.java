@@ -1,9 +1,10 @@
 package com.example.controller;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -172,8 +173,13 @@ public class UserController {
 		userId = loginUser.getId();
 		//勤怠情報月毎取得
 		List<Work> workList = workService.selectWorkListMonth(userId, year, month);
+		// 日付ごとの勤怠情報をMapに変換する
+	    Map<Integer, Work> workMap = new HashMap<>();
+	    for (Work work : workList) {
+	    	workMap.put(work.getDate(), work);
+	    }
 		//Modelに登録
-		model.addAttribute("workList", workList);
+		model.addAttribute("workMap", workMap);
 		model.addAttribute("year", year);
 		model.addAttribute("month", month);	
 		//user/work_index.htmlを呼び出す

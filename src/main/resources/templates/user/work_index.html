@@ -45,17 +45,31 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="obj : ${workList}">
-						<td th:text="|${obj.month}月 ${obj.date}日|"></td>
-						<td th:text="${obj.workStatus}"></td>
-						<td th:text="|${obj.attendanceHour}:${obj.attendanceMinute}|"></td>
-						<td th:text="|${obj.leavingHour}:${obj.leavingMinute}|"></td>
-						<td th:text="|${obj.restHour}:${obj.restMinute}|"></td>
-						<td th:text="|${obj.workingTimeHour}:${obj.workingTimeMinute}|"></td>
-						<td th:text="|${obj.overTimeHour}:${obj.overTimeMinute}|"></td>
-						<td>
-							<a th:href="@{'/form/' + ${obj.id}}">修正申請</a>
-						</td>
+					<tr th:each="date : ${#numbers.sequence(1, 30)}">
+						<td th:text="|${month}月${date}日|"></td>
+						<!-- 勤怠情報が存在するかチェック -->
+		            	<th:block th:if="${workMap[__${date}__]}">
+			            	<!-- 勤怠情報が存在する場合の表示 -->
+							<td th:text="${workMap[__${date}__].workStatus}"></td>
+							<td th:text="|${workMap[__${date}__].attendanceHour}時${workMap[__${date}__].attendanceMinute}分|"></td>
+							<td th:text="|${workMap[__${date}__].leavingHour}時${workMap[__${date}__].leavingHour}分|"></td>
+							<td th:text="|${workMap[__${date}__].restHour}時間${workMap[__${date}__].leavingMinute}分|"></td>
+							<td th:text="|${workMap[__${date}__].workingTimeHour}時間${workMap[__${date}__].workingTimeMinute}分|"></td>
+							<td th:text="|${workMap[__${date}__].overTimeHour}時間${workMap[__${date}__].overTimeMinute}分|"></td>
+							<td>
+								<a th:href="@{'/form/' + ${workMap[__${date}__].id}}" class="btn btn-success btn-sm">修正申請</a>
+							</td>
+			          	</th:block>
+		          		<th:block th:unless="${workMap[__${date}__]}">
+		            		<!-- 勤怠情報が存在しない場合の表示 -->
+		            		<td>----</td>
+		            		<td>----</td>
+		            		<td>----</td>
+		            		<td>----</td>
+		            		<td>----</td>
+		            		<td>----</td>
+		            		<td>----</td>
+		          		</th:block>
 					</tr>
 				</tbody>
 			</table>
