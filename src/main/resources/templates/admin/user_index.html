@@ -14,8 +14,7 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
-			<h2>ユーザー一覧画面</h2>
-			<table class="table">
+			<table class="table mt-5">
 				<thead>
 					<tr>
 						<th>ユーザー名</th>
@@ -26,7 +25,7 @@
 				<tbody th:each="obj:${userList}">
 					<tr>
 						<td>
-							<a th:text="${obj.userId}" th:href="@{'/admin/' + ${obj.userId}}"></a>
+							<a th:text="${obj.userId}" th:href="@{'/admin/' + ${obj.userId} + '/' + ${year} + '/' + ${month}}"></a>
 						</td>
 						<td th:text="${obj.lastName}"></td>
 						<td th:text="${obj.firstName}"></td>
