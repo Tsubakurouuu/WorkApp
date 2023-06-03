@@ -96,21 +96,6 @@ public class UserController {
 		return "redirect:/works";
 	}
 	
-	//出退勤一覧画面に遷移するための処理
-	@GetMapping("/works")
-	public String getUserWorkIndex(@ModelAttribute("complete") String complete, Model model, MUser loginUser) {
-		//ログインユーザー情報取得
-		loginUser = userDetailsServiceImpl.getLoginUser();
-		//Modelに登録
-		model.addAttribute("loginUser", loginUser);
-		//勤怠情報一覧取得（ユーザーごと）
-		List<Work> workList = workService.selectWorkList(loginUser.getId());
-		//Modelに登録
-		model.addAttribute("workList", workList);
-		//user/work_index.htmlを呼び出す
-		return "user/work_index";
-	}
-	
 	//出退勤時間入力画面に遷移するための処理
 	@GetMapping("/work/input")
 	public String getUserWorkInput(Model model, Integer year, Integer month) {

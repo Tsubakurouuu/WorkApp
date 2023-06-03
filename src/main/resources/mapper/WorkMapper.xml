@@ -33,24 +33,6 @@
 		<result column="birthday" property="birthday"/>
 		<result column="role" property="role"/>
 	</resultMap>
-	<!--マッピング定義(申請フォーム)-->
-	<!--
-	<resultMap id="request_form" type="com.example.model.RequestForm">
-		<id column="id" property="id"/>
-		<result column="work_id" property="workId"/>
-		<result column="year" property="year"/>
-		<result column="month" property="month"/>
-		<result column="date" property="date"/>
-		<result column="work_status" property="workStatus"/>
-		<result column="attendance_hour" property="attendanceHour"/>
-		<result column="attendance_minute" property="attendanceMinute"/>
-		<result column="leaving_hour" property="leavingHour"/>
-		<result column="leaving_minute" property="leavingMinute"/>
-		<result column="rest_hour" property="restHour"/>
-		<result column="rest_minute" property="restMinute"/>
-		<result column="comment" property="comment"/>
-	</resultMap>
-	-->
 	<!--出勤時間登録-->
 	<insert id="insertAttendance">
 		insert 
@@ -94,73 +76,6 @@
 	<!--勤怠情報取得-->
 	<select id="selectWork" resultMap="work">
 		select * from work where id = #{id}
-		<!--
-		select
-			work.id,
-			work.user_id,
-			work.year,
-			work.month,
-			work.date,
-			work.attendance_hour,
-			work.attendance_minute,
-			work.leaving_hour,
-			work.leaving_minute,
-			work.rest_hour,
-			work.rest_minute,
-			work.working_time_hour,
-			work.working_time_minute,
-			work.over_time_hour,
-			work.over_time_minute,
-			work.work_status,
-			request_form.id as request_form_id,
-			request_form.work_id as request_form_work_id,
-			request_form.year as request_form_year,
-			request_form.month as request_form_month,
-			request_form.date as request_form_date,
-			request_form.work_status as request_form_work_status,
-			request_form.attendance_hour as request_form_attendance_hour,
-			request_form.attendance_minute as request_form_attendance_minute,
-			request_form.leaving_hour as request_form_leaving_hour,
-			request_form.leaving_minute as request_form_leaving_minute,
-			request_form.rest_hour as request_form_rest_hour,
-			request_form.rest_minute as request_form_rest_minute,
-			request_form.comment as request_form_comment
-		from 
-			work left join request_form on work.id = request_form.work_id
-		where
-			work.id = #{id}
-		-->
-	</select>
-	<!--勤怠情報一覧取得（ユーザーごと）-->
-	<select id="selectWorkList" resultType="Work">
-		select
-			work.id,
-			work.user_id,
-			work.year,
-			work.month,
-			work.date,
-			work.attendance_hour,
-			work.attendance_minute,
-			work.leaving_hour,
-			work.leaving_minute,
-			work.rest_hour,
-			work.rest_minute,
-			work.working_time_hour,
-			work.working_time_minute,
-			work.over_time_hour,
-			work.over_time_minute,
-			work.work_status,
-			m_user.id as user_id,
-			m_user.user_id as user_user_id,
-			m_user.password as user_password,
-			m_user.first_name as user_first_name,
-			m_user.last_name as user_last_name,
-			m_user.birthday as user_birthday,
-			m_user.role as user_role
-		from 
-			work left join m_user on work.user_id = m_user.id
-		where
-			work.user_id = #{userId}
 	</select>
 	<!--勤怠情報更新-->
 	<update id="updateWork">

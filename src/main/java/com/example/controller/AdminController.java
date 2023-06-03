@@ -67,21 +67,6 @@ public class AdminController {
 	}
 	
 	//ユーザー詳細画面に遷移するための処理
-	@GetMapping("/{userId:.+}")
-	public String getAdminUserDetail(Model model, @PathVariable("userId") String userId) {
-		//ユーザーを1件取得
-		MUser userDetail = userService.getUserDetail(userId);
-		//Modelに登録
-		model.addAttribute("userDetail", userDetail);
-		//勤怠情報一覧取得（ユーザーごと）
-		List<Work> workList = workService.selectWorkList(userDetail.getId());
-		//Modelに登録
-		model.addAttribute("workList", workList);
-		//admin/user_detail.htmlを呼び出す
-		return "admin/user_detail";
-	}
-	
-	//ユーザー詳細画面に遷移するための処理
 	@GetMapping("/{userId:.+}/{year}/{month}")
 	public String getAdminUserDetail(@PathVariable("userId") String userId, Integer id, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model) {
 		//年と月が指定されていない場合、現在の年と月を取得
