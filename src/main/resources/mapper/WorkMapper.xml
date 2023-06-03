@@ -68,9 +68,12 @@
 			over_time_hour = #{work.overTimeHour},
 			over_time_minute = #{work.overTimeMinute}
 		where
-			user_id = #{work.userId} and
-			year = #{work.year} and
-			month = #{work.month} and
+			user_id = #{work.userId}
+		and
+			year = #{work.year}
+		and
+			month = #{work.month}
+		and
 			date = #{work.date}
 	</update>
 	<!--勤怠情報取得-->
@@ -127,5 +130,20 @@
 			year = #{year}
 		and
 			month = #{month}
+	</select>
+	<!--同日勤怠情報取得（退勤ボタン押下時）-->
+	<select id="selectWorkAttendance" resultMap="work">
+		select
+			*
+		from
+			work
+		where
+			user_id = #{userId}
+		and
+			year = #{year}
+		and
+			month = #{month}
+		and
+			date = #{date}			
 	</select>
 </mapper>

@@ -163,6 +163,54 @@ public class UserController {
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//Workにユーザーを登録
 		work.setUserId(loginUser.getId());
+		//カレンダークラスのオブジェクトを生成
+		Calendar calendar = Calendar.getInstance();
+		//Workに現在日時をセット
+		work.setYear(calendar.get(Calendar.YEAR));
+		work.setMonth(calendar.get(Calendar.MONTH) + 1);
+		work.setDate(calendar.get(Calendar.DATE));
+		work.setLeavingHour(calendar.get(Calendar.HOUR_OF_DAY));
+		int c = calendar.get(Calendar.HOUR_OF_DAY);
+		//5捨6入処理
+		if(calendar.get(Calendar.MINUTE) >= 6 && calendar.get(Calendar.MINUTE) <= 15) {
+			work.setLeavingMinute(10);
+		} else if(calendar.get(Calendar.MINUTE) >= 16 && calendar.get(Calendar.MINUTE) <= 25) {
+			work.setLeavingMinute(20);
+		} else if(calendar.get(Calendar.MINUTE) >= 26 && calendar.get(Calendar.MINUTE) <= 35) {
+			work.setLeavingMinute(30);
+		} else if(calendar.get(Calendar.MINUTE) >= 36 && calendar.get(Calendar.MINUTE) <= 45) {
+			work.setLeavingMinute(40);
+		} else if(calendar.get(Calendar.MINUTE) >= 46 && calendar.get(Calendar.MINUTE) <= 55) {
+			work.setLeavingMinute(50);
+		}else if(calendar.get(Calendar.MINUTE) <= 5) {
+			work.setLeavingMinute(0);
+		}else if(calendar.get(Calendar.MINUTE) >= 56) {
+			work.setLeavingHour(calendar.get(Calendar.HOUR_OF_DAY) + 1);
+			work.setLeavingMinute(0);
+		}
+		work.setRestHour(1);
+		work.setRestMinute(0);
+		//現在の年を取得
+        Integer year = calendar.get(Calendar.YEAR);
+        //現在の月を取得
+        Integer month = calendar.get(Calendar.MONTH) + 1;
+        //現在の日を取得
+        Integer date = calendar.get(Calendar.DATE);
+        //同日勤怠情報取得（退勤ボタン押下時）
+		Work workInfo = workService.selectWorkAttendance(loginUser.getId(), year, month, date);
+		//就業時間と残業時間を計算する処理
+		work.setWorkingTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour());
+		if(work.getLeavingMinute() - workInfo.getAttendanceMinute() >= 0) {
+			work.setWorkingTimeMinute(work.getLeavingMinute() - workInfo.getAttendanceMinute());
+		} else if (work.getLeavingMinute() - workInfo.getAttendanceMinute() < 0) {
+			work.setWorkingTimeMinute(-(work.getLeavingMinute() - workInfo.getAttendanceMinute()));
+		}
+		work.setOverTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - 8);
+		if(work.getLeavingMinute() - workInfo.getAttendanceMinute() >= 0) {
+			work.setOverTimeMinute(work.getLeavingMinute() - workInfo.getAttendanceMinute());
+		} else if (work.getLeavingMinute() - workInfo.getAttendanceMinute() < 0) {
+			work.setOverTimeMinute(-(work.getLeavingMinute() - workInfo.getAttendanceMinute()));
+		}
 		//ログを表示
 		log.info(work.toString());
 		//退勤時間登録（更新）
