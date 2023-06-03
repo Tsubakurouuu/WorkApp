@@ -47,7 +47,7 @@
 						<th>休憩</th>
 						<th>就業時間</th>
 						<th>残業時間</th>
-						<th>修正申請</th>
+						<th>修正</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -63,7 +63,7 @@
 							<td th:text="|${workMap[__${date}__].workingTimeHour}時間${workMap[__${date}__].workingTimeMinute}分|"></td>
 							<td th:text="|${workMap[__${date}__].overTimeHour}時間${workMap[__${date}__].overTimeMinute}分|"></td>
 							<td>
-								<a th:href="@{'/form/' + ${workMap[__${date}__].id}}" class="btn btn-success btn-sm">修正申請</a>
+								<a th:href="@{'/admin/' + ${workMap[__${date}__].id} + '/edit'}" class="btn btn-success btn-sm">修正</a>
 							</td>
 			          	</th:block>
 		          		<th:block th:unless="${workMap[__${date}__]}">
