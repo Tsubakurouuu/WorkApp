@@ -105,9 +105,38 @@ public class UserController {
         year = calendar.get(Calendar.YEAR);
         //現在の月を取得
         month = calendar.get(Calendar.MONTH) + 1;
+        //現在の日を取得
+        Integer date = calendar.get(Calendar.DATE);
+        //現在の曜日を取得
+        Integer week = calendar.get(Calendar.DAY_OF_WEEK);
+        //曜日をModelに登録
+        switch (week) {
+        case Calendar.SUNDAY:
+        	model.addAttribute("week", "日");
+            break;
+        case Calendar.MONDAY:
+        	model.addAttribute("week", "月");
+            break;
+        case Calendar.TUESDAY:
+        	model.addAttribute("week", "火");
+            break;
+        case Calendar.WEDNESDAY:
+        	model.addAttribute("week", "水");
+            break;
+        case Calendar.THURSDAY:
+        	model.addAttribute("week", "木");
+            break;
+        case Calendar.FRIDAY:
+        	model.addAttribute("week", "金");
+            break;
+        case Calendar.SATURDAY:
+        	model.addAttribute("week", "土");
+            break;
+        }
         //Modelに登録
         model.addAttribute("year", year);
 		model.addAttribute("month", month);	
+		model.addAttribute("date", date);
 		//user/work_input.htmlを呼び出す
 		return "user/work_input";
 	}

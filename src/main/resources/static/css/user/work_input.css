@@ -7,6 +7,10 @@
 	margin-top: 100px;
 }
 
+.today {
+	margin: 0 auto;
+}
+
 #clock {
 	font-size: 100px;
 	margin: 0 auto;
