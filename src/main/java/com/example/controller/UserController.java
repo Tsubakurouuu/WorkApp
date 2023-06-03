@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import java.time.YearMonth;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -173,7 +174,9 @@ public class UserController {
 		userId = loginUser.getId();
 		//勤怠情報月毎取得
 		List<Work> workList = workService.selectWorkListMonth(userId, year, month);
-		// 日付ごとの勤怠情報をMapに変換する
+		//各月の最終日にちを取得
+		Integer lastDateOfMonth = YearMonth.of(year, month).lengthOfMonth();
+		//日付ごとの勤怠情報をMapに変換する
 	    Map<Integer, Work> workMap = new HashMap<>();
 	    for (Work work : workList) {
 	    	workMap.put(work.getDate(), work);
@@ -181,7 +184,8 @@ public class UserController {
 		//Modelに登録
 		model.addAttribute("workMap", workMap);
 		model.addAttribute("year", year);
-		model.addAttribute("month", month);	
+		model.addAttribute("month", month);
+		model.addAttribute("lastDateOfMonth", lastDateOfMonth);
 		//user/work_index.htmlを呼び出す
 		return "user/work_index";
 	}

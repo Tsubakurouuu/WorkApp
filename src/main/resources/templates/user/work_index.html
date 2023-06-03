@@ -45,7 +45,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="date : ${#numbers.sequence(1, 30)}">
+					<tr th:each="date : ${#numbers.sequence(1, lastDateOfMonth)}">
 						<td th:text="|${month}月${date}日|"></td>
 						<!-- 勤怠情報が存在するかチェック -->
 		            	<th:block th:if="${workMap[__${date}__]}">
