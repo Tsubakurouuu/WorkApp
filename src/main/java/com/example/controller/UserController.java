@@ -170,7 +170,6 @@ public class UserController {
 		work.setMonth(calendar.get(Calendar.MONTH) + 1);
 		work.setDate(calendar.get(Calendar.DATE));
 		work.setLeavingHour(calendar.get(Calendar.HOUR_OF_DAY));
-		int c = calendar.get(Calendar.HOUR_OF_DAY);
 		//5捨6入処理
 		if(calendar.get(Calendar.MINUTE) >= 6 && calendar.get(Calendar.MINUTE) <= 15) {
 			work.setLeavingMinute(10);
