@@ -1,6 +1,10 @@
 package com.example.controller;
 
+import java.time.YearMonth;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +71,65 @@ public class AdminController {
 		//admin/user_detail.htmlを呼び出す
 		return "admin/user_detail";
 	}
+	
+	//ユーザー詳細画面に遷移するための処理
+	@GetMapping("/{userId:.+}/{year}/{month}")
+	public String getAdminUserDetail(@PathVariable("userId") String userId, Integer id, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model) {
+		//年と月が指定されていない場合、現在の年と月を取得
+		if (year == null || month == null) {
+			Calendar calendar = Calendar.getInstance();
+			year = calendar.get(Calendar.YEAR);
+			month = calendar.get(Calendar.MONTH) + 1;
+	    }
+		//ユーザーを1件取得
+		MUser userDetail = userService.getUserDetail(userId);
+		//Modelに登録
+		model.addAttribute("userDetail", userDetail);
+		//勤怠情報月毎取得
+		List<Work> workList = workService.selectWorkListMonth(userDetail.getId(), year, month);
+		//各月の最終日にちを取得
+		Integer lastDateOfMonth = YearMonth.of(year, month).lengthOfMonth();
+		//日付ごとの勤怠情報をMapに変換する
+	    Map<Integer, Work> workMap = new HashMap<>();
+	    for (Work work : workList) {
+	    	workMap.put(work.getDate(), work);
+	    }
+	    //Modelに登録
+		model.addAttribute("workMap", workMap);
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		model.addAttribute("lastDateOfMonth", lastDateOfMonth);
+		//admin/user_detail.htmlを呼び出す
+		return "admin/user_detail";
+	}
+	
+	//先月ボタン押下時の処理
+	@GetMapping("/{userId}/{year}/{month}/previous")
+	public String showPreviousMonthAttendance(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month) {
+		//1ヶ月前の年と月を計算
+	    if (month == 1) {
+	    	year--;
+	    	month = 12;
+	    } else {
+	    	month--;
+	    }
+	    //指定した年月日画面へリダイレクト
+	    return "redirect:/admin/" + userId + "/" + year + "/" + month;
+	}
+	
+	//先月ボタン押下時の処理
+	@GetMapping("/{userId}/{year}/{month}/next")
+	public String showNextMonthAttendance(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month) {
+		//1ヶ月後の年と月を計算
+	    if (month == 12) {
+	    	year++;
+	    	month = 1;
+	    } else {
+	    	month++;
+	    }
+	    //指定した年月日画面へリダイレクト
+	    return "redirect:/admin/" + userId + "/" + year + "/" + month;
+		}
 	
 	//ユーザー新規登録画面に遷移するための処理
 	@GetMapping("/user/new")

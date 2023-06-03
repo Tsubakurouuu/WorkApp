@@ -190,6 +190,7 @@ public class UserController {
 		return "user/work_index";
 	}
 	
+	//先月ボタン押下時の処理
 	@GetMapping("/work/{year}/{month}/previous")
 	public String showPreviousMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
 		//1ヶ月前の年と月を計算
@@ -203,6 +204,7 @@ public class UserController {
 	    return "redirect:/work/" + year + "/" + month;
 	}
 	
+	//翌月ボタン押下時の処理
 	@GetMapping("/work/{year}/{month}/next")
 	public String showNextMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
 		//1ヶ月後の年と月を計算
