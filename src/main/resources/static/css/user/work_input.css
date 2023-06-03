@@ -1,0 +1,30 @@
+.card {
+	background-color: #f1f1f1;
+  	padding: 20px;
+}
+
+.row {
+	margin-top: 100px;
+}
+
+#clock {
+	font-size: 100px;
+	margin: 0 auto;
+}
+
+#abtn input[type="submit"] {
+	margin-top: 100px;
+	width: 75%;
+	height: 50px;
+}
+
+#lbtn input[type="submit"] {
+	margin-top: 100px;
+	width: 75%;
+	height: 50px;
+}
+
+.btn {
+	width: 50%;
+	height: 50px;
+}
