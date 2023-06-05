@@ -213,7 +213,12 @@ public class AdminController {
 	
 	//修正ボタン押下時の処理
 	@PostMapping("/edit")
-	public String postAdminUserWorkEdit(WorkEditForm form) {
+	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model) {
+		//入力チェック結果
+		if(bindingResult.hasErrors()) {
+			//NGがあれば出退勤修正画面に戻る
+			return "admin/user_work_edit";
+		}
 		//formをWorkクラスに変換
 		Work work = modelMapper.map(form, Work.class);
 		//ログの表示

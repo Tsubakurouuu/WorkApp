@@ -45,45 +45,48 @@
 					<div class="col-md-2">
 						<label for="attendanceHour">出勤(時)</label>
 					</div>
-					<div class="col-md-1">
-						<input type="text" class="form-control time-form" th:field="*{attendanceHour}"/>
+					<div class="col-md-3">
+						<input type="text" class="form-control time-form" th:field="*{attendanceHour}" th:errorclass="is-invalid"/>
+						<div class="invalid-feedback" th:errors="*{attendanceHour}"></div>
 					</div>
-					<div class="col-md-1"></div>
 					<div class="col-md-2">
 						<label for="attendanceMinute">出勤(分)</label>
 					</div>
-					<div class="col-md-1">
-						<input type="text" class="form-control time-form" th:field="*{attendanceMinute}"/>
+					<div class="col-md-3">
+						<input type="text" class="form-control time-form" th:field="*{attendanceMinute}" th:errorclass="is-invalid"/>
+						<div class="invalid-feedback" th:errors="*{attendanceMinute}"></div>
 					</div>
 				</div>
 				<div class="row mt-3">
 					<div class="col-md-2">
 						<label for="leavingHour">退勤(時)</label>
 					</div>
-					<div class="col-md-1">
-						<input type="text" class="form-control time-form" th:field="*{leavingHour}"/>
+					<div class="col-md-3">
+						<input type="text" class="form-control time-form" th:field="*{leavingHour}" th:errorclass="is-invalid"/>
+						<div class="invalid-feedback" th:errors="*{leavingHour}"></div>
 					</div>
-					<div class="col-md-1"></div>
 					<div class="col-md-2">
 						<label for="leavingMinute">退勤(分)</label>
 					</div>
-					<div class="col-md-1">
-						<input type="text" class="form-control time-form" th:field="*{leavingMinute}"/>
+					<div class="col-md-3">
+						<input type="text" class="form-control time-form" th:field="*{leavingMinute}" th:errorclass="is-invalid"/>
+						<div class="invalid-feedback" th:errors="*{leavingMinute}"></div>
 					</div>
 				</div>
 				<div class="row mt-3">
 					<div class="col-md-2">
 						<label for="restHour">休憩(時)</label>
 					</div>
-					<div class="col-md-1">
-						<input type="text" class="form-control time-form" th:field="*{restHour}"/>
+					<div class="col-md-3">
+						<input type="text" class="form-control time-form" th:field="*{restHour}" th:errorclass="is-invalid"/>
+						<div class="invalid-feedback" th:errors="*{restHour}"></div>
 					</div>
-					<div class="col-md-1"></div>
 					<div class="col-md-2">
 						<label for="restMinute">休憩(分)</label>
 					</div>
-					<div class="col-md-1">
-						<input type="text" class="form-control time-form" th:field="*{restMinute}"/>
+					<div class="col-md-3">
+						<input type="text" class="form-control time-form" th:field="*{restMinute}" th:errorclass="is-invalid"/>
+						<div class="invalid-feedback" th:errors="*{restMinute}"></div>
 					</div>
 				</div>
 				<div class="col-md-5 button">
