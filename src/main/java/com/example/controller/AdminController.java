@@ -24,9 +24,11 @@ import com.example.form.WorkEditForm;
 import com.example.model.MUser;
 import com.example.model.RequestForm;
 import com.example.model.Work;
+import com.example.model.WorkStatus;
 import com.example.service.MUserService;
 import com.example.service.RequestFormService;
 import com.example.service.WorkService;
+import com.example.util.EnumUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -200,11 +202,30 @@ public class AdminController {
 	
 	//出退勤修正画面に遷移するための処理
 	@GetMapping("/{id}/edit")
-	public String getAdminUserWorkEdit(@PathVariable("id") Integer id, Model model, WorkEditForm form) {
+	public String getAdminUserWorkEdit(@PathVariable("id") Integer id, Model model) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		//Workをformに変換
-		form = modelMapper.map(workDetail, WorkEditForm.class);
+		WorkEditForm form = new WorkEditForm();
+		form.setId(workDetail.getId());
+		form.setUserId(workDetail.getUserId());
+		form.setYear(workDetail.getYear());
+		form.setMonth(workDetail.getMonth());
+		form.setDate(workDetail.getDate());
+		form.setAttendanceHour(workDetail.getAttendanceHour());
+		form.setAttendanceMinute(workDetail.getAttendanceMinute());
+		form.setLeavingHour(workDetail.getLeavingHour());
+		form.setLeavingMinute(workDetail.getLeavingMinute());
+		form.setRestHour(workDetail.getRestHour());
+		form.setRestMinute(workDetail.getRestMinute());
+		form.setWorkingTimeHour(workDetail.getWorkingTimeHour());
+		form.setWorkingTimeMinute(workDetail.getWorkingTimeMinute());
+		form.setOverTimeHour(workDetail.getOverTimeHour());
+		form.setOverTimeMinute(workDetail.getOverTimeMinute());
+		form.setWorkStatus(workDetail.getWorkStatus());
+		Integer workStatusValue = workDetail.getWorkStatus(); // データベースから取得した数値
+		WorkStatus workStatus = EnumUtils.fromValue(WorkStatus.class, workStatusValue);
+		model.addAttribute("workStatus", workStatus);
 		//Modelに登録
 		model.addAttribute("workEditForm", form);
 		//admin/user_work_edit.htmlを呼び出す

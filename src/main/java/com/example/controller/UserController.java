@@ -22,6 +22,7 @@ import com.example.form.RequestFormForm;
 import com.example.model.MUser;
 import com.example.model.RequestForm;
 import com.example.model.Work;
+import com.example.model.WorkStatus;
 import com.example.service.RequestFormService;
 import com.example.service.WorkService;
 import com.example.service.impl.UserDetailsServiceImpl;
@@ -222,6 +223,7 @@ public class UserController {
 		} else if (work.getLeavingMinute() - workInfo.getAttendanceMinute() < 0) {
 			work.setOverTimeMinute(-(work.getLeavingMinute() - workInfo.getAttendanceMinute()));
 		}
+		work.setWorkStatus(1);
 		//ログを表示
 		log.info(work.toString());
 		//退勤時間登録（更新）
