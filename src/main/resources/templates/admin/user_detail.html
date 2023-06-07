@@ -56,7 +56,14 @@
 						<!-- 勤怠情報が存在するかチェック -->
 		            	<th:block th:if="${workMap[__${date}__]}">
 			            	<!-- 勤怠情報が存在する場合の表示 -->
-							<td th:text="${workMap[__${date}__].workStatus}"></td>
+			            	<div th:switch="${workMap[__${date}__].workStatus}">
+								<td>
+									<p th:case="1" th:text="出勤"></p>
+									<p th:case="2" th:text="欠勤"></p>
+									<p th:case="3" th:text="有休"></p>
+									<p th:case="4" th:text="半休"></p>
+								</td>
+							</div>
 							<td th:text="|${workMap[__${date}__].attendanceHour}時${workMap[__${date}__].attendanceMinute}分|"></td>
 							<td th:text="|${workMap[__${date}__].leavingHour}時${workMap[__${date}__].leavingMinute}分|"></td>
 							<td th:text="|${workMap[__${date}__].restHour}時間${workMap[__${date}__].restMinute}分|"></td>

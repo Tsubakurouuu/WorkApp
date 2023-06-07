@@ -227,8 +227,9 @@ public class AdminController {
 		form.setWorkStatus(workDetail.getWorkStatus());
 		//Modelに登録
 		model.addAttribute("workEditForm", form);
-		//出勤ステータスを取得
+		//出勤ステータスのMap
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
+		//Modelに登録
 		model.addAttribute("workStatusMap", workStatusMap);
 		//admin/user_work_edit.htmlを呼び出す
 		return "admin/user_work_edit";

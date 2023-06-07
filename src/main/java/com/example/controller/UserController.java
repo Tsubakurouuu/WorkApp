@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.application.service.WorkStatusService;
 import com.example.form.GroupOrder;
 import com.example.form.RequestFormForm;
 import com.example.model.MUser;
@@ -40,6 +41,9 @@ public class UserController {
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 	
+	@Autowired
+	private WorkStatusService workStatusService;
+	
 	//出退勤申請画面に遷移するための処理
 	@GetMapping("/form/{id}")
 	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model, MUser loginUser) {
@@ -49,6 +53,10 @@ public class UserController {
 		model.addAttribute("workDetail", workDetail);
 		//RequestFormのworkIdカラムに値をセット
 		form.setWorkId(id);
+		//出勤ステータスのMap
+		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
+		//Modelに登録
+		model.addAttribute("workStatusMap", workStatusMap);
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}

@@ -35,7 +35,14 @@
 						<tbody>
 							<tr>
 								<td th:text="|*{year} *{month}月 *{date}日|"></td>
-								<td th:text="*{workStatus}"></td>
+								<div th:switch="*{workStatus}">
+									<td>
+										<p th:case="1" th:text="出勤"></p>
+										<p th:case="2" th:text="欠勤"></p>
+										<p th:case="3" th:text="有休"></p>
+										<p th:case="4" th:text="半休"></p>
+									</td>
+								</div>
 								<td th:text="|*{attendanceHour}時*{attendanceMinute}分|"></td>
 								<td th:text="|*{leavingHour}時*{leavingMinute}分|"></td>
 								<td th:text="|*{restHour}時間*{restMinute}分|"></td>
@@ -58,8 +65,13 @@
 							<div class="col-md-2">
 								<label for="workStatus">出勤ステータス</label>
 							</div>
-							<div class="col-md-3">
-								<input type="text" class="form-control" th:field="*{workStatus}"/>
+							<div class="col-md-4">
+								<div class="form-group">
+									<div th:each="item : ${workStatusMap}" class="form-check-inline">
+										<input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{workStatus}"/>
+										<label class="form-check-label" th:text="${item.key}"></label>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="row mt-3">
