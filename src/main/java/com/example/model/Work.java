@@ -40,4 +40,5 @@ public class Work {
 	private MUser mUser;
 	//申請フォームテーブル
 //	private RequestForm requestForm;
+
 }
