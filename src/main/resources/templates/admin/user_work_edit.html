@@ -37,8 +37,13 @@
 					<div class="col-md-2">
 						<label for="workStatus">出勤ステータス</label>
 					</div>
-					<div class="col-md-3">
-						<input type="text" class="form-control" th:field="*{workStatus}"/>
+					<div class="col-md-4">
+						<div class="form-group">
+							<div th:each="item : ${workStatusMap}" class="form-check-inline">
+								<input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{workStatus}"/>
+								<label class="form-check-label" th:text="${item.key}"></label>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="row mt-3">

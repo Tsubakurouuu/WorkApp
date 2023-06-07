@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.application.service.WorkStatusService;
 import com.example.form.GroupOrder;
 import com.example.form.UserNewForm;
 import com.example.form.WorkEditForm;
@@ -42,6 +43,9 @@ public class AdminController {
 	
 	@Autowired
 	private RequestFormService requestFormService;
+	
+	@Autowired
+	private WorkStatusService workStatusService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -223,6 +227,9 @@ public class AdminController {
 		form.setWorkStatus(workDetail.getWorkStatus());
 		//Modelに登録
 		model.addAttribute("workEditForm", form);
+		//出勤ステータスを取得
+		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
+		model.addAttribute("workStatusMap", workStatusMap);
 		//admin/user_work_edit.htmlを呼び出す
 		return "admin/user_work_edit";
 	}
