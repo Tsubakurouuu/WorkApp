@@ -56,7 +56,6 @@ public class WorkEditForm {
 	private Integer overTimeHour;
 	//残業時間（分）
 	private Integer overTimeMinute;
-	
 	//出勤ステータス
 	private Integer workStatus;
 }

@@ -24,11 +24,9 @@ import com.example.form.WorkEditForm;
 import com.example.model.MUser;
 import com.example.model.RequestForm;
 import com.example.model.Work;
-import com.example.model.WorkStatus;
 import com.example.service.MUserService;
 import com.example.service.RequestFormService;
 import com.example.service.WorkService;
-import com.example.util.EnumUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -83,7 +81,6 @@ public class AdminController {
 		model.addAttribute("userDetail", userDetail);
 		//勤怠情報月毎取得
 		List<Work> workList = workService.selectWorkListMonth(userDetail.getId(), year, month);
-		
 		//各月の最終日にちを取得
 		Integer lastDateOfMonth = YearMonth.of(year, month).lengthOfMonth();
 		//日付ごとの勤怠情報をMapに変換する
@@ -226,12 +223,6 @@ public class AdminController {
 		form.setWorkStatus(workDetail.getWorkStatus());
 		//Modelに登録
 		model.addAttribute("workEditForm", form);
-		//データベースから取得した数値
-		Integer workStatusValue = workDetail.getWorkStatus();
-		//数値からEnumへの変換
-		WorkStatus workStatus = EnumUtils.fromValue(WorkStatus.class, workStatusValue);
-		//Modelに登録
-		model.addAttribute("workStatus", workStatus);
 		//admin/user_work_edit.htmlを呼び出す
 		return "admin/user_work_edit";
 	}
