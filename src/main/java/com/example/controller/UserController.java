@@ -57,6 +57,9 @@ public class UserController {
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
 		//Modelに登録
 		model.addAttribute("workStatusMap", workStatusMap);
+		model.addAttribute("year", workDetail.getYear());
+		model.addAttribute("month", workDetail.getMonth());
+		model.addAttribute("date", workDetail.getDate());
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
@@ -64,22 +67,32 @@ public class UserController {
 	//確認画面へボタン押下時の処理
 	@PostMapping("/form/confirm")
 	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model) {
+		//勤怠情報取得
+		Work workDetail = workService.selectWork(id);
 		//入力チェック結果
 		if(bindingResult.hasErrors()) {
-			//勤怠情報取得
-			Work workDetail = workService.selectWork(id);
 			//Modelに登録
 			model.addAttribute("workDetail", workDetail);
 			//NGがあれば出退勤申請画面に戻る
 			return "user/form";
 		}
+		model.addAttribute("year", workDetail.getYear());
+		model.addAttribute("month", workDetail.getMonth());
+		model.addAttribute("date", workDetail.getDate());
 		//user/form_confirm.htmlを呼び出す
 		return "user/form_confirm";
 	}
 	
 	//出退勤申請確認画面に遷移するための処理
 	@GetMapping("/form/confirm")
-	public String getUserFormConfirm(@ModelAttribute RequestFormForm form) {
+	public String getUserFormConfirm(@ModelAttribute RequestFormForm form, Integer id, Model model, Integer year, Integer month, Integer date) {
+		//勤怠情報取得
+		Work workDetail = workService.selectWork(id);
+		//Modelに登録
+		model.addAttribute("workDetail", workDetail);
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		model.addAttribute("date", date);
 		//user/form_confirm.htmlを呼び出す
 		return "user/form_confirm";
 	}

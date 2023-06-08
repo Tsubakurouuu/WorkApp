@@ -16,7 +16,15 @@
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container mt-3">
 			<div class="page" th:object="${requestFormForm}">
-				<div class="row">
+				<div class="row mt-5">
+					<div class="col-md-3">
+						<p>日付</p>
+					</div>
+					<div class="col-md-3">
+						<p th:text="|${year}年 ${month}月 ${date}日|"></p>
+					</div>
+				</div>
+				<div class="row mt-3">
 					<div class="col-md-3">
 						<p>出勤ステータス</p>
 					</div>
