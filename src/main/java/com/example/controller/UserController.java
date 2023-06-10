@@ -244,16 +244,18 @@ public class UserController {
         //同日勤怠情報取得（退勤ボタン押下時）
 		Work workInfo = workService.selectWorkAttendance(loginUser.getId(), year, month, date);
 		//就業時間と残業時間を計算する処理
-		work.setWorkingTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour());
-		if(work.getLeavingMinute() - workInfo.getAttendanceMinute() >= 0) {
+		if(work.getLeavingMinute() - workInfo.getAttendanceMinute() > 0) {
+			work.setWorkingTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - workInfo.getRestHour());
 			work.setWorkingTimeMinute(work.getLeavingMinute() - workInfo.getAttendanceMinute());
-		} else if (work.getLeavingMinute() - workInfo.getAttendanceMinute() < 0) {
+		} else if (work.getLeavingMinute() - workInfo.getAttendanceMinute() <= 0) {
+			work.setWorkingTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - workInfo.getRestHour() - 1);
 			work.setWorkingTimeMinute(-(work.getLeavingMinute() - workInfo.getAttendanceMinute()));
 		}
-		work.setOverTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - 8);
-		if(work.getLeavingMinute() - workInfo.getAttendanceMinute() >= 0) {
+		if(work.getLeavingMinute() - workInfo.getAttendanceMinute() > 0) {
+			work.setOverTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - 8);
 			work.setOverTimeMinute(work.getLeavingMinute() - workInfo.getAttendanceMinute());
-		} else if (work.getLeavingMinute() - workInfo.getAttendanceMinute() < 0) {
+		} else if (work.getLeavingMinute() - workInfo.getAttendanceMinute() <= 0) {
+			work.setOverTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - 9);
 			work.setOverTimeMinute(-(work.getLeavingMinute() - workInfo.getAttendanceMinute()));
 		}
 		work.setWorkStatus(0);
