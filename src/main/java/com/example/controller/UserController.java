@@ -100,16 +100,20 @@ public class UserController {
 	//↓エラー発生
 	//戻るボタン押下時の処理
 	@PostMapping("/form")
-	public String postUserForm(@ModelAttribute RequestFormForm form) {
+	public String postUserForm(@ModelAttribute RequestFormForm form, Model model, Integer year, Integer month, Integer date) {
+		//Modelに登録
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		model.addAttribute("date", date);
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
 	
 	//申請ボタン押下時の処理
 	@PostMapping("/form/complete")
-	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser, Model model, RedirectAttributes redirectAttributes) {
+	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month) {
 		//フラッシュスコープ
-		redirectAttributes.addFlashAttribute("complete", "申請が完了しました。");
+		redirectAttributes.addFlashAttribute("complete", "出退勤修正の申請が完了しました。");
 		//formをRequestFormクラスに変換
 		RequestForm requestForm = new RequestForm();
 		requestForm.setWorkId(form.getWorkId());
@@ -123,10 +127,19 @@ public class UserController {
 		requestForm.setComment(form.getComment());
 		//申請フォーム登録
 		requestFormService.insertForm(requestForm);
+		//カレンダークラスのオブジェクトを作成
+		Calendar calendar = Calendar.getInstance();
+		//現在の年を取得
+		year = calendar.get(Calendar.YEAR);
+		//現在の月を取得
+		month = calendar.get(Calendar.MONTH) + 1;
+		//Modelに登録
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
 		//ログを表示
 		log.info(form.toString());
 		//出退勤一覧画面にリダイレクト
-		return "redirect:/works";
+		return "redirect:/work/" + year + "/" + month;
 	}
 	
 	//出退勤時間入力画面に遷移するための処理
