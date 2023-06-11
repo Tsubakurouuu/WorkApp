@@ -95,7 +95,7 @@ public class UserController {
 	
 	//出勤ボタン押下時の処理
 	@PostMapping("/work/attendance")
-	public String postUserWorkAttendance(Work work, MUser loginUser) {
+	public String postUserWorkAttendance(Work work, MUser loginUser, RedirectAttributes redirectAttributes) {
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//Workに現在日をセット
@@ -118,13 +118,15 @@ public class UserController {
 		workService.insertAttendance(work);
 		//ログを表示
 		log.info(work.toString());
+		//フラッシュスコープ
+		redirectAttributes.addFlashAttribute("complete", "出勤打刻が完了しました。");
 		//出退勤時間入力画面にリダイレクト
 		return "redirect:/work/input";
 	}
 	
 	//退勤ボタン押下時の処理
 	@PostMapping("/work/leaving")
-	public String postUserWorkLeaving(Work work, Model model, MUser loginUser) {
+	public String postUserWorkLeaving(Work work, Model model, MUser loginUser, RedirectAttributes redirectAttributes) {
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//Workにユーザーを登録
@@ -167,6 +169,8 @@ public class UserController {
 		work.setWorkStatus(1);
 		//ログを表示
 		log.info(work.toString());
+		//フラッシュスコープ
+		redirectAttributes.addFlashAttribute("complete", "退勤打刻が完了しました。");
 		//退勤時間登録（更新）
 		workService.updateLeaving(work);
 		//出退勤時間入力画面にリダイレクト
