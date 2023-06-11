@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.application.service.WorkStatusService;
 import com.example.form.GroupOrder;
@@ -205,7 +206,7 @@ public class AdminController {
 	
 	//申請内容を反映するボタン押下時の処理
 	@PostMapping("/form/update")
-	public String postAdminFormUpdate(Integer id) {
+	public String postAdminFormUpdate(Integer id, RedirectAttributes redirectAttributes) {
 		//ユーザーを1件取得
 		RequestForm requestFormDetail = requestFormService.selectRequestFormDetail(id);
 		//RequestFormの内容をWorkに反映させる処理
@@ -217,9 +218,16 @@ public class AdminController {
 		work.setLeavingMinute(requestFormDetail.getLeavingMinute());
 		work.setRestHour(requestFormDetail.getRestHour());
 		work.setRestMinute(requestFormDetail.getRestMinute());
+		Integer[] calcWorkingOver = calcWorkingOver(requestFormDetail.getAttendanceHour(), requestFormDetail.getAttendanceMinute(), requestFormDetail.getLeavingHour(), requestFormDetail.getLeavingMinute(), requestFormDetail.getRestHour(), requestFormDetail.getRestMinute());
+		work.setWorkingTimeHour(calcWorkingOver[0]);
+		work.setWorkingTimeMinute(calcWorkingOver[1]);
+		work.setOverTimeHour(calcWorkingOver[2]);
+		work.setOverTimeMinute(calcWorkingOver[3]);
 		work.setWorkStatus(requestFormDetail.getWorkStatus());
 		//勤怠情報更新（申請フォーム）
-		workService.updateWorkRequestForm(work);
+		workService.updateWork(work);
+		//フラッシュスコープ
+		redirectAttributes.addFlashAttribute("complete", "勤怠情報を修正しました。");
 		//ユーザー一覧画面にリダイレクト
 		return "redirect:/admin/users";
 	}
@@ -265,7 +273,7 @@ public class AdminController {
 	
 	//修正ボタン押下時の処理
 	@PostMapping("/edit")
-	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model) {
+	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes) {
 		//入力チェック結果
 		if(bindingResult.hasErrors()) {
 			//NGがあれば出退勤修正画面に戻る
@@ -290,6 +298,8 @@ public class AdminController {
 		log.info(form.toString());
 		//勤怠情報更新
 		workService.updateWork(work);
+		//フラッシュスコープ
+		redirectAttributes.addFlashAttribute("complete", "勤怠情報を修正しました。");
 		//ユーザー一覧画面にリダイレクト
 		return "redirect:/admin/users";
 	}

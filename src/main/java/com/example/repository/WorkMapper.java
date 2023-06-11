@@ -17,8 +17,6 @@ public interface WorkMapper {
 	public Work selectWork(Integer id);
 	//勤怠情報更新
 	public void updateWork(@Param("work") Work work);
-	//勤怠情報更新（申請フォーム）
-	public void updateWorkRequestForm(@Param("work") Work work);
 	//勤怠情報月毎取得
 	public List<Work> selectWorkListMonth(Integer userId, Integer year, Integer month);
 	//同日勤怠情報取得（退勤ボタン押下時）
