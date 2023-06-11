@@ -96,8 +96,25 @@ public class UserController {
 	//出勤ボタン押下時の処理
 	@PostMapping("/work/attendance")
 	public String postUserWorkAttendance(Work work, MUser loginUser, RedirectAttributes redirectAttributes) {
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
+		//現在の年を取得
+        Integer year = calendar.get(Calendar.YEAR);
+        //現在の月を取得
+        Integer month = calendar.get(Calendar.MONTH) + 1;
+        //現在の日を取得
+        Integer date = calendar.get(Calendar.DATE);
+        //同日勤怠情報取得（退勤ボタン押下時）
+		Work workInfo = workService.selectWorkAttendance(loginUser.getId(), year, month, date);
+		//本日分の打刻登録がされていないかの確認
+		if(workInfo != null) {
+			//フラッシュスコープ
+			redirectAttributes.addFlashAttribute("error", "本日分の出勤打刻は既にされています。");
+			//出退勤時間入力画面にリダイレクト
+			return "redirect:/work/input";
+		}
 		//Workに現在日をセット
 		work.setYear(calendar.get(Calendar.YEAR));
 		work.setMonth(calendar.get(Calendar.MONTH) + 1);
@@ -129,14 +146,29 @@ public class UserController {
 	public String postUserWorkLeaving(Work work, Model model, MUser loginUser, RedirectAttributes redirectAttributes) {
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
-		//Workにユーザーを登録
-		work.setUserId(loginUser.getId());
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
+		//現在の年を取得
+		Integer year = calendar.get(Calendar.YEAR);
+		//現在の月を取得
+		Integer month = calendar.get(Calendar.MONTH) + 1;
+		//現在の日を取得
+		Integer date = calendar.get(Calendar.DATE);
+		//同日勤怠情報取得（退勤ボタン押下時）
+		Work workInfo = workService.selectWorkAttendance(loginUser.getId(), year, month, date);
+		//本日分の打刻登録がされていないかの確認
+		if(workInfo.getLeavingHour() != null) {
+			//フラッシュスコープ
+			redirectAttributes.addFlashAttribute("error", "本日分の退勤打刻は既にされています。");
+			//出退勤時間入力画面にリダイレクト
+			return "redirect:/work/input";
+		}
+		//Workにユーザーを登録
+		work.setUserId(loginUser.getId());
 		//Workに現在日をセット
-		work.setYear(calendar.get(Calendar.YEAR));
-		work.setMonth(calendar.get(Calendar.MONTH) + 1);
-		work.setDate(calendar.get(Calendar.DATE));
+		work.setYear(year);
+		work.setMonth(month);
+		work.setDate(date);
 		//現在時間の取得
 		Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
 		Integer minute = calendar.get(Calendar.MINUTE);
@@ -148,14 +180,6 @@ public class UserController {
 		//休憩時間にはデフォルトで１時間０分をセット
 		work.setRestHour(1);
 		work.setRestMinute(0);
-		//現在の年を取得
-        Integer year = calendar.get(Calendar.YEAR);
-        //現在の月を取得
-        Integer month = calendar.get(Calendar.MONTH) + 1;
-        //現在の日を取得
-        Integer date = calendar.get(Calendar.DATE);
-        //同日勤怠情報取得（退勤ボタン押下時）
-		Work workInfo = workService.selectWorkAttendance(loginUser.getId(), year, month, date);
 		//AdminControllerインスタンスの生成
 		AdminController adminController = new AdminController();
 		//就業時間と残業時間を計算するメソッド
