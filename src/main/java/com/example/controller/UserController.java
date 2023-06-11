@@ -181,10 +181,8 @@ public class UserController {
 		//休憩時間にはデフォルトで１時間０分をセット
 		work.setRestHour(1);
 		work.setRestMinute(0);
-		//AdminControllerインスタンスの生成
-		AdminController adminController = new AdminController();
 		//就業時間と残業時間を計算するメソッド
-		Integer[] calcWorkingOver = adminController.calcWorkingOver(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute(), work.getRestHour(),work.getRestMinute());
+		Integer[] calcWorkingOver = AdminController.calcWorkingOver(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute(), work.getRestHour(),work.getRestMinute());
 		//上記結果を登録
 		work.setWorkingTimeHour(calcWorkingOver[0]);
 		work.setWorkingTimeMinute(calcWorkingOver[1]);
@@ -414,7 +412,7 @@ public class UserController {
 	/*----------------------------*/
 	
 	//時分フォーム入力用メソッド
-	public void formNumbers(Model model) {
+	public static void formNumbers(Model model) {
 		List<Integer> hourNumbers = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
 		model.addAttribute("hourNumbers", hourNumbers);
 		List<Integer> minuteNumbers = Arrays.asList(0, 10, 20, 30, 40, 50);

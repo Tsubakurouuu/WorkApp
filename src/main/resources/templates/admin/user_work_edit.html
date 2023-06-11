@@ -51,15 +51,19 @@
 						<label for="attendanceHour">出勤(時)</label>
 					</div>
 					<div class="col-md-3">
-						<input type="text" class="form-control time-form" th:field="*{attendanceHour}" th:errorclass="is-invalid"/>
-						<div class="invalid-feedback" th:errors="*{attendanceHour}"></div>
+						<select name="attendanceHour" class="form-control time-form">
+							<option value="">--</option>
+							<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceHour}"></option>
+						</select>
 					</div>
 					<div class="col-md-2">
 						<label for="attendanceMinute">出勤(分)</label>
 					</div>
 					<div class="col-md-3">
-						<input type="text" class="form-control time-form" th:field="*{attendanceMinute}" th:errorclass="is-invalid"/>
-						<div class="invalid-feedback" th:errors="*{attendanceMinute}"></div>
+						<select name="attendanceMinute" class="form-control time-form">
+							<option value="">--</option>
+							<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceMinute}"></option>
+						</select>
 					</div>
 				</div>
 				<div class="row mt-3">
@@ -67,15 +71,19 @@
 						<label for="leavingHour">退勤(時)</label>
 					</div>
 					<div class="col-md-3">
-						<input type="text" class="form-control time-form" th:field="*{leavingHour}" th:errorclass="is-invalid"/>
-						<div class="invalid-feedback" th:errors="*{leavingHour}"></div>
+						<select name="leavingHour" class="form-control time-form">
+							<option value="">--</option>
+							<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingHour}"></option>
+						</select>
 					</div>
 					<div class="col-md-2">
 						<label for="leavingMinute">退勤(分)</label>
 					</div>
 					<div class="col-md-3">
-						<input type="text" class="form-control time-form" th:field="*{leavingMinute}" th:errorclass="is-invalid"/>
-						<div class="invalid-feedback" th:errors="*{leavingMinute}"></div>
+						<select name="leavingMinute" class="form-control time-form">
+							<option value="">--</option>
+							<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingMinute}"></option>
+						</select>
 					</div>
 				</div>
 				<div class="row mt-3">
@@ -83,15 +91,19 @@
 						<label for="restHour">休憩(時)</label>
 					</div>
 					<div class="col-md-3">
-						<input type="text" class="form-control time-form" th:field="*{restHour}" th:errorclass="is-invalid"/>
-						<div class="invalid-feedback" th:errors="*{restHour}"></div>
+						<select name="restHour" class="form-control time-form">
+							<option value="">--</option>
+							<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{restHour}"></option>
+						</select>
 					</div>
 					<div class="col-md-2">
 						<label for="restMinute">休憩(分)</label>
 					</div>
 					<div class="col-md-3">
-						<input type="text" class="form-control time-form" th:field="*{restMinute}" th:errorclass="is-invalid"/>
-						<div class="invalid-feedback" th:errors="*{restMinute}"></div>
+						<select name="restMinute" class="form-control time-form">
+							<option value="">--</option>
+							<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{restMinute}"></option>
+						</select>
 					</div>
 				</div>
 				<div class="col-md-5 button">

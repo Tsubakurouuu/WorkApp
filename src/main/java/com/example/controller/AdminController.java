@@ -268,6 +268,8 @@ public class AdminController {
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
 		//Modelに登録
 		model.addAttribute("workStatusMap", workStatusMap);
+		//時分フォーム入力用メソッド
+		UserController.formNumbers(model);
 		//admin/user_work_edit.htmlを呼び出す
 		return "admin/user_work_edit";
 	}
@@ -313,7 +315,7 @@ public class AdminController {
 	/*その他の処理（共通メソッドなど）*/
 	
 	//就業時間と残業時間を計算するメソッド
-	public Integer[] calcWorkingOver(Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
+	public static Integer[] calcWorkingOver(Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
 		//出勤時間、退勤時間、休憩時間を分換算する
 		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
         Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
