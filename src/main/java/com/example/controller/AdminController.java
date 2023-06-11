@@ -50,6 +50,44 @@ public class AdminController {
 	@Autowired
 	private ModelMapper modelMapper;
 	
+	/*--ユーザー登録画面のメソッド一覧--*/
+	
+	//ユーザー登録画面に遷移するための処理
+	@GetMapping("/user/new")
+	public String getAdminUserNew(@ModelAttribute UserNewForm form) {
+		//admin/user_new.htmlを呼び出す
+		return "admin/user_new";
+	}
+	
+	//新規登録ボタン押下時の処理
+	@PostMapping("/user/new")
+	public String postAdminUserNew(@ModelAttribute @Validated(GroupOrder.class) UserNewForm form, BindingResult bindingResult) {
+		//入力チェック結果
+		if(bindingResult.hasErrors()) {
+			//NGがあれば新規登録画面に戻る
+			return "admin/user_new";
+		}
+		//ログを表示
+		log.info(form.toString());
+		//formの内容をmodelに詰め替える
+		MUser user = new MUser();
+		user.setUserId(form.getUserId());
+		user.setPassword(form.getPassword());
+		user.setLastName(form.getLastName());
+		user.setFirstName(form.getFirstName());
+		user.setBirthday(form.getBirthday());
+		//ユーザー新規登録
+		userService.insertUser(user);
+		//ユーザー一覧画面にリダイレクト
+		return "redirect:/admin/users";
+	}
+	
+	/*----------------------------*/
+	
+	
+	
+	/*--ユーザー一覧画面のメソッド一覧--*/
+	
 	//ユーザー一覧画面に遷移するための処理
 	@GetMapping("/users")
 	public String getAdminUserIndex(Model model, Integer year, Integer month) {
@@ -69,6 +107,12 @@ public class AdminController {
 		//admin/user_index.htmlを呼び出す
 		return "admin/user_index";
 	}
+	
+	/*----------------------------*/
+	
+	
+	
+	/*--ユーザー詳細画面のメソッド一覧--*/
 	
 	//ユーザー詳細画面に遷移するための処理
 	@GetMapping("/{userId:.+}/{year}/{month}")
@@ -101,7 +145,7 @@ public class AdminController {
 		return "admin/user_detail";
 	}
 	
-	//先月ボタン押下時の処理
+	//先月ボタン(◀︎)押下時の処理
 	@GetMapping("/{userId}/{year}/{month}/previous")
 	public String showPreviousMonthAttendance(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month) {
 		//1ヶ月前の年と月を計算
@@ -115,7 +159,7 @@ public class AdminController {
 	    return "redirect:/admin/" + userId + "/" + year + "/" + month;
 	}
 	
-	//先月ボタン押下時の処理
+	//翌月ボタン(▶︎)押下時の処理
 	@GetMapping("/{userId}/{year}/{month}/next")
 	public String showNextMonthAttendance(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month) {
 		//1ヶ月後の年と月を計算
@@ -127,37 +171,13 @@ public class AdminController {
 	    }
 	    //指定した年月日画面へリダイレクト
 	    return "redirect:/admin/" + userId + "/" + year + "/" + month;
-		}
-	
-	//ユーザー新規登録画面に遷移するための処理
-	@GetMapping("/user/new")
-	public String getAdminUserNew(@ModelAttribute UserNewForm form) {
-		//admin/user_new.htmlを呼び出す
-		return "admin/user_new";
 	}
 	
-	//新規登録ボタン押下時の処理
-	@PostMapping("/user/new")
-	public String postAdminUserNew(@ModelAttribute @Validated(GroupOrder.class) UserNewForm form, BindingResult bindingResult) {
-		//入力チェック結果
-		if(bindingResult.hasErrors()) {
-			//NGがあれば新規登録画面に戻る
-			return "admin/user_new";
-		}
-		//ログを表示
-		log.info(form.toString());
-		//formの内容をmodelに詰め替える
-		MUser user = new MUser();
-		user.setUserId(form.getUserId());
-		user.setPassword(form.getPassword());
-		user.setLastName(form.getLastName());
-		user.setFirstName(form.getFirstName());
-		user.setBirthday(form.getBirthday());
-		//ユーザー新規登録
-		userService.insertUser(user);
-		//ユーザー一覧画面にリダイレクト
-		return "redirect:/admin/users";
-	}
+	/*----------------------------*/
+	
+	
+	
+	/*--申請、通知一覧画面のメソッド一覧--*/
 	
 	//申請、通知一覧画面に遷移するための処理
 	@GetMapping("/forms")
@@ -169,6 +189,12 @@ public class AdminController {
 		//admin/work_index.htmlを呼び出す
 		return "admin/form_index";
 	}
+	
+	/*----------------------------*/
+	
+	
+	
+	/*--申請、通知詳細画面のメソッド一覧--*/
 	
 	//申請、通知詳細画面に遷移するための処理
 	@GetMapping("/form/{id}")
@@ -201,6 +227,12 @@ public class AdminController {
 		//ユーザー一覧画面にリダイレクト
 		return "redirect:/admin/users";
 	}
+	
+	/*----------------------------*/
+	
+	
+	
+	/*--出退勤修正画面のメソッド一覧--*/
 	
 	//出退勤修正画面に遷移するための処理
 	@GetMapping("/{id}/edit")
@@ -252,4 +284,18 @@ public class AdminController {
 		//ユーザー一覧画面にリダイレクト
 		return "redirect:/admin/users";
 	}
+	
+	/*----------------------------*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

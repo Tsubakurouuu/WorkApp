@@ -44,103 +44,9 @@ public class UserController {
 	@Autowired
 	private WorkStatusService workStatusService;
 	
-	//出退勤申請画面に遷移するための処理
-	@GetMapping("/form/{id}")
-	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model, MUser loginUser) {
-		//勤怠情報取得
-		Work workDetail = workService.selectWork(id);
-		//Modelに登録
-		model.addAttribute("workDetail", workDetail);
-		//RequestFormのworkIdカラムに値をセット
-		form.setWorkId(id);
-		//出勤ステータスのMap
-		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
-		//Modelに登録
-		model.addAttribute("workStatusMap", workStatusMap);
-		model.addAttribute("year", workDetail.getYear());
-		model.addAttribute("month", workDetail.getMonth());
-		model.addAttribute("date", workDetail.getDate());
-		//user/form.htmlを呼び出す
-		return "user/form";
-	}
 	
-	//確認画面へボタン押下時の処理
-	@PostMapping("/form/confirm")
-	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model) {
-		//勤怠情報取得
-		Work workDetail = workService.selectWork(id);
-		//入力チェック結果
-		if(bindingResult.hasErrors()) {
-			//Modelに登録
-			model.addAttribute("workDetail", workDetail);
-			//NGがあれば出退勤申請画面に戻る
-			return "user/form";
-		}
-		model.addAttribute("year", workDetail.getYear());
-		model.addAttribute("month", workDetail.getMonth());
-		model.addAttribute("date", workDetail.getDate());
-		//user/form_confirm.htmlを呼び出す
-		return "user/form_confirm";
-	}
 	
-	//出退勤申請確認画面に遷移するための処理
-	@GetMapping("/form/confirm")
-	public String getUserFormConfirm(@ModelAttribute RequestFormForm form, Integer id, Model model, Integer year, Integer month, Integer date) {
-		//勤怠情報取得
-		Work workDetail = workService.selectWork(id);
-		//Modelに登録
-		model.addAttribute("workDetail", workDetail);
-		model.addAttribute("year", year);
-		model.addAttribute("month", month);
-		model.addAttribute("date", date);
-		//user/form_confirm.htmlを呼び出す
-		return "user/form_confirm";
-	}
-	
-	//↓エラー発生
-	//戻るボタン押下時の処理
-	@PostMapping("/form")
-	public String postUserForm(@ModelAttribute RequestFormForm form, Model model, Integer year, Integer month, Integer date) {
-		//Modelに登録
-		model.addAttribute("year", year);
-		model.addAttribute("month", month);
-		model.addAttribute("date", date);
-		//user/form.htmlを呼び出す
-		return "user/form";
-	}
-	
-	//申請ボタン押下時の処理
-	@PostMapping("/form/complete")
-	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month) {
-		//フラッシュスコープ
-		redirectAttributes.addFlashAttribute("complete", "出退勤修正の申請が完了しました。");
-		//formをRequestFormクラスに変換
-		RequestForm requestForm = new RequestForm();
-		requestForm.setWorkId(form.getWorkId());
-		requestForm.setWorkStatus(form.getWorkStatus());
-		requestForm.setAttendanceHour(form.getAttendanceHour());
-		requestForm.setAttendanceMinute(form.getAttendanceMinute());
-		requestForm.setLeavingHour(form.getLeavingHour());
-		requestForm.setLeavingMinute(form.getLeavingMinute());
-		requestForm.setRestHour(form.getRestHour());
-		requestForm.setRestMinute(form.getRestMinute());
-		requestForm.setComment(form.getComment());
-		//申請フォーム登録
-		requestFormService.insertForm(requestForm);
-		//カレンダークラスのオブジェクトを作成
-		Calendar calendar = Calendar.getInstance();
-		//現在の年を取得
-		year = calendar.get(Calendar.YEAR);
-		//現在の月を取得
-		month = calendar.get(Calendar.MONTH) + 1;
-		//Modelに登録
-		model.addAttribute("year", year);
-		model.addAttribute("month", month);
-		//ログを表示
-		log.info(form.toString());
-		//出退勤一覧画面にリダイレクト
-		return "redirect:/work/" + year + "/" + month;
-	}
+	/*--出退勤入力画面のメソッド一覧--*/	
 	
 	//出退勤時間入力画面に遷移するための処理
 	@GetMapping("/work/input")
@@ -245,10 +151,10 @@ public class UserController {
 		Work workInfo = workService.selectWorkAttendance(loginUser.getId(), year, month, date);
 		//就業時間と残業時間を計算する処理
 		if(work.getLeavingMinute() - workInfo.getAttendanceMinute() > 0) {
-			work.setWorkingTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - workInfo.getRestHour());
+			work.setWorkingTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - 1);
 			work.setWorkingTimeMinute(work.getLeavingMinute() - workInfo.getAttendanceMinute());
 		} else if (work.getLeavingMinute() - workInfo.getAttendanceMinute() <= 0) {
-			work.setWorkingTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - workInfo.getRestHour() - 1);
+			work.setWorkingTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - 2);
 			work.setWorkingTimeMinute(-(work.getLeavingMinute() - workInfo.getAttendanceMinute()));
 		}
 		if(work.getLeavingMinute() - workInfo.getAttendanceMinute() > 0) {
@@ -266,6 +172,12 @@ public class UserController {
 		//出退勤時間入力画面にリダイレクト
 		return "redirect:/work/input";
 	}
+	
+	/*----------------------------*/
+	
+	
+	
+	/*--出退勤一覧画面のメソッド一覧--*/
 	
 	//出退勤一覧画面に遷移するための処理
 	@GetMapping("/work/{year}/{month}")
@@ -300,7 +212,7 @@ public class UserController {
 		return "user/work_index";
 	}
 	
-	//先月ボタン押下時の処理
+	//先月ボタン(◀︎)押下時の処理
 	@GetMapping("/work/{year}/{month}/previous")
 	public String showPreviousMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
 		//1ヶ月前の年と月を計算
@@ -314,7 +226,7 @@ public class UserController {
 	    return "redirect:/work/" + year + "/" + month;
 	}
 	
-	//翌月ボタン押下時の処理
+	//翌月ボタン(▶︎)押下時の処理
 	@GetMapping("/work/{year}/{month}/next")
 	public String showNextMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
 		//1ヶ月後の年と月を計算
@@ -327,4 +239,117 @@ public class UserController {
 	    //指定した年月日画面へリダイレクト
 	    return "redirect:/work/" + year + "/" + month;
 	}
+		
+	/*----------------------------*/
+		
+		
+		
+	/*--出退勤申請画面のメソッド一覧--*/	
+	
+	//出退勤申請画面に遷移するための処理
+	@GetMapping("/form/{id}")
+	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model, MUser loginUser) {
+		//勤怠情報取得
+		Work workDetail = workService.selectWork(id);
+		//Modelに登録
+		model.addAttribute("workDetail", workDetail);
+		//RequestFormのworkIdカラムに値をセット
+		form.setWorkId(id);
+		//出勤ステータスのMap
+		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
+		//Modelに登録
+		model.addAttribute("workStatusMap", workStatusMap);
+		model.addAttribute("year", workDetail.getYear());
+		model.addAttribute("month", workDetail.getMonth());
+		model.addAttribute("date", workDetail.getDate());
+		//user/form.htmlを呼び出す
+		return "user/form";
+	}
+	
+	//確認画面へボタン押下時の処理
+	@PostMapping("/form/confirm")
+	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model) {
+		//勤怠情報取得
+		Work workDetail = workService.selectWork(id);
+		//入力チェック結果
+		if(bindingResult.hasErrors()) {
+			//Modelに登録
+			model.addAttribute("workDetail", workDetail);
+			//NGがあれば出退勤申請画面に戻る
+			return "user/form";
+		}
+		model.addAttribute("year", workDetail.getYear());
+		model.addAttribute("month", workDetail.getMonth());
+		model.addAttribute("date", workDetail.getDate());
+		//user/form_confirm.htmlを呼び出す
+		return "user/form_confirm";
+	}
+	
+	/*----------------------------*/
+	
+		
+		
+	/*--出退勤申請確認画面のメソッド一覧--*/
+	
+	//出退勤申請確認画面に遷移するための処理
+	@GetMapping("/form/confirm")
+	public String getUserFormConfirm(@ModelAttribute RequestFormForm form, Integer id, Model model, Integer year, Integer month, Integer date) {
+		//勤怠情報取得
+		Work workDetail = workService.selectWork(id);
+		//Modelに登録
+		model.addAttribute("workDetail", workDetail);
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		model.addAttribute("date", date);
+		//user/form_confirm.htmlを呼び出す
+		return "user/form_confirm";
+	}
+	
+	//↓エラー発生
+	//戻るボタン押下時の処理
+	@PostMapping("/form")
+	public String postUserForm(@ModelAttribute RequestFormForm form, Model model, Integer year, Integer month, Integer date) {
+		//Modelに登録
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		model.addAttribute("date", date);
+		//user/form.htmlを呼び出す
+		return "user/form";
+	}
+	
+	//申請ボタン押下時の処理
+	@PostMapping("/form/complete")
+	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month) {
+		//フラッシュスコープ
+		redirectAttributes.addFlashAttribute("complete", "出退勤修正の申請が完了しました。");
+		//formをRequestFormクラスに変換
+		RequestForm requestForm = new RequestForm();
+		requestForm.setWorkId(form.getWorkId());
+		requestForm.setWorkStatus(form.getWorkStatus());
+		requestForm.setAttendanceHour(form.getAttendanceHour());
+		requestForm.setAttendanceMinute(form.getAttendanceMinute());
+		requestForm.setLeavingHour(form.getLeavingHour());
+		requestForm.setLeavingMinute(form.getLeavingMinute());
+		requestForm.setRestHour(form.getRestHour());
+		requestForm.setRestMinute(form.getRestMinute());
+		requestForm.setComment(form.getComment());
+		//申請フォーム登録
+		requestFormService.insertForm(requestForm);
+		//カレンダークラスのオブジェクトを作成
+		Calendar calendar = Calendar.getInstance();
+		//現在の年を取得
+		year = calendar.get(Calendar.YEAR);
+		//現在の月を取得
+		month = calendar.get(Calendar.MONTH) + 1;
+		//Modelに登録
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		//ログを表示
+		log.info(form.toString());
+		//出退勤一覧画面にリダイレクト
+		return "redirect:/work/" + year + "/" + month;
+	}
+	
+	/*----------------------------*/
+	
 }
