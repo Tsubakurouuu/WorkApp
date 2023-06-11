@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import java.time.YearMonth;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -290,6 +291,8 @@ public class UserController {
 		model.addAttribute("year", workDetail.getYear());
 		model.addAttribute("month", workDetail.getMonth());
 		model.addAttribute("date", workDetail.getDate());
+		//時分フォーム入力用メソッド
+		formNumbers(model);
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
@@ -306,6 +309,7 @@ public class UserController {
 			//NGがあれば出退勤申請画面に戻る
 			return "user/form";
 		}
+		//Modelに登録
 		model.addAttribute("year", workDetail.getYear());
 		model.addAttribute("month", workDetail.getMonth());
 		model.addAttribute("date", workDetail.getDate());
@@ -406,6 +410,15 @@ public class UserController {
 		//時分を配列にする
 		Integer[] roundOff = { hour, minute };
 		return roundOff;
+	}
+	/*----------------------------*/
+	
+	//時分フォーム入力用メソッド
+	public void formNumbers(Model model) {
+		List<Integer> hourNumbers = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
+		model.addAttribute("hourNumbers", hourNumbers);
+		List<Integer> minuteNumbers = Arrays.asList(0, 10, 20, 30, 40, 50);
+		model.addAttribute("minuteNumbers", minuteNumbers);
 	}
 	/*----------------------------*/
 	
