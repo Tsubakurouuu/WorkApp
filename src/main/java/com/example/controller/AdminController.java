@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,9 +45,6 @@ public class AdminController {
 	
 	@Autowired
 	private WorkStatusService workStatusService;
-	
-	@Autowired
-	private ModelMapper modelMapper;
 	
 	/*--ユーザー登録画面のメソッド一覧--*/
 	
@@ -276,7 +272,20 @@ public class AdminController {
 			return "admin/user_work_edit";
 		}
 		//formをWorkクラスに変換
-		Work work = modelMapper.map(form, Work.class);
+		Work work = new Work();
+		work.setId(form.getId());
+		work.setAttendanceHour(form.getAttendanceHour());
+		work.setAttendanceMinute(form.getAttendanceMinute());
+		work.setLeavingHour(form.getLeavingHour());
+		work.setLeavingMinute(form.getLeavingMinute());
+		work.setRestHour(form.getRestHour());
+		work.setRestMinute(form.getRestMinute());
+		Integer[] calcWorkingOver = calcWorkingOver(form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+		work.setWorkingTimeHour(calcWorkingOver[0]);
+		work.setWorkingTimeMinute(calcWorkingOver[1]);
+		work.setOverTimeHour(calcWorkingOver[2]);
+		work.setOverTimeMinute(calcWorkingOver[3]);
+		work.setWorkStatus(form.getWorkStatus());
 		//ログの表示
 		log.info(form.toString());
 		//勤怠情報更新
@@ -286,6 +295,44 @@ public class AdminController {
 	}
 	
 	/*----------------------------*/
+	
+	
+	
+	/*その他の処理（共通メソッドなど）*/
+	
+	//就業時間と残業時間を計算するメソッド
+	public Integer[] calcWorkingOver(Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
+		//出勤時間、退勤時間、休憩時間を分換算する
+		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
+        Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
+        Integer totalRestMinutes = restHour * 60 + restMinute;
+        //就業時間を分換算する
+        Integer totalWorkMinutes = totalLeavingMinutes - totalAttendanceMinutes - totalRestMinutes;
+        //就業時間（時）の計算
+        Integer workingHour = totalWorkMinutes / 60;
+        //就業時間（分）の計算
+        Integer workingMinute = totalWorkMinutes % 60;
+        //定時の就業時間を設定
+        Integer standardWorkHour = 8;
+        Integer standardWorkMinute = 0;
+        //定時の就業時間を分換算する
+        Integer totalStandardMinutes = standardWorkHour * 60 + standardWorkMinute;
+        //残業時間を分換算する
+        Integer totalOvertimeMinutes = totalWorkMinutes - totalStandardMinutes;
+        //就業時間が定時の就業時間を下回っていたら0を設定
+        if (totalOvertimeMinutes < 0) {
+            totalOvertimeMinutes = 0;
+        }
+        //残業時間（時）の計算
+        Integer overTimeHour = totalOvertimeMinutes / 60;
+        //残業時間（分）の計算
+        Integer overTimeMinute = totalOvertimeMinutes % 60;
+        //就業時間と残業時間を配列にする
+        Integer[] calcWorkingOver = { workingHour, workingMinute, overTimeHour, overTimeMinute };
+        return calcWorkingOver;
+	}
+	/*----------------------------*/
+
 	
 	
 	
