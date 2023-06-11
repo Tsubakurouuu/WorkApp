@@ -320,10 +320,17 @@ public class AdminController {
         Integer totalRestMinutes = restHour * 60 + restMinute;
         //就業時間を分換算する
         Integer totalWorkMinutes = totalLeavingMinutes - totalAttendanceMinutes - totalRestMinutes;
-        //就業時間（時）の計算
-        Integer workingHour = totalWorkMinutes / 60;
-		//就業時間（分）の計算
-		Integer workingMinute = totalWorkMinutes % 60;
+        //就業時間変数の宣言
+        Integer workingTimeHour;
+        Integer workingTimeMinute;
+        //就業時間（分換算）が60以上かどうかで処理を分岐
+        if(totalWorkMinutes >= 60) {
+        	workingTimeHour = totalWorkMinutes / 60;
+        	workingTimeMinute = totalWorkMinutes % 60;
+        } else {
+        	workingTimeHour = 0;
+        	workingTimeMinute = totalWorkMinutes;
+        }
         //定時の就業時間を設定
         Integer standardWorkHour = 8;
         Integer standardWorkMinute = 0;
@@ -340,7 +347,7 @@ public class AdminController {
         //残業時間（分）の計算
         Integer overTimeMinute = totalOvertimeMinutes % 60;
         //就業時間と残業時間を配列にする
-        Integer[] calcWorkingOver = { workingHour, workingMinute, overTimeHour, overTimeMinute };
+        Integer[] calcWorkingOver = { workingTimeHour, workingTimeMinute, overTimeHour, overTimeMinute };
         return calcWorkingOver;
 	}
 	/*----------------------------*/
