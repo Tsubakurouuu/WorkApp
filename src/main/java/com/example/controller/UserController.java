@@ -96,6 +96,20 @@ public class UserController {
 	//出勤ボタン押下時の処理
 	@PostMapping("/work/attendance")
 	public String postUserWorkAttendance(Work work, MUser loginUser) {
+		//カレンダークラスのオブジェクトを生成
+		Calendar calendar = Calendar.getInstance();
+		//Workに現在日をセット
+		work.setYear(calendar.get(Calendar.YEAR));
+		work.setMonth(calendar.get(Calendar.MONTH) + 1);
+		work.setDate(calendar.get(Calendar.DATE));
+		//現在時間の取得
+		Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
+		Integer minute = calendar.get(Calendar.MINUTE);
+		//5捨6入するメソッド
+		Integer[] roundOff = roundOff(hour, minute);
+		//上記結果を登録
+		work.setAttendanceHour(roundOff[0]);
+		work.setAttendanceMinute(roundOff[1]);
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.getLoginUser();
 		//Workにユーザーを登録
@@ -117,28 +131,19 @@ public class UserController {
 		work.setUserId(loginUser.getId());
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
-		//Workに現在日時をセット
+		//Workに現在日をセット
 		work.setYear(calendar.get(Calendar.YEAR));
 		work.setMonth(calendar.get(Calendar.MONTH) + 1);
 		work.setDate(calendar.get(Calendar.DATE));
-		work.setLeavingHour(calendar.get(Calendar.HOUR_OF_DAY));
-		//5捨6入処理
-		if(calendar.get(Calendar.MINUTE) >= 6 && calendar.get(Calendar.MINUTE) <= 15) {
-			work.setLeavingMinute(10);
-		} else if(calendar.get(Calendar.MINUTE) >= 16 && calendar.get(Calendar.MINUTE) <= 25) {
-			work.setLeavingMinute(20);
-		} else if(calendar.get(Calendar.MINUTE) >= 26 && calendar.get(Calendar.MINUTE) <= 35) {
-			work.setLeavingMinute(30);
-		} else if(calendar.get(Calendar.MINUTE) >= 36 && calendar.get(Calendar.MINUTE) <= 45) {
-			work.setLeavingMinute(40);
-		} else if(calendar.get(Calendar.MINUTE) >= 46 && calendar.get(Calendar.MINUTE) <= 55) {
-			work.setLeavingMinute(50);
-		}else if(calendar.get(Calendar.MINUTE) <= 5) {
-			work.setLeavingMinute(0);
-		}else if(calendar.get(Calendar.MINUTE) >= 56) {
-			work.setLeavingHour(calendar.get(Calendar.HOUR_OF_DAY) + 1);
-			work.setLeavingMinute(0);
-		}
+		//現在時間の取得
+		Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
+		Integer minute = calendar.get(Calendar.MINUTE);
+		//5捨6入するメソッド
+		Integer[] roundOff = roundOff(hour, minute);
+		//上記結果を登録
+		work.setLeavingHour(roundOff[0]);
+		work.setLeavingMinute(roundOff[1]);
+		//休憩時間にはデフォルトで１時間０分をセット
 		work.setRestHour(1);
 		work.setRestMinute(0);
 		//現在の年を取得
@@ -149,22 +154,17 @@ public class UserController {
         Integer date = calendar.get(Calendar.DATE);
         //同日勤怠情報取得（退勤ボタン押下時）
 		Work workInfo = workService.selectWorkAttendance(loginUser.getId(), year, month, date);
-		//就業時間と残業時間を計算する処理
-		if(work.getLeavingMinute() - workInfo.getAttendanceMinute() > 0) {
-			work.setWorkingTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - 1);
-			work.setWorkingTimeMinute(work.getLeavingMinute() - workInfo.getAttendanceMinute());
-		} else if (work.getLeavingMinute() - workInfo.getAttendanceMinute() <= 0) {
-			work.setWorkingTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - 2);
-			work.setWorkingTimeMinute(-(work.getLeavingMinute() - workInfo.getAttendanceMinute()));
-		}
-		if(work.getLeavingMinute() - workInfo.getAttendanceMinute() > 0) {
-			work.setOverTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - 8);
-			work.setOverTimeMinute(work.getLeavingMinute() - workInfo.getAttendanceMinute());
-		} else if (work.getLeavingMinute() - workInfo.getAttendanceMinute() <= 0) {
-			work.setOverTimeHour(work.getLeavingHour() - workInfo.getAttendanceHour() - 9);
-			work.setOverTimeMinute(-(work.getLeavingMinute() - workInfo.getAttendanceMinute()));
-		}
-		work.setWorkStatus(0);
+		//AdminControllerインスタンスの生成
+		AdminController adminController = new AdminController();
+		//就業時間と残業時間を計算するメソッド
+		Integer[] calcWorkingOver = adminController.calcWorkingOver(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute(), work.getRestHour(),work.getRestMinute());
+		//上記結果を登録
+		work.setWorkingTimeHour(calcWorkingOver[0]);
+		work.setWorkingTimeMinute(calcWorkingOver[1]);
+		work.setOverTimeHour(calcWorkingOver[2]);
+		work.setOverTimeMinute(calcWorkingOver[3]);
+		//出勤ステータスに「出勤」をセット
+		work.setWorkStatus(1);
 		//ログを表示
 		log.info(work.toString());
 		//退勤時間登録（更新）
@@ -350,6 +350,35 @@ public class UserController {
 		return "redirect:/work/" + year + "/" + month;
 	}
 	
+	/*----------------------------*/
+	
+	
+	/*その他の処理（共通メソッドなど）*/
+	
+	//5捨6入をして現在時分を返すメソッド
+	public Integer[] roundOff(Integer hour, Integer minute) {
+		//時を取得
+		if(minute >= 56) {
+			hour += 1;
+		}
+		//分を取得
+		if(minute >= 6 && minute <= 15) {
+			minute = 10;
+		} else if(minute >= 16 && minute <= 25) {
+			minute = 20;
+		} else if(minute >= 26 && minute <= 35) {
+			minute = 30;
+		} else if(minute >= 36 && minute <= 45) {
+			minute = 40;
+		} else if(minute >= 46 && minute <= 55) {
+			minute = 50;
+		} else {
+			minute = 0;
+		}
+		//時分を配列にする
+		Integer[] roundOff = { hour, minute };
+		return roundOff;
+	}
 	/*----------------------------*/
 	
 }

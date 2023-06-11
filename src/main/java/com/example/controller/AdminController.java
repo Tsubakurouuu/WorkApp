@@ -218,6 +218,7 @@ public class AdminController {
 		work.setLeavingMinute(requestFormDetail.getLeavingMinute());
 		work.setRestHour(requestFormDetail.getRestHour());
 		work.setRestMinute(requestFormDetail.getRestMinute());
+		//就業時間と残業時間を計算するメソッド
 		Integer[] calcWorkingOver = calcWorkingOver(requestFormDetail.getAttendanceHour(), requestFormDetail.getAttendanceMinute(), requestFormDetail.getLeavingHour(), requestFormDetail.getLeavingMinute(), requestFormDetail.getRestHour(), requestFormDetail.getRestMinute());
 		work.setWorkingTimeHour(calcWorkingOver[0]);
 		work.setWorkingTimeMinute(calcWorkingOver[1]);
@@ -288,6 +289,7 @@ public class AdminController {
 		work.setLeavingMinute(form.getLeavingMinute());
 		work.setRestHour(form.getRestHour());
 		work.setRestMinute(form.getRestMinute());
+		//就業時間と残業時間を計算するメソッド
 		Integer[] calcWorkingOver = calcWorkingOver(form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
 		work.setWorkingTimeHour(calcWorkingOver[0]);
 		work.setWorkingTimeMinute(calcWorkingOver[1]);
@@ -320,8 +322,8 @@ public class AdminController {
         Integer totalWorkMinutes = totalLeavingMinutes - totalAttendanceMinutes - totalRestMinutes;
         //就業時間（時）の計算
         Integer workingHour = totalWorkMinutes / 60;
-        //就業時間（分）の計算
-        Integer workingMinute = totalWorkMinutes % 60;
+		//就業時間（分）の計算
+		Integer workingMinute = totalWorkMinutes % 60;
         //定時の就業時間を設定
         Integer standardWorkHour = 8;
         Integer standardWorkMinute = 0;
