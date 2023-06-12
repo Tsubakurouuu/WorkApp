@@ -44,8 +44,6 @@ public class UserController {
 	@Autowired
 	private WorkStatusService workStatusService;
 	
-	
-	
 	/*--出退勤入力画面のメソッド一覧--*/	
 	
 	//出退勤時間入力画面に遷移するための処理
@@ -296,20 +294,22 @@ public class UserController {
 	
 	//確認画面へボタン押下時の処理
 	@PostMapping("/form/confirm")
-	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model) {
+	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
-		//入力チェック結果
-		if(bindingResult.hasErrors()) {
-			//Modelに登録
-			model.addAttribute("workDetail", workDetail);
-			//NGがあれば出退勤申請画面に戻る
-			return "user/form";
-		}
+		//出勤ステータスのMap
+		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
 		//Modelに登録
+		model.addAttribute("workDetail", workDetail);
+		model.addAttribute("workStatusMap", workStatusMap);
 		model.addAttribute("year", workDetail.getYear());
 		model.addAttribute("month", workDetail.getMonth());
 		model.addAttribute("date", workDetail.getDate());
+		//入力チェック結果
+		if(bindingResult.hasErrors()) {
+			//NGがあれば出退勤申請画面に戻る
+			return "user/form";
+		}
 		//user/form_confirm.htmlを呼び出す
 		return "user/form_confirm";
 	}

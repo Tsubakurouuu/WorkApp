@@ -2,6 +2,7 @@ package com.example.form;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -15,7 +16,9 @@ public class RequestFormForm {
 	private Integer id;
 	//勤怠ID
 	private Integer workId;
+	
 	//出勤ステータス
+	@NotNull(groups = ValidGroup1.class)
 	private Integer workStatus;
 	
 	//出勤(時)
