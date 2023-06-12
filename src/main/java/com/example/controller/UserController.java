@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import java.time.YearMonth;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -124,7 +123,7 @@ public class UserController {
 		Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
 		Integer minute = calendar.get(Calendar.MINUTE);
 		//5捨6入するメソッド
-		Integer[] roundOff = roundOff(hour, minute);
+		Integer[] roundOff = CommonController.roundOff(hour, minute);
 		//上記結果を登録
 		work.setAttendanceHour(roundOff[0]);
 		work.setAttendanceMinute(roundOff[1]);
@@ -174,7 +173,7 @@ public class UserController {
 		Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
 		Integer minute = calendar.get(Calendar.MINUTE);
 		//5捨6入するメソッド
-		Integer[] roundOff = roundOff(hour, minute);
+		Integer[] roundOff = CommonController.roundOff(hour, minute);
 		//上記結果を登録
 		work.setLeavingHour(roundOff[0]);
 		work.setLeavingMinute(roundOff[1]);
@@ -182,7 +181,7 @@ public class UserController {
 		work.setRestHour(1);
 		work.setRestMinute(0);
 		//就業時間と残業時間を計算するメソッド
-		Integer[] calcWorkingOver = AdminController.calcWorkingOver(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute(), work.getRestHour(),work.getRestMinute());
+		Integer[] calcWorkingOver = CommonController.calcWorkingOver(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute(), work.getRestHour(),work.getRestMinute());
 		//上記結果を登録
 		work.setWorkingTimeHour(calcWorkingOver[0]);
 		work.setWorkingTimeMinute(calcWorkingOver[1]);
@@ -290,7 +289,7 @@ public class UserController {
 		model.addAttribute("month", workDetail.getMonth());
 		model.addAttribute("date", workDetail.getDate());
 		//時分フォーム入力用メソッド
-		formNumbers(model);
+		CommonController.formNumbers(model);
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
@@ -380,44 +379,6 @@ public class UserController {
 		return "redirect:/work/" + year + "/" + month;
 	}
 	
-	/*----------------------------*/
-	
-	
-	/*その他の処理（共通メソッドなど）*/
-	
-	//5捨6入をして現在時分を返すメソッド
-	public Integer[] roundOff(Integer hour, Integer minute) {
-		//時を取得
-		if(minute >= 56) {
-			hour += 1;
-		}
-		//分を取得
-		if(minute >= 6 && minute <= 15) {
-			minute = 10;
-		} else if(minute >= 16 && minute <= 25) {
-			minute = 20;
-		} else if(minute >= 26 && minute <= 35) {
-			minute = 30;
-		} else if(minute >= 36 && minute <= 45) {
-			minute = 40;
-		} else if(minute >= 46 && minute <= 55) {
-			minute = 50;
-		} else {
-			minute = 0;
-		}
-		//時分を配列にする
-		Integer[] roundOff = { hour, minute };
-		return roundOff;
-	}
-	/*----------------------------*/
-	
-	//時分フォーム入力用メソッド
-	public static void formNumbers(Model model) {
-		List<Integer> hourNumbers = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
-		model.addAttribute("hourNumbers", hourNumbers);
-		List<Integer> minuteNumbers = Arrays.asList(0, 10, 20, 30, 40, 50);
-		model.addAttribute("minuteNumbers", minuteNumbers);
-	}
 	/*----------------------------*/
 	
 }

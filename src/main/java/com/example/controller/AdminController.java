@@ -219,7 +219,7 @@ public class AdminController {
 		work.setRestHour(requestFormDetail.getRestHour());
 		work.setRestMinute(requestFormDetail.getRestMinute());
 		//就業時間と残業時間を計算するメソッド
-		Integer[] calcWorkingOver = calcWorkingOver(requestFormDetail.getAttendanceHour(), requestFormDetail.getAttendanceMinute(), requestFormDetail.getLeavingHour(), requestFormDetail.getLeavingMinute(), requestFormDetail.getRestHour(), requestFormDetail.getRestMinute());
+		Integer[] calcWorkingOver = CommonController.calcWorkingOver(requestFormDetail.getAttendanceHour(), requestFormDetail.getAttendanceMinute(), requestFormDetail.getLeavingHour(), requestFormDetail.getLeavingMinute(), requestFormDetail.getRestHour(), requestFormDetail.getRestMinute());
 		work.setWorkingTimeHour(calcWorkingOver[0]);
 		work.setWorkingTimeMinute(calcWorkingOver[1]);
 		work.setOverTimeHour(calcWorkingOver[2]);
@@ -269,7 +269,7 @@ public class AdminController {
 		//Modelに登録
 		model.addAttribute("workStatusMap", workStatusMap);
 		//時分フォーム入力用メソッド
-		UserController.formNumbers(model);
+		CommonController.formNumbers(model);
 		//admin/user_work_edit.htmlを呼び出す
 		return "admin/user_work_edit";
 	}
@@ -292,7 +292,7 @@ public class AdminController {
 		work.setRestHour(form.getRestHour());
 		work.setRestMinute(form.getRestMinute());
 		//就業時間と残業時間を計算するメソッド
-		Integer[] calcWorkingOver = calcWorkingOver(form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+		Integer[] calcWorkingOver = CommonController.calcWorkingOver(form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
 		work.setWorkingTimeHour(calcWorkingOver[0]);
 		work.setWorkingTimeMinute(calcWorkingOver[1]);
 		work.setOverTimeHour(calcWorkingOver[2]);
@@ -309,54 +309,4 @@ public class AdminController {
 	}
 	
 	/*----------------------------*/
-	
-	
-	
-	/*その他の処理（共通メソッドなど）*/
-	
-	//就業時間と残業時間を計算するメソッド
-	public static Integer[] calcWorkingOver(Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
-		//出勤時間、退勤時間、休憩時間を分換算する
-		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
-        Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
-        Integer totalRestMinutes = restHour * 60 + restMinute;
-        //就業時間を分換算する
-        Integer totalWorkMinutes = totalLeavingMinutes - totalAttendanceMinutes - totalRestMinutes;
-        //就業時間（時）の計算
-        Integer workingHour = totalWorkMinutes / 60;
-		//就業時間（分）の計算
-		Integer workingMinute = totalWorkMinutes % 60;
-        //定時の就業時間を設定
-        Integer standardWorkHour = 8;
-        Integer standardWorkMinute = 0;
-        //定時の就業時間を分換算する
-        Integer totalStandardMinutes = standardWorkHour * 60 + standardWorkMinute;
-        //残業時間を分換算する
-        Integer totalOvertimeMinutes = totalWorkMinutes - totalStandardMinutes;
-        //就業時間が定時の就業時間を下回っていたら0を設定
-        if (totalOvertimeMinutes < 0) {
-            totalOvertimeMinutes = 0;
-        }
-        //残業時間（時）の計算
-        Integer overTimeHour = totalOvertimeMinutes / 60;
-        //残業時間（分）の計算
-        Integer overTimeMinute = totalOvertimeMinutes % 60;
-        //就業時間と残業時間を配列にする
-        Integer[] calcWorkingOver = { workingHour, workingMinute, overTimeHour, overTimeMinute };
-        return calcWorkingOver;
-	}
-	/*----------------------------*/
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
