@@ -35,7 +35,7 @@
 						<tbody>
 							<tr>
 								<td th:text="|*{work.year}年 *{work.month}月 *{work.date}日|"></td>
-								<div th:switch="*{workStatus}">
+								<div th:switch="*{work.workStatus}">
 									<td>
 										<p th:case="1" th:text="出勤"></p>
 										<p th:case="2" th:text="欠勤"></p>
