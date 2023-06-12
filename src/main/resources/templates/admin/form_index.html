@@ -19,17 +19,24 @@
 				<thead>
 					<tr>
 						<th>日付</th>
-						<th>ユーザーID</th>
+						<th>ユーザー名</th>
 						<th>詳細</th>
 					</tr>
 				</thead>
 				<tbody th:each="obj:${requestFormList}">
 					<tr>
-						<td></td>
+						<td th:text="|${obj.work.year}年 ${obj.work.month}月 ${obj.work.date}日|"></td>
 						<td>
-							<a th:text="${obj.workId}" th:href="@{'/admin/form/' + ${obj.id}}"></a>
+							<a th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|" th:href="@{'/admin/form/' + ${obj.id}}"></a>
 						</td>
-						<td></td>
+						<div th:switch="${obj.workStatus}">
+							<td>
+								<p th:case="1" th:text="勤怠情報修正"></p>
+								<p th:case="2" th:text="欠勤"></p>
+								<p th:case="3" th:text="有休申請"></p>
+								<p th:case="4" th:text="半休"></p>
+							</td>
+						</div>
 					</tr>
 				</tbody>
 			</table>
