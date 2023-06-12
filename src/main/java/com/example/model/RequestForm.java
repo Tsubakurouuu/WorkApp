@@ -26,4 +26,6 @@ public class RequestForm {
 	private String comment;
 	//勤怠テーブル
 	private Work work;
+	//ユーザーテーブル
+	private MUser mUser;
 }

@@ -15,6 +15,7 @@
 		<result column="rest_minute" property="restMinute"/>
 		<result column="comment" property="comment"/>
 		<association property="work" resultMap="work" columnPrefix="work_"/>
+		<association property="mUser" resultMap="user" columnPrefix="user_"/>
 	</resultMap>
 	<!--マッピング定義(勤怠)-->
 	<resultMap id="work" type="com.example.model.Work">
@@ -34,6 +35,16 @@
 		<result column="over_time_hour" property="overTimeHour"/>
 		<result column="over_time_minute" property="overTimeMinute"/>
 		<result column="work_status" property="workStatus"/>
+	</resultMap>
+	<!--マッピング定義(ユーザー)-->
+	<resultMap id="user" type="com.example.model.MUser">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="password" property="password"/>
+		<result column="last_name" property="lastName"/>
+		<result column="first_name" property="firstName"/>
+		<result column="birthday" property="birthday"/>
+		<result column="role" property="role"/>
 	</resultMap>
 	<!--申請フォーム登録-->
 	<insert id="insertForm">
@@ -63,8 +74,53 @@
 		)
 	</insert>
 	<!--申請フォーム一覧取得-->
-	<select id="selectRequestFormList" resultType="RequestForm">
-		select * from request_form
+	<select id="selectRequestFormList" resultMap="requestForm" resultType="RequestForm">
+		select
+			request_form.id,
+			request_form.work_id,
+			request_form.work_status,
+			request_form.attendance_hour,
+			request_form.attendance_minute,
+			request_form.leaving_hour,
+			request_form.leaving_minute,
+			request_form.rest_hour,
+			request_form.rest_minute,
+			request_form.comment,
+			work.id as work_id,
+			work.user_id as work_user_id,
+			work.year as work_year,
+			work.month as work_month,
+			work.date as work_date,
+			work.attendance_hour as work_attendance_hour,
+			work.attendance_minute as work_attendance_minute,
+			work.leaving_hour as work_leaving_hour,
+			work.leaving_minute as work_leaving_minute,
+			work.rest_hour as work_rest_hour,
+			work.rest_minute as work_rest_minute,
+			work.working_time_hour as work_working_time_hour,
+			work.working_time_minute as work_working_time_minute,
+			work.over_time_hour as work_over_time_hour,
+			work.over_time_minute as work_over_time_minute,
+			work.work_status as work_work_status,
+			m_user.id as user_id,
+			m_user.user_id as user_user_id,
+			m_user.password as user_password,
+			m_user.first_name as user_first_name,
+			m_user.last_name as user_last_name,
+			m_user.birthday as user_birthday,
+			m_user.role as user_role
+		from
+			request_form
+		left
+		join
+			work
+		on
+			request_form.work_id = work.id
+		left
+		join
+			m_user
+		on
+			work.user_id = m_user.id
 	</select>
 	<!--申請フォーム詳細取得-->
 	<select id="selectRequestFormDetail" resultMap="requestForm" resultType="RequestForm">
