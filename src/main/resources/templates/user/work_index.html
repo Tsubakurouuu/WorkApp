@@ -35,6 +35,7 @@
 				<thead>
 					<tr>
 						<th>日付</th>
+						<th>曜日</th>
 						<th>出勤ステータス</th>
 						<th>出勤</th>
 						<th>退勤</th>
@@ -45,8 +46,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="date : ${#numbers.sequence(1, lastDateOfMonth)}">
+					<tr th:each="date, index : ${#numbers.sequence(1, lastDateOfMonth)}">
 						<td th:text="|${month}月${date}日|"></td>
+						<td th:text="${dayOfWeekList[__${index.index}__]}"></td>
 						<!-- 勤怠情報が存在するかチェック -->
 		            	<th:block th:if="${workMap[__${date}__]}">
 			            	<!-- 勤怠情報が存在する場合の表示 -->
