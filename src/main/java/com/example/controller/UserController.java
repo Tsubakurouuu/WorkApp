@@ -332,6 +332,9 @@ public class UserController {
 		Work workDetail = workService.selectWork(id);
 		//出勤ステータスのMap
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
+		form.setYear(workDetail.getYear());
+		form.setMonth(workDetail.getMonth());
+		form.setDate(workDetail.getDate());
 		//Modelに登録
 		model.addAttribute("workDetail", workDetail);
 		model.addAttribute("workStatusMap", workStatusMap);
@@ -387,6 +390,9 @@ public class UserController {
 		//formをRequestFormクラスに変換
 		RequestForm requestForm = new RequestForm();
 		requestForm.setWorkId(form.getWorkId());
+		requestForm.setYear(form.getYear());
+		requestForm.setMonth(form.getMonth());
+		requestForm.setDate(form.getDate());
 		requestForm.setWorkStatus(form.getWorkStatus());
 		requestForm.setAttendanceHour(form.getAttendanceHour());
 		requestForm.setAttendanceMinute(form.getAttendanceMinute());

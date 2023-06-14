@@ -21,7 +21,6 @@
 		<result column="over_time_minute" property="overTimeMinute"/>
 		<result column="work_status" property="workStatus"/>
 		<association property="mUser" resultMap="user" columnPrefix="user_"/>
-		<!--<association property="requestForm" resultMap="request_form" columnPrefix="request_form_"/>-->
 	</resultMap>
 	<!--マッピング定義(ユーザー)-->
 	<resultMap id="user" type="com.example.model.MUser">

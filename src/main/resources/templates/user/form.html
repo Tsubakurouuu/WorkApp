@@ -60,12 +60,20 @@
 					</div>
 					<div class="col-md-10">
 						<form method="post" th:action="@{/form/confirm}" th:object="${requestFormForm}">
-							<input type="hidden" th:field="${year}"/>
-							<input type="hidden" th:field="${month}"/>
-							<input type="hidden" th:field="${date}"/>
 							<input type="hidden" th:field="*{id}"/>
 							<input type="hidden" th:field="*{workId}"/>
+							<input type="hidden" th:field="*{year}"/>
+							<input type="hidden" th:field="*{month}"/>
+							<input type="hidden" th:field="*{date}"/>
 							<div class="row">
+								<div class="col-md-2">
+									<label for="day">日付</label>
+								</div>
+								<div class="col-md-3">
+									<p th:text="|${year}年 ${month}月 ${date}日|"></p>
+								</div>
+							</div>
+							<div class="row mt-3">
 								<div class="col-md-2">
 									<label for="workStatus">出勤ステータス</label>
 								</div>

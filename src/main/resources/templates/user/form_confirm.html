@@ -21,7 +21,7 @@
 						<p>日付</p>
 					</div>
 					<div class="col-md-3">
-						<p th:text="|${year}年 ${month}月 ${date}日|"></p>
+						<p th:text="|*{year}年 *{month}月 *{date}日|"></p>
 					</div>
 				</div>
 				<div class="row mt-3">
@@ -96,6 +96,9 @@
 					<div class="col-md-2">
 						<form method="post" th:action="@{/form/complete}" th:object="${requestFormForm}">
 							<input type="hidden" th:field="*{workId}"/>
+							<input type="hidden" th:field="*{year}"/>
+							<input type="hidden" th:field="*{month}"/>
+							<input type="hidden" th:field="*{date}"/>
 							<input type="hidden" th:field="*{workStatus}"/>
 							<input type="hidden" th:field="*{attendanceHour}"/>
 							<input type="hidden" th:field="*{attendanceMinute}"/>
@@ -109,9 +112,9 @@
 					</div>
 					<div class="col-md-2">
 						<form method="post" th:action="@{/form}" th:object="${requestFormForm}">
-							<input type="hidden" th:field="${year}"/>
-							<input type="hidden" th:field="${month}"/>
-							<input type="hidden" th:field="${date}"/>
+							<input type="hidden" th:field="*{year}"/>
+							<input type="hidden" th:field="*{month}"/>
+							<input type="hidden" th:field="*{date}"/>
 							<input type="hidden" th:field="*{workId}"/>
 							<input type="hidden" th:field="*{workStatus}"/>
 							<input type="hidden" th:field="*{attendanceHour}"/>
