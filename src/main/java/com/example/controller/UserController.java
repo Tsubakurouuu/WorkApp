@@ -1,13 +1,9 @@
 package com.example.controller;
 
-import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.format.TextStyle;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -231,19 +227,11 @@ public class UserController {
 	    for (Work work : workList) {
 	    	workMap.put(work.getDate(), work);
 	    }
-	    // 曜日情報を作成
-	    List<String> dayOfWeekList = new ArrayList<>();
-	    for (int date = 1; date <= lastDateOfMonth; date++) {
-	        LocalDate localDate = LocalDate.of(year, month, date);
-	        String dayOfWeek = localDate.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.JAPANESE);
-	        dayOfWeekList.add(dayOfWeek);
-	    }
 		//Modelに登録
 		model.addAttribute("workMap", workMap);
 		model.addAttribute("year", year);
 		model.addAttribute("month", month);
 		model.addAttribute("lastDateOfMonth", lastDateOfMonth);
-		model.addAttribute("dayOfWeekList", dayOfWeekList); 
 		//user/work_index.htmlを呼び出す
 		return "user/work_index";
 	}
