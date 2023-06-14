@@ -5,6 +5,7 @@
 	<!--マッピング定義(申請フォーム)-->
 	<resultMap id="requestForm" type="com.example.model.RequestForm">
 		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
 		<result column="work_id" property="workId"/>
 		<result column="year" property="year"/>
 		<result column="month" property="month"/>
@@ -54,6 +55,7 @@
 		insert 
 		into 
 			request_form (
+				user_id,
 				work_id,
 				year,
 				month,
@@ -68,6 +70,7 @@
 				comment
 			) 
 		values (
+			#{userId},
 			#{workId},
 			#{year},
 			#{month},
@@ -86,6 +89,7 @@
 	<select id="selectRequestFormList" resultMap="requestForm" resultType="RequestForm">
 		select
 			request_form.id,
+			request_form.user_id,
 			request_form.work_id,
 			request_form.year,
 			request_form.month,
@@ -138,6 +142,7 @@
 	<select id="selectRequestFormDetail" resultMap="requestForm" resultType="RequestForm">
 		select
 			request_form.id,
+			request_form.user_id,
 			request_form.work_id,
 			request_form.year,
 			request_form.month,

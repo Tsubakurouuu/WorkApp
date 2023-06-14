@@ -95,6 +95,7 @@
 					<div class="col-md-4"></div>
 					<div class="col-md-2">
 						<form method="post" th:action="@{/form/complete}" th:object="${requestFormForm}">
+							<input type="hidden" th:field="*{userId}"/>
 							<input type="hidden" th:field="*{workId}"/>
 							<input type="hidden" th:field="*{year}"/>
 							<input type="hidden" th:field="*{month}"/>

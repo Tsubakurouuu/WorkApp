@@ -25,7 +25,7 @@
 				</thead>
 				<tbody th:each="obj:${requestFormList}">
 					<tr>
-						<td th:text="|${obj.work.year}年 ${obj.work.month}月 ${obj.work.date}日|"></td>
+						<td th:text="|${obj.year}年 ${obj.month}月 ${obj.date}日|"></td>
 						<td>
 							<a th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|" th:href="@{'/admin/form/' + ${obj.id}}"></a>
 						</td>

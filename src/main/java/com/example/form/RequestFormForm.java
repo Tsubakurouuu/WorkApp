@@ -14,6 +14,8 @@ import lombok.Data;
 public class RequestFormForm {
 	//ID
 	private Integer id;
+	//ユーザーID
+	private Integer userId;
 	//勤怠ID
 	private Integer workId;
 	//年

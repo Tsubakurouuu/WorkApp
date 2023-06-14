@@ -330,17 +330,20 @@ public class UserController {
 	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
+		if(workDetail != null) {
+			//年月日をformにセット
+			form.setYear(workDetail.getYear());
+			form.setMonth(workDetail.getMonth());
+			form.setDate(workDetail.getDate());
+			//Modelに登録
+			model.addAttribute("workDetail", workDetail);
+			model.addAttribute("year", workDetail.getYear());
+			model.addAttribute("month", workDetail.getMonth());
+			model.addAttribute("date", workDetail.getDate());
+		}
 		//出勤ステータスのMap
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
-		form.setYear(workDetail.getYear());
-		form.setMonth(workDetail.getMonth());
-		form.setDate(workDetail.getDate());
-		//Modelに登録
-		model.addAttribute("workDetail", workDetail);
 		model.addAttribute("workStatusMap", workStatusMap);
-		model.addAttribute("year", workDetail.getYear());
-		model.addAttribute("month", workDetail.getMonth());
-		model.addAttribute("date", workDetail.getDate());
 		//入力チェック結果
 		if(bindingResult.hasErrors()) {
 			//NGがあれば出退勤申請画面に戻る
@@ -358,11 +361,13 @@ public class UserController {
 	
 	//出退勤申請確認画面に遷移するための処理
 	@GetMapping("/form/confirm")
-	public String getUserFormConfirm(@ModelAttribute RequestFormForm form, Integer id, Model model, Integer year, Integer month, Integer date) {
+	public String getUserFormConfirm(@ModelAttribute RequestFormForm form, Integer id, Model model, Integer year, Integer month, Integer date, Work workDetail) {
 		//勤怠情報取得
-		Work workDetail = workService.selectWork(id);
-		//Modelに登録
-		model.addAttribute("workDetail", workDetail);
+		workDetail = workService.selectWork(id);
+		if(workDetail != null) {
+			//Modelに登録
+			model.addAttribute("workDetail", workDetail);
+		}
 		model.addAttribute("year", year);
 		model.addAttribute("month", month);
 		model.addAttribute("date", date);
@@ -385,10 +390,13 @@ public class UserController {
 	//申請ボタン押下時の処理
 	@PostMapping("/form/complete")
 	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month) {
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
 		//フラッシュスコープ
 		redirectAttributes.addFlashAttribute("complete", "出退勤修正の申請が完了しました。");
 		//formをRequestFormクラスに変換
 		RequestForm requestForm = new RequestForm();
+		requestForm.setUserId(loginUser.getId());
 		requestForm.setWorkId(form.getWorkId());
 		requestForm.setYear(form.getYear());
 		requestForm.setMonth(form.getMonth());
