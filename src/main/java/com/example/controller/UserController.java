@@ -304,6 +304,27 @@ public class UserController {
 		return "user/form";
 	}
 	
+	@GetMapping("/form/{year}/{month}/{date}")
+	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model, MUser loginUser) {
+//		//勤怠情報取得
+//		Work workDetail = workService.selectWork(id);
+//		//Modelに登録
+//		model.addAttribute("workDetail", workDetail);
+//		//RequestFormのworkIdカラムに値をセット
+//		form.setWorkId(id);
+		//出勤ステータスのMap
+		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
+		//Modelに登録
+		model.addAttribute("workStatusMap", workStatusMap);
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		model.addAttribute("date", date);
+		//時分フォーム入力用メソッド
+		CommonController.formNumbers(model);
+		//user/form.htmlを呼び出す
+		return "user/form";
+	}
+	
 	//確認画面へボタン押下時の処理
 	@PostMapping("/form/confirm")
 	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes) {
