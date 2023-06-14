@@ -136,7 +136,7 @@
 		join
 			m_user
 		on
-			work.user_id = m_user.id
+			request_form.user_id = m_user.id
 	</select>
 	<!--申請フォーム詳細取得-->
 	<select id="selectRequestFormDetail" resultMap="requestForm" resultType="RequestForm">
