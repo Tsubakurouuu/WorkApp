@@ -15,42 +15,54 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container" th:object="${requestFormDetail}">
-			<div class="row mt-5">
-				<div class="col-md-2">
-					<h4 class="mt-5">登録内容</h4>		
+			<div th:if="${requestFormDetail.workId != null}">
+				<div class="row mt-5">
+					<div class="col-md-2">
+						<h4 class="mt-5">登録内容</h4>		
+					</div>
+					<div class="col-md-10" >
+						<table class="table table-borderless">
+							<thead>
+								<tr>
+									<th>日付</th>
+									<th>出勤ステータス</th>
+									<th>出勤時間</th>
+									<th>退勤時間</th>
+									<th>休憩時間</th>
+									<th>就業時間</th>
+									<th>残業時間</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td th:text="|*{year}年 *{month}月 *{date}日|"></td>
+									<div th:switch="*{work.workStatus}">
+										<td>
+											<p th:case="1" th:text="出勤"></p>
+											<p th:case="2" th:text="欠勤"></p>
+											<p th:case="3" th:text="有休"></p>
+											<p th:case="4" th:text="半休"></p>
+										</td>
+									</div>
+									<td th:text="|*{work.attendanceHour}時*{work.attendanceMinute}分|"></td>
+									<td th:text="|*{work.leavingHour}時*{work.leavingMinute}分|"></td>
+									<td th:text="|*{work.restHour}時間*{work.restMinute}分|"></td>
+									<td th:text="|*{work.workingTimeHour}時間*{work.workingTimeMinute}分|"></td>
+									<td th:text="|*{work.overTimeHour}時間*{work.overTimeMinute}分|"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
-				<div class="col-md-10" >
-					<table class="table table-borderless">
-						<thead>
-							<tr>
-								<th>日付</th>
-								<th>出勤ステータス</th>
-								<th>出勤時間</th>
-								<th>退勤時間</th>
-								<th>休憩時間</th>
-								<th>就業時間</th>
-								<th>残業時間</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td th:text="|*{work.year}年 *{work.month}月 *{work.date}日|"></td>
-								<div th:switch="*{work.workStatus}">
-									<td>
-										<p th:case="1" th:text="出勤"></p>
-										<p th:case="2" th:text="欠勤"></p>
-										<p th:case="3" th:text="有休"></p>
-										<p th:case="4" th:text="半休"></p>
-									</td>
-								</div>
-								<td th:text="|*{work.attendanceHour}時*{work.attendanceMinute}分|"></td>
-								<td th:text="|*{work.leavingHour}時*{work.leavingMinute}分|"></td>
-								<td th:text="|*{work.restHour}時間*{work.restMinute}分|"></td>
-								<td th:text="|*{work.workingTimeHour}時間*{work.workingTimeMinute}分|"></td>
-								<td th:text="|*{work.overTimeHour}時間*{work.overTimeMinute}分|"></td>
-							</tr>
-						</tbody>
-					</table>
+			</div>
+			<div th:if="${requestFormDetail.workId == null}">
+				<div class="row mt-5">
+					<div class="col-md-2">
+						<h4 class="mt-5">登録内容</h4>		
+					</div>
+					<div class="col-md-10">
+						<p th:text="|*{year}年 *{month}月 *{date}日 の勤怠情報はありません|" class="mt-5"></p>
+					</div>
 				</div>
 			</div>
 			<div class="row mt-5">

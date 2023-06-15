@@ -223,22 +223,33 @@ public class AdminController {
 		RequestForm requestFormDetail = requestFormService.selectRequestFormDetail(id);
 		//RequestFormの内容をWorkに反映させる処理
 		Work work = new Work();
-		work.setId(requestFormDetail.getWork().getId());
-		work.setAttendanceHour(requestFormDetail.getAttendanceHour());
-		work.setAttendanceMinute(requestFormDetail.getAttendanceMinute());
-		work.setLeavingHour(requestFormDetail.getLeavingHour());
-		work.setLeavingMinute(requestFormDetail.getLeavingMinute());
-		work.setRestHour(requestFormDetail.getRestHour());
-		work.setRestMinute(requestFormDetail.getRestMinute());
-		//就業時間と残業時間を計算するメソッド
-		Integer[] calcWorkingOver = CommonController.calcWorkingOver(requestFormDetail.getAttendanceHour(), requestFormDetail.getAttendanceMinute(), requestFormDetail.getLeavingHour(), requestFormDetail.getLeavingMinute(), requestFormDetail.getRestHour(), requestFormDetail.getRestMinute());
-		work.setWorkingTimeHour(calcWorkingOver[0]);
-		work.setWorkingTimeMinute(calcWorkingOver[1]);
-		work.setOverTimeHour(calcWorkingOver[2]);
-		work.setOverTimeMinute(calcWorkingOver[3]);
+		work.setUserId(requestFormDetail.getUserId());
+		work.setYear(requestFormDetail.getYear());
+		work.setMonth(requestFormDetail.getMonth());
+		work.setDate(requestFormDetail.getDate());
+		if(requestFormDetail.getAttendanceHour() != null) {
+			work.setAttendanceHour(requestFormDetail.getAttendanceHour());
+			work.setAttendanceMinute(requestFormDetail.getAttendanceMinute());
+			work.setLeavingHour(requestFormDetail.getLeavingHour());
+			work.setLeavingMinute(requestFormDetail.getLeavingMinute());
+			work.setRestHour(requestFormDetail.getRestHour());
+			work.setRestMinute(requestFormDetail.getRestMinute());
+			//就業時間と残業時間を計算するメソッド
+			Integer[] calcWorkingOver = CommonController.calcWorkingOver(requestFormDetail.getAttendanceHour(), requestFormDetail.getAttendanceMinute(), requestFormDetail.getLeavingHour(), requestFormDetail.getLeavingMinute(), requestFormDetail.getRestHour(), requestFormDetail.getRestMinute());
+			work.setWorkingTimeHour(calcWorkingOver[0]);
+			work.setWorkingTimeMinute(calcWorkingOver[1]);
+			work.setOverTimeHour(calcWorkingOver[2]);
+			work.setOverTimeMinute(calcWorkingOver[3]);
+		}
 		work.setWorkStatus(requestFormDetail.getWorkStatus());
-		//勤怠情報更新（申請フォーム）
-		workService.updateWork(work);
+		if(requestFormDetail.getWorkId() != null) {
+			work.setId(requestFormDetail.getWork().getId());
+			//勤怠情報更新（申請フォーム）
+			workService.updateWork(work);
+		} else {
+			//打刻を忘れた際の登録、有休申請登録
+			workService.insertWork(work);
+		}
 		//フラッシュスコープ
 		redirectAttributes.addFlashAttribute("complete", "勤怠情報を修正しました。");
 		//ユーザー一覧画面にリダイレクト

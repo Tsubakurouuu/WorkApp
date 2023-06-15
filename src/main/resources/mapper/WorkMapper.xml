@@ -127,4 +127,43 @@
 		and
 			date = #{date}			
 	</select>
+	<!--打刻を忘れた際の登録、有休申請登録-->
+	<insert id="insertWork">
+		insert 
+		into 
+			work (
+				user_id,
+				year,
+				month,
+				date,
+				attendance_hour,
+				attendance_minute,
+				leaving_hour,
+				leaving_minute,
+				rest_hour,
+				rest_minute,
+				working_time_hour,
+				working_time_minute,
+				over_time_hour,
+				over_time_minute,
+				work_status
+			)
+		values (
+			#{userId},
+			#{year},
+			#{month},
+			#{date},
+			#{attendanceHour},
+			#{attendanceMinute},
+			#{leavingHour},
+			#{leavingMinute},
+			#{restHour},
+			#{restMinute},
+			#{workingTimeHour},
+			#{workingTimeMinute},
+			#{overTimeHour},
+			#{overTimeMinute},
+			#{workStatus}
+		)
+	</insert>
 </mapper>

@@ -49,5 +49,11 @@ public class WorkServiceImpl implements WorkService {
 	public Work selectWorkAttendance(Integer userId, Integer year, Integer month, Integer date) {
 		return mapper.selectWorkAttendance(userId, year, month, date);
 	}
+	
+	//打刻を忘れた際の登録、有休申請登録
+	@Override
+	public void insertWork(Work work) {
+		mapper.insertWork(work);
+	}
 }
 
