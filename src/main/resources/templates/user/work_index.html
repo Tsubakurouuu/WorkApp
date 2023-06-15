@@ -61,10 +61,18 @@
 								</td>
 							</div>
 							<td th:text="|${workMap[__${date}__].attendanceHour}時${workMap[__${date}__].attendanceMinute}分|"></td>
-							<td th:text="|${workMap[__${date}__].leavingHour}時${workMap[__${date}__].leavingMinute}分|"></td>
-							<td th:text="|${workMap[__${date}__].restHour}時間${workMap[__${date}__].restMinute}分|"></td>
-							<td th:text="|${workMap[__${date}__].workingTimeHour}時間${workMap[__${date}__].workingTimeMinute}分|"></td>
-							<td th:text="|${workMap[__${date}__].overTimeHour}時間${workMap[__${date}__].overTimeMinute}分|"></td>
+							<div th:if="${workMap[__${date}__].leavingHour != null}">
+								<td th:text="|${workMap[__${date}__].leavingHour}時${workMap[__${date}__].leavingMinute}分|"></td>
+								<td th:text="|${workMap[__${date}__].restHour}時間${workMap[__${date}__].restMinute}分|"></td>
+								<td th:text="|${workMap[__${date}__].workingTimeHour}時間${workMap[__${date}__].workingTimeMinute}分|"></td>
+								<td th:text="|${workMap[__${date}__].overTimeHour}時間${workMap[__${date}__].overTimeMinute}分|"></td>
+							</div>
+							<div th:if="${workMap[__${date}__].leavingHour == null}">
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</div>
 							<td>
 								<a th:href="@{'/form/' + ${workMap[__${date}__].id}}" class="btn btn-success btn-sm">修正申請</a>
 							</td>
