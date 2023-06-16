@@ -42,7 +42,8 @@
 				month,
 				date,
 				attendance_hour,
-				attendance_minute
+				attendance_minute,
+				work_status
 			)
 		values (
 			#{userId},
@@ -50,7 +51,8 @@
 			#{month},
 			#{date},
 			#{attendanceHour},
-			#{attendanceMinute}
+			#{attendanceMinute},
+			#{workStatus}
 		)
 	</insert>
 	<!--退勤時間登録（更新）-->
@@ -66,7 +68,6 @@
 			working_time_minute = #{work.workingTimeMinute},
 			over_time_hour = #{work.overTimeHour},
 			over_time_minute = #{work.overTimeMinute},
-			work_status = #{work.workStatus}
 		where
 			user_id = #{work.userId}
 		and
@@ -127,7 +128,7 @@
 		and
 			date = #{date}			
 	</select>
-	<!--打刻を忘れた際の登録、有休申請登録-->
+	<!--勤怠情報新規登録-->
 	<insert id="insertWork">
 		insert 
 		into 

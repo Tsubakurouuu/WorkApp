@@ -17,6 +17,6 @@ public interface WorkService {
 	public List<Work> selectWorkListMonth(Integer userId, Integer year, Integer month);
 	//同日勤怠情報取得（退勤ボタン押下時）
 	public Work selectWorkAttendance(Integer userId, Integer year, Integer month, Integer date);
-	//打刻を忘れた際の登録、有休申請登録
+	//勤怠情報新規登録
 	public void insertWork(Work work);
 }

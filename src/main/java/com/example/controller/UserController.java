@@ -117,6 +117,10 @@ public class UserController {
 			//出退勤時間入力画面にリダイレクト
 			return "redirect:/work/input";
 		}
+		//ログインユーザー情報取得
+		loginUser = userDetailsServiceImpl.getLoginUser();
+		//Workにユーザーを登録
+		work.setUserId(loginUser.getId());
 		//Workに現在日をセット
 		work.setYear(calendar.get(Calendar.YEAR));
 		work.setMonth(calendar.get(Calendar.MONTH) + 1);
@@ -126,13 +130,11 @@ public class UserController {
 		Integer minute = calendar.get(Calendar.MINUTE);
 		//5捨6入するメソッド
 		Integer[] roundOff = CommonController.roundOff(hour, minute);
-		//上記結果を登録
+		//上記結果を元に出勤時間を登録
 		work.setAttendanceHour(roundOff[0]);
 		work.setAttendanceMinute(roundOff[1]);
-		//ログインユーザー情報取得
-		loginUser = userDetailsServiceImpl.getLoginUser();
-		//Workにユーザーを登録
-		work.setUserId(loginUser.getId());
+		//出勤ステータスを【出勤】で登録
+		work.setWorkStatus(1);
 		//出勤時間登録
 		workService.insertAttendance(work);
 		//ログを表示
