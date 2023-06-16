@@ -67,7 +67,7 @@
 			working_time_hour = #{work.workingTimeHour},
 			working_time_minute = #{work.workingTimeMinute},
 			over_time_hour = #{work.overTimeHour},
-			over_time_minute = #{work.overTimeMinute},
+			over_time_minute = #{work.overTimeMinute}
 		where
 			user_id = #{work.userId}
 		and
