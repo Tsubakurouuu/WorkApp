@@ -112,11 +112,13 @@
 						</form>
 					</div>
 					<div class="col-md-2">
-						<form method="post" th:action="@{/form}" th:object="${requestFormForm}">
+						<form method="post" th:action="@{'/form/' + ${requestFormForm.id}}" th:object="${requestFormForm}">
+							<input type="hidden" th:ifeld="*{id}"/>
+							<input type="hidden" th:field="*{userId}"/>
+							<input type="hidden" th:field="*{workId}"/>
 							<input type="hidden" th:field="*{year}"/>
 							<input type="hidden" th:field="*{month}"/>
 							<input type="hidden" th:field="*{date}"/>
-							<input type="hidden" th:field="*{workId}"/>
 							<input type="hidden" th:field="*{workStatus}"/>
 							<input type="hidden" th:field="*{attendanceHour}"/>
 							<input type="hidden" th:field="*{attendanceMinute}"/>

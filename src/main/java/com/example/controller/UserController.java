@@ -350,6 +350,7 @@ public class UserController {
 		}
 		//出勤ステータスのMap
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
+		//Modelに登録
 		model.addAttribute("workStatusMap", workStatusMap);
 		//入力チェック結果
 		if(bindingResult.hasErrors()) {
@@ -384,12 +385,27 @@ public class UserController {
 	
 	//↓エラー発生
 	//戻るボタン押下時の処理
-	@PostMapping("/form")
-	public String postUserForm(@ModelAttribute RequestFormForm form, Model model, Integer year, Integer month, Integer date) {
+	@PostMapping("/form/{id}")
+	public String postUserForm(@ModelAttribute RequestFormForm form, Model model, Integer year, Integer month, Integer date, @PathVariable("id") Integer id) {
+		//勤怠情報取得
+		Work workDetail = workService.selectWork(id);
+		if(workDetail != null) {
+			//年月日をformにセット
+			form.setYear(workDetail.getYear());
+			form.setMonth(workDetail.getMonth());
+			form.setDate(workDetail.getDate());
+			//Modelに登録
+			model.addAttribute("workDetail", workDetail);
+			model.addAttribute("year", workDetail.getYear());
+			model.addAttribute("month", workDetail.getMonth());
+			model.addAttribute("date", workDetail.getDate());
+		}
+		//出勤ステータスのMap
+		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
 		//Modelに登録
-		model.addAttribute("year", year);
-		model.addAttribute("month", month);
-		model.addAttribute("date", date);
+		model.addAttribute("workStatusMap", workStatusMap);
+		//時分フォーム入力用メソッド
+		CommonController.formNumbers(model);
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
