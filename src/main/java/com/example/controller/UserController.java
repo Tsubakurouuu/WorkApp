@@ -354,6 +354,8 @@ public class UserController {
 		model.addAttribute("workStatusMap", workStatusMap);
 		//入力チェック結果
 		if(bindingResult.hasErrors()) {
+			//時分フォーム入力用メソッド
+			CommonController.formNumbers(model);
 			//NGがあれば出退勤申請画面に戻る
 			return "user/form";
 		}
