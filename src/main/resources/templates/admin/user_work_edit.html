@@ -15,102 +15,192 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
-			<form method="post" th:action="@{/admin/edit}" th:object="${workEditForm}">
-				<input type="hidden" th:field="*{id}"/>
-				<input type="hidden" th:field="*{userId}"/>
-				<input type="hidden" th:field="*{year}"/>
-				<input type="hidden" th:field="*{month}"/>
-				<input type="hidden" th:field="*{date}"/>
-				<input type="hidden" th:field="*{workingTimeHour}"/>
-				<input type="hidden" th:field="*{workingTimeMinute}"/>
-				<input type="hidden" th:field="*{overTimeHour}"/>
-				<input type="hidden" th:field="*{overTimeMinute}"/>
-				<div class="row mt-5">
-					<div class="col-md-2">
-						<p>日付</p>
+			<div th:if="${workDetail != null}">
+				<form method="post" th:action="@{/admin/edit}" th:object="${workEditForm}">
+					<input type="hidden" th:field="*{id}"/>
+					<input type="hidden" th:field="*{userId}"/>
+					<input type="hidden" th:field="*{year}"/>
+					<input type="hidden" th:field="*{month}"/>
+					<input type="hidden" th:field="*{date}"/>
+					<input type="hidden" th:field="*{workingTimeHour}"/>
+					<input type="hidden" th:field="*{workingTimeMinute}"/>
+					<input type="hidden" th:field="*{overTimeHour}"/>
+					<input type="hidden" th:field="*{overTimeMinute}"/>
+					<div class="row mt-5">
+						<div class="col-md-2">
+							<p>日付</p>
+						</div>
+						<div class="col">
+							<p th:text="|*{year}年 *{month}月 *{date}日|"></p>
+						</div>
 					</div>
-					<div class="col">
-						<p th:text="|*{year}年 *{month}月 *{date}日|"></p>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-2">
-						<label for="workStatus">出勤ステータス</label>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<div th:each="item : ${workStatusMap}" class="form-check-inline">
-								<input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{workStatus}"/>
-								<label class="form-check-label" th:text="${item.key}"></label>
+					<div class="row">
+						<div class="col-md-2">
+							<label for="workStatus">出勤ステータス</label>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<div th:each="item : ${workStatusMap}" class="form-check-inline">
+									<input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{workStatus}"/>
+									<label class="form-check-label" th:text="${item.key}"></label>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="row mt-3">
-					<div class="col-md-2">
-						<label for="attendanceHour">出勤(時)</label>
+					<div class="row mt-3">
+						<div class="col-md-2">
+							<label for="attendanceHour">出勤(時)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="attendanceHour" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceHour}"></option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<label for="attendanceMinute">出勤(分)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="attendanceMinute" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceMinute}"></option>
+							</select>
+						</div>
 					</div>
-					<div class="col-md-3">
-						<select name="attendanceHour" class="form-control time-form">
-							<option value="">--</option>
-							<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceHour}"></option>
-						</select>
+					<div class="row mt-3">
+						<div class="col-md-2">
+							<label for="leavingHour">退勤(時)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="leavingHour" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingHour}"></option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<label for="leavingMinute">退勤(分)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="leavingMinute" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingMinute}"></option>
+							</select>
+						</div>
 					</div>
-					<div class="col-md-2">
-						<label for="attendanceMinute">出勤(分)</label>
+					<div class="row mt-3">
+						<div class="col-md-2">
+							<label for="restHour">休憩(時)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="restHour" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{restHour}"></option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<label for="restMinute">休憩(分)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="restMinute" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{restMinute}"></option>
+							</select>
+						</div>
 					</div>
-					<div class="col-md-3">
-						<select name="attendanceMinute" class="form-control time-form">
-							<option value="">--</option>
-							<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceMinute}"></option>
-						</select>
+					<div class="col-md-5 button">
+						<input type="submit" th:value="修正" class="btn btn-primary ml-5"/>
+						<a th:href="@{/admin/users}" class="btn btn-danger ml-5">キャンセル</a>
 					</div>
-				</div>
-				<div class="row mt-3">
-					<div class="col-md-2">
-						<label for="leavingHour">退勤(時)</label>
+				</form>
+			</div>
+			<div th:if="${workDetail == null}">	
+				<form method="post" th:action="@{/admin/edit}" th:object="${workEditForm}">
+					<div class="row mt-5">
+						<div class="col-md-2">
+							<p>日付</p>
+						</div>
+						<div class="col">
+							<p th:text="|*{year}年 *{month}月 *{date}日|"></p>
+						</div>
 					</div>
-					<div class="col-md-3">
-						<select name="leavingHour" class="form-control time-form">
-							<option value="">--</option>
-							<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingHour}"></option>
-						</select>
+					<div class="row">
+						<div class="col-md-2">
+							<label for="workStatus">出勤ステータス</label>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<div th:each="item : ${workStatusMap}" class="form-check-inline">
+									<input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{workStatus}"/>
+									<label class="form-check-label" th:text="${item.key}"></label>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="col-md-2">
-						<label for="leavingMinute">退勤(分)</label>
+					<div class="row mt-3">
+						<div class="col-md-2">
+							<label for="attendanceHour">出勤(時)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="attendanceHour" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceHour}"></option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<label for="attendanceMinute">出勤(分)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="attendanceMinute" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceMinute}"></option>
+							</select>
+						</div>
 					</div>
-					<div class="col-md-3">
-						<select name="leavingMinute" class="form-control time-form">
-							<option value="">--</option>
-							<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingMinute}"></option>
-						</select>
+					<div class="row mt-3">
+						<div class="col-md-2">
+							<label for="leavingHour">退勤(時)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="leavingHour" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingHour}"></option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<label for="leavingMinute">退勤(分)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="leavingMinute" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingMinute}"></option>
+							</select>
+						</div>
 					</div>
-				</div>
-				<div class="row mt-3">
-					<div class="col-md-2">
-						<label for="restHour">休憩(時)</label>
+					<div class="row mt-3">
+						<div class="col-md-2">
+							<label for="restHour">休憩(時)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="restHour" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{restHour}"></option>
+							</select>
+						</div>
+						<div class="col-md-2">
+							<label for="restMinute">休憩(分)</label>
+						</div>
+						<div class="col-md-3">
+							<select name="restMinute" class="form-control time-form">
+								<option value="">--</option>
+								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{restMinute}"></option>
+							</select>
+						</div>
 					</div>
-					<div class="col-md-3">
-						<select name="restHour" class="form-control time-form">
-							<option value="">--</option>
-							<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{restHour}"></option>
-						</select>
+					<div class="col-md-5 button">
+						<input type="submit" th:value="修正" class="btn btn-primary ml-5"/>
+						<a th:href="@{/admin/users}" class="btn btn-danger ml-5">キャンセル</a>
 					</div>
-					<div class="col-md-2">
-						<label for="restMinute">休憩(分)</label>
-					</div>
-					<div class="col-md-3">
-						<select name="restMinute" class="form-control time-form">
-							<option value="">--</option>
-							<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{restMinute}"></option>
-						</select>
-					</div>
-				</div>
-				<div class="col-md-5 button">
-					<input type="submit" th:value="修正" class="btn btn-primary ml-5"/>
-					<a th:href="@{/admin/users}" class="btn btn-danger ml-5">キャンセル</a>
-				</div>
-			</form>
+				</form>
 			</div>
 		</div>
 	</body>

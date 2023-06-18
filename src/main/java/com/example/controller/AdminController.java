@@ -264,7 +264,7 @@ public class AdminController {
 	
 	/*--出退勤修正画面のメソッド一覧--*/
 	
-	//出退勤修正画面に遷移するための処理
+	//出退勤修正画面に遷移するための処理(勤怠情報登録時)
 	@GetMapping("/{id}/edit")
 	public String getAdminUserWorkEdit(@PathVariable("id") Integer id, Model model) {
 		//勤怠情報取得
@@ -287,6 +287,27 @@ public class AdminController {
 		form.setOverTimeHour(workDetail.getOverTimeHour());
 		form.setOverTimeMinute(workDetail.getOverTimeMinute());
 		form.setWorkStatus(workDetail.getWorkStatus());
+		//Modelに登録
+		model.addAttribute("workEditForm", form);
+		//出勤ステータスのMap
+		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
+		//Modelに登録
+		model.addAttribute("workStatusMap", workStatusMap);
+		//時分フォーム入力用メソッド
+		CommonController.formNumbers(model);
+		//admin/user_work_edit.htmlを呼び出す
+		return "admin/user_work_edit";
+	}
+	
+	//出退勤修正画面に遷移するための処理(勤怠情報未登録時)
+	@GetMapping("/{userId}/{year}/{month}/{date}/edit")
+	public String getAdminUserWorkEdit(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model) {
+		//Workをformに変換
+		WorkEditForm form = new WorkEditForm();
+		//formに年月日をセット
+		form.setYear(year);
+		form.setMonth(month);
+		form.setDate(date);
 		//Modelに登録
 		model.addAttribute("workEditForm", form);
 		//出勤ステータスのMap
@@ -325,10 +346,18 @@ public class AdminController {
 		work.setWorkStatus(form.getWorkStatus());
 		//ログの表示
 		log.info(form.toString());
-		//勤怠情報更新
-		workService.updateWork(work);
-		//フラッシュスコープ
-		redirectAttributes.addFlashAttribute("complete", "勤怠情報を修正しました。");
+//		if(workDetail != null) {
+			//勤怠情報更新
+			workService.updateWork(work);
+			//フラッシュスコープ
+			redirectAttributes.addFlashAttribute("complete", "勤怠情報を修正しました。");
+//		} else {
+//			//勤怠情報登録
+//			workService.insertWork(work);
+//			//フラッシュスコープ
+//			redirectAttributes.addFlashAttribute("complete", "勤怠情報を登録しました。");
+//		}
+		
 		//ユーザー一覧画面にリダイレクト
 		return "redirect:/admin/users";
 	}

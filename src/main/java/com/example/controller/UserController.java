@@ -289,7 +289,7 @@ public class UserController {
 		
 	/*--出退勤申請画面のメソッド一覧--*/	
 	
-	//出退勤申請画面に遷移するための処理
+	//出退勤申請画面に遷移するための処理(勤怠情報登録時)
 	@GetMapping("/form/{id}")
 	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model, MUser loginUser) {
 		//勤怠情報取得
@@ -311,14 +311,9 @@ public class UserController {
 		return "user/form";
 	}
 	
+	//出退勤申請画面に遷移するための処理(勤怠情報未登録時)
 	@GetMapping("/form/{year}/{month}/{date}")
 	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model, MUser loginUser) {
-//		//勤怠情報取得
-//		Work workDetail = workService.selectWork(id);
-//		//Modelに登録
-//		model.addAttribute("workDetail", workDetail);
-//		//RequestFormのworkIdカラムに値をセット
-//		form.setWorkId(id);
 		//出勤ステータスのMap
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
 		//Modelに登録
