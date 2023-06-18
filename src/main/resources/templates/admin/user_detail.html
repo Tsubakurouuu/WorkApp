@@ -16,8 +16,11 @@
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
 			<div class="row mt-5">
-				<div class="col-md-6">
+				<div class="col-md-5">
 					<h2 th:text="|${userDetail.lastName} ${userDetail.firstName}さんの勤怠情報|"></h2>
+				</div>
+				<div class="col-md-2">
+					<a th:href="@{/admin/{userId}/{year}/{month}/csv(userId = ${userDetail.userId}, year = ${year}, month = ${month})}" class="btn btn-primary">CSVダウンロード</a>
 				</div>
 				<div class="col-md-1 text-right">
 					<form method="get" th:action="@{/admin/{userId}/{year}/{month}/previous(userId = ${userDetail.userId}, year = ${year}, month = ${month})}">
@@ -25,7 +28,7 @@
 						<input type="submit" value="◀" class="button"/>
 					</form>
 				</div>
-				<div class="col-md-4 text-center">
+				<div class="col-md-3 text-center">
 					<h3 th:text="|${year}年 ${month}月|"></h3>
 				</div>
 				<div class="col-md-1">
