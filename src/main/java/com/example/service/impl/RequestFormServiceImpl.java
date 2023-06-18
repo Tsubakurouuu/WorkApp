@@ -31,5 +31,11 @@ public class RequestFormServiceImpl implements RequestFormService {
 	public RequestForm selectRequestFormDetail(Integer id) {
 		return mapper.selectRequestFormDetail(id);
 	}
+	
+	//申請フォーム削除
+	@Override
+	public void deleteRequestForm(Integer id) {
+		mapper.deleteRequestForm(id);
+	}
 
 }

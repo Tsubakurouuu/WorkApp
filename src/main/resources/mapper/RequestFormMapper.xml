@@ -181,4 +181,12 @@
 		where
 			request_form.id = #{id}
 	</select>
+	<!--申請フォーム削除-->
+	<delete id="deleteRequestForm">
+		delete
+		from
+			request_form
+		where
+			id = #{id}
+	</delete>
 </mapper>

@@ -3,6 +3,7 @@ package com.example.repository;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.model.RequestForm;
 
@@ -14,4 +15,6 @@ public interface RequestFormMapper {
 	public List<RequestForm> selectRequestFormList();
 	//申請フォーム詳細取得
 	public RequestForm selectRequestFormDetail(Integer id);
+	//申請フォーム削除
+	public void deleteRequestForm(@Param("id") Integer id);
 }

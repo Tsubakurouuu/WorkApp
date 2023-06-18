@@ -250,6 +250,8 @@ public class AdminController {
 			//打刻を忘れた際の登録、有休申請登録
 			workService.insertWork(work);
 		}
+		//登録、更新後に申請フォームを削除
+		requestFormService.deleteRequestForm(id);
 		//フラッシュスコープ
 		redirectAttributes.addFlashAttribute("complete", "勤怠情報を修正しました。");
 		//ユーザー一覧画面にリダイレクト

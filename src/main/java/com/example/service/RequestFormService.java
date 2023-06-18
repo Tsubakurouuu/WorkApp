@@ -11,4 +11,6 @@ public interface RequestFormService {
 	public List<RequestForm> selectRequestFormList();
 	//申請フォーム詳細取得
 	public RequestForm selectRequestFormDetail(Integer id);
+	//申請フォーム削除
+	public void deleteRequestForm(Integer id);
 }
