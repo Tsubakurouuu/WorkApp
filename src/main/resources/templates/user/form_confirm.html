@@ -112,23 +112,44 @@
 						</form>
 					</div>
 					<div class="col-md-2">
-						<form method="post" th:action="@{'/form/' + ${requestFormForm.id}}" th:object="${requestFormForm}">
-							<input type="hidden" th:ifeld="*{id}"/>
-							<input type="hidden" th:field="*{userId}"/>
-							<input type="hidden" th:field="*{workId}"/>
-							<input type="hidden" th:field="*{year}"/>
-							<input type="hidden" th:field="*{month}"/>
-							<input type="hidden" th:field="*{date}"/>
-							<input type="hidden" th:field="*{workStatus}"/>
-							<input type="hidden" th:field="*{attendanceHour}"/>
-							<input type="hidden" th:field="*{attendanceMinute}"/>
-							<input type="hidden" th:field="*{leavingHour}"/>
-							<input type="hidden" th:field="*{leavingMinute}"/>
-							<input type="hidden" th:field="*{restHour}"/>
-							<input type="hidden" th:field="*{restMinute}"/>
-							<input type="hidden" th:field="*{comment}"/>
-							<input type="submit" value="戻る" class="btn btn-danger"/>
-						</form>
+						<div th:if="${workDetail != null}">
+							<form method="post" th:action="@{'/form/' + ${requestFormForm.id}}" th:object="${requestFormForm}">
+								<input type="hidden" th:ifeld="*{id}"/>
+								<input type="hidden" th:field="*{userId}"/>
+								<input type="hidden" th:field="*{workId}"/>
+								<input type="hidden" th:field="*{year}"/>
+								<input type="hidden" th:field="*{month}"/>
+								<input type="hidden" th:field="*{date}"/>
+								<input type="hidden" th:field="*{workStatus}"/>
+								<input type="hidden" th:field="*{attendanceHour}"/>
+								<input type="hidden" th:field="*{attendanceMinute}"/>
+								<input type="hidden" th:field="*{leavingHour}"/>
+								<input type="hidden" th:field="*{leavingMinute}"/>
+								<input type="hidden" th:field="*{restHour}"/>
+								<input type="hidden" th:field="*{restMinute}"/>
+								<input type="hidden" th:field="*{comment}"/>
+								<input type="submit" value="戻る" class="btn btn-danger"/>
+							</form>
+						</div>
+						<div th:if="${workDetail == null}">
+							<form method="post" th:action="@{'/form/' + ${requestFormForm.year} + '/' + ${requestFormForm.month} + '/' + ${requestFormForm.date}}" th:object="${requestFormForm}">
+								<input type="hidden" th:ifeld="*{id}"/>
+								<input type="hidden" th:field="*{userId}"/>
+								<input type="hidden" th:field="*{workId}"/>
+								<input type="hidden" th:field="*{year}"/>
+								<input type="hidden" th:field="*{month}"/>
+								<input type="hidden" th:field="*{date}"/>
+								<input type="hidden" th:field="*{workStatus}"/>
+								<input type="hidden" th:field="*{attendanceHour}"/>
+								<input type="hidden" th:field="*{attendanceMinute}"/>
+								<input type="hidden" th:field="*{leavingHour}"/>
+								<input type="hidden" th:field="*{leavingMinute}"/>
+								<input type="hidden" th:field="*{restHour}"/>
+								<input type="hidden" th:field="*{restMinute}"/>
+								<input type="hidden" th:field="*{comment}"/>
+								<input type="submit" value="戻る" class="btn btn-danger"/>
+							</form>
+						</div>
 					</div>
 					<div class="col-md-4"></div>
 				</div>

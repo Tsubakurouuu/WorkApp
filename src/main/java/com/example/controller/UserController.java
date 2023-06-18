@@ -334,7 +334,7 @@ public class UserController {
 	
 	//確認画面へボタン押下時の処理
 	@PostMapping("/form/confirm")
-	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes) {
+	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month, Integer date) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		if(workDetail != null) {
@@ -347,6 +347,11 @@ public class UserController {
 			model.addAttribute("year", workDetail.getYear());
 			model.addAttribute("month", workDetail.getMonth());
 			model.addAttribute("date", workDetail.getDate());
+		}
+		if(workDetail == null) {
+			model.addAttribute("year", year);
+			model.addAttribute("month", month);
+			model.addAttribute("date", date);
 		}
 		//出勤ステータスのMap
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
@@ -406,6 +411,27 @@ public class UserController {
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
 		//Modelに登録
 		model.addAttribute("workStatusMap", workStatusMap);
+		//時分フォーム入力用メソッド
+		CommonController.formNumbers(model);
+		//user/form.htmlを呼び出す
+		return "user/form";
+	}
+	
+	@PostMapping("/form/{year}/{month}/{date}")
+	public String PostUserForm(@ModelAttribute RequestFormForm form, Integer year, Integer month, Integer date, Model model, MUser loginUser) {
+//		//勤怠情報取得
+//		Work workDetail = workService.selectWork(id);
+//		//Modelに登録
+//		model.addAttribute("workDetail", workDetail);
+//		//RequestFormのworkIdカラムに値をセット
+//		form.setWorkId(id);
+		//出勤ステータスのMap
+		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
+		//Modelに登録
+		model.addAttribute("workStatusMap", workStatusMap);
+		model.addAttribute("year", year);
+		model.addAttribute("month", month);
+		model.addAttribute("date", date);
 		//時分フォーム入力用メソッド
 		CommonController.formNumbers(model);
 		//user/form.htmlを呼び出す
