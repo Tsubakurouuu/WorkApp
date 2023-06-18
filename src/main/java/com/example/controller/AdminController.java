@@ -390,7 +390,7 @@ public class AdminController {
 	
 	
 	@GetMapping("/{userId:.+}/{year}/{month}/csv")
-	public String downloadCsv(HttpServletResponse response, @PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month) {
+	public String downloadCsv(HttpServletResponse response, @PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model) {
 		// レスポンスの設定
         response.setContentType("text/csv");
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + userId + "_" + year + "_" + month + "\"");
@@ -406,7 +406,7 @@ public class AdminController {
   		csvData.add(String.join(",", header));
   		//勤怠情報をcsvデータに変換
   		for (Work work : workList) {
-  		    String day = work.getYear().toString() + work.getMonth().toString() + work.getDate().toString();
+  		    String day = work.getYear().toString() + "年" + work.getMonth().toString() + "月" + work.getDate().toString() + "日";
   		    String workStatus;
   		    switch(work.getWorkStatus()) {
   		    	case 1:
@@ -437,7 +437,8 @@ public class AdminController {
   		
   		//CSVデータを文字列として取得
   		String csvString = csvData.toString();
-  		return csvString;
+  		model.addAttribute("csvString", csvString);
+  		return "admin/csv";
 	}
 	
 }
