@@ -2,6 +2,7 @@ package com.example.form;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -56,6 +57,8 @@ public class WorkEditForm {
 	private Integer overTimeHour;
 	//残業時間（分）
 	private Integer overTimeMinute;
+	
 	//出勤ステータス
+	@NotNull(groups = ValidGroup1.class)
 	private Integer workStatus;
 }

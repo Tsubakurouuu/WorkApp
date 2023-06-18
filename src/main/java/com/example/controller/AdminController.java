@@ -325,11 +325,17 @@ public class AdminController {
 		return "admin/user_work_edit";
 	}
 	
-	//修正ボタン押下時の処理
+	//登録/修正ボタン押下時の処理
 	@PostMapping("/edit")
 	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month, Integer date, Integer userId) {
 		//入力チェック結果
 		if(bindingResult.hasErrors()) {
+			//出勤ステータスのMap
+			Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
+			//Modelに登録
+			model.addAttribute("workStatusMap", workStatusMap);
+			//時分フォーム入力用メソッド
+			CommonController.formNumbers(model);
 			//NGがあれば出退勤修正画面に戻る
 			return "admin/user_work_edit";
 		}
@@ -342,12 +348,14 @@ public class AdminController {
 		work.setLeavingMinute(form.getLeavingMinute());
 		work.setRestHour(form.getRestHour());
 		work.setRestMinute(form.getRestMinute());
-		//就業時間と残業時間を計算するメソッド
-		Integer[] calcWorkingOver = CommonController.calcWorkingOver(form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
-		work.setWorkingTimeHour(calcWorkingOver[0]);
-		work.setWorkingTimeMinute(calcWorkingOver[1]);
-		work.setOverTimeHour(calcWorkingOver[2]);
-		work.setOverTimeMinute(calcWorkingOver[3]);
+		if(form.getAttendanceHour() != null) {
+			//就業時間と残業時間を計算するメソッド
+			Integer[] calcWorkingOver = CommonController.calcWorkingOver(form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+			work.setWorkingTimeHour(calcWorkingOver[0]);
+			work.setWorkingTimeMinute(calcWorkingOver[1]);
+			work.setOverTimeHour(calcWorkingOver[2]);
+			work.setOverTimeMinute(calcWorkingOver[3]);
+		}
 		work.setWorkStatus(form.getWorkStatus());
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);

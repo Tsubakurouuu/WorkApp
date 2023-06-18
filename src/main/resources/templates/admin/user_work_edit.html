@@ -41,9 +41,10 @@
 						<div class="col-md-4">
 							<div class="form-group">
 								<div th:each="item : ${workStatusMap}" class="form-check-inline">
-									<input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{workStatus}"/>
+									<input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{workStatus}" th:errorclass="is-invalid"/>
 									<label class="form-check-label" th:text="${item.key}"></label>
 								</div>
+								<div class="text-danger" th:if="${#fields.hasErrors('workStatus')}" th:errors="*{workStatus}"></div>
 							</div>
 						</div>
 					</div>
@@ -139,9 +140,10 @@
 						<div class="col-md-4">
 							<div class="form-group">
 								<div th:each="item : ${workStatusMap}" class="form-check-inline">
-									<input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{workStatus}"/>
+									<input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{workStatus}" th:errorclass="is-invalid"/>
 									<label class="form-check-label" th:text="${item.key}"></label>
 								</div>
+								<div class="text-danger" th:if="${#fields.hasErrors('workStatus')}" th:errors="*{workStatus}"></div>
 							</div>
 						</div>
 					</div>
