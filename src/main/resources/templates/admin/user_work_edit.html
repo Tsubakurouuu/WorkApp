@@ -115,6 +115,15 @@
 			</div>
 			<div th:if="${workDetail == null}">	
 				<form method="post" th:action="@{/admin/edit}" th:object="${workEditForm}">
+					<input type="hidden" th:field="*{id}"/>
+					<input type="hidden" th:field="*{userId}"/>
+					<input type="hidden" th:field="*{year}"/>
+					<input type="hidden" th:field="*{month}"/>
+					<input type="hidden" th:field="*{date}"/>
+					<input type="hidden" th:field="*{workingTimeHour}"/>
+					<input type="hidden" th:field="*{workingTimeMinute}"/>
+					<input type="hidden" th:field="*{overTimeHour}"/>
+					<input type="hidden" th:field="*{overTimeMinute}"/>
 					<div class="row mt-5">
 						<div class="col-md-2">
 							<p>日付</p>
@@ -197,7 +206,7 @@
 						</div>
 					</div>
 					<div class="col-md-5 button">
-						<input type="submit" th:value="修正" class="btn btn-primary ml-5"/>
+						<input type="submit" th:value="登録" class="btn btn-primary ml-5"/>
 						<a th:href="@{/admin/users}" class="btn btn-danger ml-5">キャンセル</a>
 					</div>
 				</form>

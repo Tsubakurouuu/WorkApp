@@ -302,9 +302,14 @@ public class AdminController {
 	//出退勤修正画面に遷移するための処理(勤怠情報未登録時)
 	@GetMapping("/{userId}/{year}/{month}/{date}/edit")
 	public String getAdminUserWorkEdit(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model) {
+		//ユーザーを1件取得
+		MUser userDetail = userService.getUserDetail(userId);
+		//Modelに登録
+		model.addAttribute("userDetail", userDetail);
 		//Workをformに変換
 		WorkEditForm form = new WorkEditForm();
-		//formに年月日をセット
+		//formにユーザーIDと年月日をセット
+		form.setUserId(userDetail.getId());
 		form.setYear(year);
 		form.setMonth(month);
 		form.setDate(date);
@@ -322,7 +327,7 @@ public class AdminController {
 	
 	//修正ボタン押下時の処理
 	@PostMapping("/edit")
-	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes) {
+	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month, Integer date, Integer userId) {
 		//入力チェック結果
 		if(bindingResult.hasErrors()) {
 			//NGがあれば出退勤修正画面に戻る
@@ -344,20 +349,26 @@ public class AdminController {
 		work.setOverTimeHour(calcWorkingOver[2]);
 		work.setOverTimeMinute(calcWorkingOver[3]);
 		work.setWorkStatus(form.getWorkStatus());
-		//ログの表示
-		log.info(form.toString());
-//		if(workDetail != null) {
+		//勤怠情報取得
+		Work workDetail = workService.selectWork(id);
+		if(workDetail != null) {
 			//勤怠情報更新
 			workService.updateWork(work);
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("complete", "勤怠情報を修正しました。");
-//		} else {
-//			//勤怠情報登録
-//			workService.insertWork(work);
-//			//フラッシュスコープ
-//			redirectAttributes.addFlashAttribute("complete", "勤怠情報を登録しました。");
-//		}
-		
+		} 
+		if(workDetail == null) {
+			work.setUserId(userId);
+			work.setYear(year);
+			work.setMonth(month);
+			work.setDate(date);
+			//勤怠情報登録
+			workService.insertWork(work);
+			//フラッシュスコープ
+			redirectAttributes.addFlashAttribute("complete", "勤怠情報を登録しました。");
+		}
+		//ログの表示
+		log.info(form.toString());
 		//ユーザー一覧画面にリダイレクト
 		return "redirect:/admin/users";
 	}
