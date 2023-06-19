@@ -17,22 +17,19 @@ public class MUserServiceImpl implements MUserService {
 	
 	@Autowired
 	private PasswordEncoder encoder;
-
-	//ログインユーザー取得処理
-	@Override
-	public MUser selectLoginUser(String userId) {
-		return mapper.selectLoginUser(userId);
-	}
+	
 	//ユーザー一覧取得
 	@Override
 	public List<MUser> selectUserList() {
 		return mapper.selectUserList();
 	}
+	
 	//ユーザー詳細取得
 	@Override
 	public MUser selectUserDetail(String userId) {
 		return mapper.selectUserDetail(userId);
 	}
+	
 	//ユーザー新規登録
 	@Override
 	public void insertUser(MUser user) {
