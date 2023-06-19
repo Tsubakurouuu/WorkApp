@@ -16,10 +16,13 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
+			<!--打刻成功時のフラッシュメッセージ-->
 			<p th:text="${complete}" class="text-success"></p>
+			<!--打刻失敗時のフラッシュメッセージ-->
 			<p th:text="${error}" class="text-danger"></p>
 			<div class="row">
 				<div class="col-md-7">
+					<!--リアルタイムで動作するデジタル時計(js)-->
 					<div class="card">
 						<p th:text="|${year}年 ${month}月 ${date}日(${week})|" class="today"></p>
 						<div id="clock"></div>
@@ -27,11 +30,13 @@
 				</div>
 				<div class="col-md-1"></div>
 				<div class="col-md-2">
+					<!--出勤打刻処理を行うフォーム-->
 					<form method="post" th:action="@{/work/attendance}" id="abtn">
 						<input type="submit" value="出勤"/>
 					</form>
 				</div>
 				<div class="col-md-2">
+					<!--退勤打刻処理を行うフォーム-->
 					<form method="post" th:action="@{/work/leaving}" id="lbtn">
 						<input type="submit" value="退勤"/>
 					</form>
@@ -40,6 +45,7 @@
 			<div class="row">
 				<div class="col-md-7"></div>
 				<div class="col">
+					<!--出退勤一覧画面へのリンク-->
 					<a th:href="@{/work/{year}/{month} (year=${year}, month=${month})}" class="btn btn-success ibtn">出退勤一覧︎︎</a>
 				</div>
 			</div>

@@ -100,14 +100,14 @@ public class WorkInputController {
 		loginUser = userDetailsServiceImpl.selectLoginUser();
 		//Workにユーザーを登録
 		work.setUserId(loginUser.getId());
-		//Workに現在日をセット
+		//Workに現在年月日をセット
 		work.setYear(calendar.get(Calendar.YEAR));
 		work.setMonth(calendar.get(Calendar.MONTH) + 1);
 		work.setDate(calendar.get(Calendar.DATE));
 		//現在時間の取得
 		Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
 		Integer minute = calendar.get(Calendar.MINUTE);
-		//5捨6入するメソッド
+		//現在分を5捨6入するメソッド
 		Integer[] roundOff = CommonController.roundOff(hour, minute);
 		//上記結果を元に出勤時間を登録
 		work.setAttendanceHour(roundOff[0]);
@@ -139,14 +139,14 @@ public class WorkInputController {
 		Integer date = calendar.get(Calendar.DATE);
 		//同日勤怠情報取得（退勤ボタン押下時）
 		Work workInfo = workService.selectWorkAttendance(loginUser.getId(), year, month, date);
-		//出勤打刻が登録されているかの確認
+		//本日分の出勤打刻が登録されているかの確認
 		if(workInfo == null) {
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤打刻が登録されていません。");
 			//出退勤時間入力画面にリダイレクト
 			return "redirect:/work/input";
 		}
-		//本日分の打刻登録がされていないかの確認
+		//本日分の退勤打刻が登録されていないかの確認
 		if(workInfo.getLeavingHour() != null) {
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "本日分の退勤打刻は既にされています。");
@@ -155,22 +155,22 @@ public class WorkInputController {
 		}
 		//Workにユーザーを登録
 		work.setUserId(loginUser.getId());
-		//Workに現在日をセット
+		//Workに現在年月日をセット
 		work.setYear(year);
 		work.setMonth(month);
 		work.setDate(date);
 		//現在時間の取得
 		Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
 		Integer minute = calendar.get(Calendar.MINUTE);
-		//5捨6入するメソッド
+		//現在分を5捨6入するメソッド
 		Integer[] roundOff = CommonController.roundOff(hour, minute);
-		//上記結果を元に退勤時間を登録	
+		//上記結果を元に退勤時間を登録
 		work.setLeavingHour(roundOff[0]);
 		work.setLeavingMinute(roundOff[1]);
 		//休憩時間にはデフォルトで１時間０分をセット
 		work.setRestHour(1);
 		work.setRestMinute(0);
-		//就業時間と残業時間を計算するメソッド
+		//出勤時間と退勤時間から就業時間と残業時間を計算するメソッド
 		Integer[] calcWorkingOver = CommonController.calcWorkingOver(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute(), work.getRestHour(),work.getRestMinute());
 		//上記結果を元に就業時間と残業時間を登録
 		work.setWorkingTimeHour(calcWorkingOver[0]);
