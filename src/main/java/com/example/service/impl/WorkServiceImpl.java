@@ -11,6 +11,7 @@ import com.example.service.WorkService;
 
 @Service
 public class WorkServiceImpl implements WorkService {
+	
 	@Autowired
 	private WorkMapper mapper;
 	
@@ -55,5 +56,6 @@ public class WorkServiceImpl implements WorkService {
 	public void insertWork(Work work) {
 		mapper.insertWork(work);
 	}
+	
 }
 

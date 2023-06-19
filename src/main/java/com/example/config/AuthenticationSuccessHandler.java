@@ -30,6 +30,5 @@ public class AuthenticationSuccessHandler implements org.springframework.securit
         	response.sendRedirect(request.getContextPath() + "/work/input");
         }
 	}
-
 	
 }

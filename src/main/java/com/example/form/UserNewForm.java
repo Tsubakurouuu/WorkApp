@@ -13,6 +13,7 @@ import lombok.Data;
 
 @Data
 public class UserNewForm {
+	
 	//ユーザーID
 	@NotBlank(groups = ValidGroup1.class)
 	@Length(min = 5, groups = ValidGroup2.class)
@@ -35,4 +36,5 @@ public class UserNewForm {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@NotNull(groups = ValidGroup1.class)
 	private Date birthday;
+	
 }

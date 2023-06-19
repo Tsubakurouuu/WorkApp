@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--Mapperとxmlのマッピング-->
 <mapper namespace="com.example.repository.WorkMapper">
+	
 	<!--マッピング定義(勤怠)-->
 	<resultMap id="work" type="com.example.model.Work">
 		<id column="id" property="id"/>
@@ -22,6 +23,7 @@
 		<result column="work_status" property="workStatus"/>
 		<association property="mUser" resultMap="user" columnPrefix="user_"/>
 	</resultMap>
+	
 	<!--マッピング定義(ユーザー)-->
 	<resultMap id="user" type="com.example.model.MUser">
 		<id column="id" property="id"/>
@@ -32,6 +34,7 @@
 		<result column="birthday" property="birthday"/>
 		<result column="role" property="role"/>
 	</resultMap>
+	
 	<!--出勤時間登録-->
 	<insert id="insertAttendance">
 		insert 
@@ -55,6 +58,7 @@
 			#{workStatus}
 		)
 	</insert>
+	
 	<!--退勤時間登録（更新）-->
 	<update id="updateLeaving">
 		update 
@@ -77,10 +81,17 @@
 		and
 			date = #{work.date}
 	</update>
+	
 	<!--勤怠情報取得-->
 	<select id="selectWork" resultMap="work">
-		select * from work where id = #{id}
+		select
+			*
+		from
+			work
+		where
+			id = #{id}
 	</select>
+	
 	<!--勤怠情報更新-->
 	<update id="updateWork">
 		update
@@ -100,6 +111,7 @@
 		where
 			id = #{work.id}
 	</update>
+	
 	<!--勤怠情報月毎取得-->
 	<select id="selectWorkListMonth" resultType="Work">
 		select
@@ -113,6 +125,7 @@
 		and
 			month = #{month}
 	</select>
+	
 	<!--同日勤怠情報取得（退勤ボタン押下時）-->
 	<select id="selectWorkAttendance" resultMap="work">
 		select
@@ -128,6 +141,7 @@
 		and
 			date = #{date}			
 	</select>
+	
 	<!--勤怠情報新規登録-->
 	<insert id="insertWork">
 		insert 

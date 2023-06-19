@@ -8,6 +8,7 @@ import com.example.model.MUser;
 
 @Mapper
 public interface MUserMapper {
+	
 	//ユーザー一覧取得
 	public List<MUser> selectUserList();
 	
@@ -16,4 +17,5 @@ public interface MUserMapper {
 	
 	//ユーザー新規登録
 	public int insertUser(MUser user);
+	
 }

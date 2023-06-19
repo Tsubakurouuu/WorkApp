@@ -5,6 +5,7 @@ import java.util.List;
 import com.example.model.MUser;
 
 public interface MUserService {
+	
 	//ユーザー一覧取得
 	public List<MUser> selectUserList();
 	
@@ -13,4 +14,5 @@ public interface MUserService {
 	
 	//ユーザー新規登録
 	public void insertUser(MUser user);
+	
 }

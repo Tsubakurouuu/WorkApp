@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!--Mapperとxmlのマッピング-->
 <mapper namespace="com.example.repository.RequestFormMapper">
+	
 	<!--マッピング定義(申請フォーム)-->
 	<resultMap id="requestForm" type="com.example.model.RequestForm">
 		<id column="id" property="id"/>
@@ -21,6 +22,7 @@
 		<association property="work" resultMap="work" columnPrefix="work_"/>
 		<association property="mUser" resultMap="user" columnPrefix="user_"/>
 	</resultMap>
+	
 	<!--マッピング定義(勤怠)-->
 	<resultMap id="work" type="com.example.model.Work">
 		<id column="id" property="id"/>
@@ -40,6 +42,7 @@
 		<result column="over_time_minute" property="overTimeMinute"/>
 		<result column="work_status" property="workStatus"/>
 	</resultMap>
+	
 	<!--マッピング定義(ユーザー)-->
 	<resultMap id="user" type="com.example.model.MUser">
 		<id column="id" property="id"/>
@@ -50,6 +53,7 @@
 		<result column="birthday" property="birthday"/>
 		<result column="role" property="role"/>
 	</resultMap>
+	
 	<!--申請フォーム登録-->
 	<insert id="insertForm">
 		insert 
@@ -85,6 +89,7 @@
 			#{comment}
 		)
 	</insert>
+	
 	<!--申請フォーム一覧取得-->
 	<select id="selectRequestFormList" resultMap="requestForm" resultType="RequestForm">
 		select
@@ -138,6 +143,7 @@
 		on
 			request_form.user_id = m_user.id
 	</select>
+	
 	<!--申請フォーム詳細取得-->
 	<select id="selectRequestFormDetail" resultMap="requestForm" resultType="RequestForm">
 		select
@@ -181,6 +187,7 @@
 		where
 			request_form.id = #{id}
 	</select>
+	
 	<!--申請フォーム削除-->
 	<delete id="deleteRequestForm">
 		delete

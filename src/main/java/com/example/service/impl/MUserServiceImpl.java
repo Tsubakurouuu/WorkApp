@@ -12,6 +12,7 @@ import com.example.service.MUserService;
 
 @Service
 public class MUserServiceImpl implements MUserService {
+	
 	@Autowired
 	private MUserMapper mapper;
 	
@@ -41,4 +42,5 @@ public class MUserServiceImpl implements MUserService {
 		user.setPassword(encoder.encode(rawPassword));
 		mapper.insertUser(user);
 	}
+	
 }

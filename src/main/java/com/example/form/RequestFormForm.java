@@ -12,16 +12,22 @@ import lombok.Data;
 
 @Data
 public class RequestFormForm {
+	
 	//ID
 	private Integer id;
+	
 	//ユーザーID
 	private Integer userId;
+	
 	//勤怠ID
 	private Integer workId;
+	
 	//年
 	private Integer year;
+	
 	//月
 	private Integer month;
+	
 	//日
 	private Integer date;
 	
@@ -65,4 +71,5 @@ public class RequestFormForm {
 	
 	//勤怠テーブル
 	private Work work;
+	
 }
