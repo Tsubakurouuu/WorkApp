@@ -126,7 +126,7 @@ public class WorkInputController {
 	
 	//退勤ボタン押下時の処理
 	@PostMapping("/work/leaving")
-	public String postUserWorkLeaving(Work work, Model model, MUser loginUser, RedirectAttributes redirectAttributes) {
+	public String postUserWorkLeaving(Work work, MUser loginUser, RedirectAttributes redirectAttributes) {
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.selectLoginUser();
 		//カレンダークラスのオブジェクトを生成
