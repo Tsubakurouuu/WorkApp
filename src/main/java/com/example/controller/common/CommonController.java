@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.example.controller.common;
 
 import java.util.Arrays;
 import java.util.List;
