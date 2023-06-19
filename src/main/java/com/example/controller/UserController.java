@@ -99,7 +99,7 @@ public class UserController {
 	@PostMapping("/work/attendance")
 	public String postUserWorkAttendance(Work work, MUser loginUser, RedirectAttributes redirectAttributes) {
 		//ログインユーザー情報取得
-		loginUser = userDetailsServiceImpl.getLoginUser();
+		loginUser = userDetailsServiceImpl.selectLoginUser();
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//現在の年を取得
@@ -118,7 +118,7 @@ public class UserController {
 			return "redirect:/work/input";
 		}
 		//ログインユーザー情報取得
-		loginUser = userDetailsServiceImpl.getLoginUser();
+		loginUser = userDetailsServiceImpl.selectLoginUser();
 		//Workにユーザーを登録
 		work.setUserId(loginUser.getId());
 		//Workに現在日をセット
@@ -149,7 +149,7 @@ public class UserController {
 	@PostMapping("/work/leaving")
 	public String postUserWorkLeaving(Work work, Model model, MUser loginUser, RedirectAttributes redirectAttributes) {
 		//ログインユーザー情報取得
-		loginUser = userDetailsServiceImpl.getLoginUser();
+		loginUser = userDetailsServiceImpl.selectLoginUser();
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//現在の年を取得
@@ -224,7 +224,7 @@ public class UserController {
 			month = calendar.get(Calendar.MONTH) + 1;
 	    }
 		//ログインユーザー情報取得
-		loginUser = userDetailsServiceImpl.getLoginUser();
+		loginUser = userDetailsServiceImpl.selectLoginUser();
 		//Modelに登録
 		model.addAttribute("loginUser", loginUser);
 		//ログインユーザーのIDを取得
@@ -437,7 +437,7 @@ public class UserController {
 	@PostMapping("/form/complete")
 	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month) {
 		//ログインユーザー情報取得
-		loginUser = userDetailsServiceImpl.getLoginUser();
+		loginUser = userDetailsServiceImpl.selectLoginUser();
 		//フラッシュスコープ
 		redirectAttributes.addFlashAttribute("complete", "出退勤修正の申請が完了しました。");
 		//formをRequestFormクラスに変換

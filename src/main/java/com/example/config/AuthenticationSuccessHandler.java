@@ -13,17 +13,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticationSuccessHandler implements org.springframework.security.web.authentication.AuthenticationSuccessHandler {
 	
-	//ログイン成功時に呼び出される処理
+	//★ログイン成功時の処理を行うメソッド
 	@Override
-	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-			org.springframework.security.core.Authentication authentication) throws IOException, ServletException {
-		//GrantedAuthority オブジェクトの配列をセットに変換する
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, org.springframework.security.core.Authentication authentication) throws IOException, ServletException {
+		//authenticationオブジェクトからユーザーのロールを取得し、GrantedAuthorityオブジェクトの配列をSetに変換
 		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 		
-		//権限ごとでログイン後の遷移先を変えるif文
+		//ユーザーのロールに応じて、ログイン後のリダイレクト先を決定するための条件分岐
+		//管理者ロールの場合
         if (roles.contains("ADMIN")) {
+        	//管理者専用ページへリダイレクト
         	response.sendRedirect(request.getContextPath() + "/admin/users");
-        }else if(roles.contains("USER")){
+    	//ユーザーロールの場合
+        } else if(roles.contains("USER")){
+        	//ユーザー専用ページへリダイレクト
         	response.sendRedirect(request.getContextPath() + "/work/input");
         }
 	}

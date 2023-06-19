@@ -15,6 +15,7 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
+			<!--ログイン処理を行うフォーム-->
 			<form method="post" th:action="@{/login}" class="form-login">
 				<h2 class="text-center">ログイン</h2>
 				<p th:if="${session['SPRING_SECURITY_LAST_EXCEPTION']} != null"
