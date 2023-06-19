@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
+	
 	/*--ログイン画面のメソッド一覧--*/	
 	
 	//ログインページに遷移するための処理
@@ -15,4 +16,5 @@ public class LoginController {
 	}
 	
 	/*----------------------------*/
+	
 }

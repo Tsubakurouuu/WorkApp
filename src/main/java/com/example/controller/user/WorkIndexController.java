@@ -52,16 +52,22 @@ public class WorkIndexController {
 		List<Work> workList = workService.selectWorkListMonth(userId, year, month);
 		//各月の最終日にちを取得
 		Integer lastDateOfMonth = YearMonth.of(year, month).lengthOfMonth();
-		//日付ごとの勤怠情報をMapに変換する
+		//日付をキーとして勤怠情報を格納するための空のハッシュマップを作成
 	    Map<Integer, Work> workMap = new HashMap<>();
+	    //勤怠情報のリストworkList内の各Workオブジェクトに対して、繰り返し処理を行う
 	    for (Work work : workList) {
+	    	//日付をキーとして、該当する勤怠情報をマップに格納します。
 	    	workMap.put(work.getDate(), work);
 	    }
-	    // 曜日情報を作成
+	    //曜日情報を格納するための空の文字列リストを作成
 	    List<String> dayOfWeekList = new ArrayList<>();
+	    //1から月の最終日までの各日に対して繰り返し処理
 	    for (int date = 1; date <= lastDateOfMonth; date++) {
+	    	//指定された年月日を使用してLocalDateオブジェクトを作成
 	        LocalDate localDate = LocalDate.of(year, month, date);
+	        //LocalDateオブジェクトから曜日情報を取得(getDayOfWeek()メソッドは曜日を表すDayOfWeek列挙型返し、getDisplayName()メソッドを使用して日本語の短縮形式の曜日名を取得する)
 	        String dayOfWeek = localDate.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.JAPANESE);
+	        //取得した曜日情報をdayOfWeekListに追加
 	        dayOfWeekList.add(dayOfWeek);
 	    }
 		//Modelに登録
