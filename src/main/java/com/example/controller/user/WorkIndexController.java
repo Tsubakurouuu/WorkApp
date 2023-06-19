@@ -33,7 +33,7 @@ public class WorkIndexController {
 	
 	/*--出退勤一覧画面のメソッド一覧--*/
 	
-	//出退勤一覧画面に遷移するための処理
+	//★出退勤一覧画面に遷移するためのメソッド
 	@GetMapping("/work/{year}/{month}")
 	public String getUserWorkIndex(Integer userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model, MUser loginUser) {
 		//年と月が指定されていない場合、現在の年と月を取得
@@ -80,7 +80,7 @@ public class WorkIndexController {
 		return "user/work_index";
 	}
 	
-	//先月ボタン(◀︎)押下時の処理
+	//★先月ボタン(◀︎)押下時のメソッド
 	@GetMapping("/work/{year}/{month}/previous")
 	public String showPreviousMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
 		//1ヶ月前の年と月を計算
@@ -94,7 +94,7 @@ public class WorkIndexController {
 	    return "redirect:/work/" + year + "/" + month;
 	}
 	
-	//翌月ボタン(▶︎)押下時の処理
+	//★翌月ボタン(▶︎)押下時のメソッド
 	@GetMapping("/work/{year}/{month}/next")
 	public String showNextMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
 		//1ヶ月後の年と月を計算

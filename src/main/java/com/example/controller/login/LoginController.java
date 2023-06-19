@@ -8,7 +8,7 @@ public class LoginController {
 	
 	/*--ログイン画面のメソッド一覧--*/	
 	
-	//ログインページに遷移するための処理
+	//★ログイン画面に遷移するためのメソッド
 	@GetMapping("/login")
 	public String getLogin() {
 		//login/login.htmlを呼び出す

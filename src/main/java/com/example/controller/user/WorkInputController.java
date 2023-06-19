@@ -29,7 +29,7 @@ public class WorkInputController {
 	
 	/*--出退勤入力画面のメソッド一覧--*/	
 	
-	//出退勤時間入力画面に遷移するための処理
+	//★出退勤時間入力画面に遷移するためのメソッド
 	@GetMapping("/work/input")
 	public String getUserWorkInput(Model model, Integer year, Integer month) {
 		//カレンダークラスのオブジェクトを生成
@@ -74,7 +74,7 @@ public class WorkInputController {
 		return "user/work_input";
 	}
 	
-	//出勤ボタン押下時の処理
+	//★出勤ボタン押下時のメソッド
 	@PostMapping("/work/attendance")
 	public String postUserWorkAttendance(Work work, MUser loginUser, RedirectAttributes redirectAttributes) {
 		//ログインユーザー情報取得
@@ -124,7 +124,7 @@ public class WorkInputController {
 		return "redirect:/work/input";
 	}
 	
-	//退勤ボタン押下時の処理
+	//★退勤ボタン押下時のメソッド
 	@PostMapping("/work/leaving")
 	public String postUserWorkLeaving(Work work, MUser loginUser, RedirectAttributes redirectAttributes) {
 		//ログインユーザー情報取得
