@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 	
-	//セキュリティの対象外を設定する処理
+	//★セキュリティの対象外を設定するメソッド
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web
@@ -40,11 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/js/**");
 	}
 	
-	//セキュリティの各種設定をする処理
+	//★セキュリティの各種設定をするメソッド
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		//ログイン不要ページの設定
 		http
+			//ログイン不要ページの設定
 			.authorizeRequests()
 				//ログインページにはログイン不要でアクセスできる
 				.antMatchers("/login").permitAll()
@@ -52,8 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasAnyAuthority("ADMIN")
 				//それ以外はログインしないとアクセスできない
 				.anyRequest().authenticated();
-		//ログイン処理
 		http
+			//ログイン処理の設定
 			.formLogin()
 				//ログイン処理のパス
 				.loginProcessingUrl("/login")
@@ -67,8 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.passwordParameter("password")
 				//ログイン成功時の遷移先
 				.successHandler(AuthenticationSuccessHandler);
-		//ログアウト処理
 		http
+			//ログアウト処理の設定
 			.logout()
 				//ログアウトのリクエスト先パス
 				.logoutUrl("/logout")
@@ -76,24 +76,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/login");
 	}
 	
-	//認証設定の処理
+	//★認証マネージャーを構成するメソッド
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		//パスワードエンコーダーの生成
 		PasswordEncoder encoder = passwordEncoder();
-		//インメモリ認証
-//		auth
-//			.inMemoryAuthentication()
-//				//userを追加
-//				.withUser("user")
-//				.password(encoder.encode("user"))
-//				.roles("USER")
-//			.and()
-//				//adminを追加
-//				.withUser("adminadmin")
-//				.password(encoder.encode("admin"))
-//				.roles("ADMIN");
+		//ユーザーデータで認証
 		auth
+			//認証マネージャーに対してユーザーの詳細を提供するUserDetailsServiceオブジェクトを設定する（認証時にユーザーの情報を取得する）
 			.userDetailsService(userDetailsService)
+			//認証マネージャーに対してパスワードエンコーダーを設定する
 			.passwordEncoder(encoder);
 	}
 }
