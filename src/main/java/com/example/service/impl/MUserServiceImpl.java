@@ -20,18 +20,18 @@ public class MUserServiceImpl implements MUserService {
 
 	//ログインユーザー取得処理
 	@Override
-	public MUser getLoginUser(String userId) {
-		return mapper.getLoginUser(userId);
+	public MUser selectLoginUser(String userId) {
+		return mapper.selectLoginUser(userId);
 	}
 	//ユーザー一覧取得
 	@Override
-	public List<MUser> getUserList() {
-		return mapper.getUserList();
+	public List<MUser> selectUserList() {
+		return mapper.selectUserList();
 	}
 	//ユーザー詳細取得
 	@Override
-	public MUser getUserDetail(String userId) {
-		return mapper.getUserDetail(userId);
+	public MUser selectUserDetail(String userId) {
+		return mapper.selectUserDetail(userId);
 	}
 	//ユーザー新規登録
 	@Override

@@ -6,11 +6,11 @@ import com.example.model.MUser;
 
 public interface MUserService {
 	//ログインユーザー取得
-	public MUser getLoginUser(String userId);
+	public MUser selectLoginUser(String userId);
 	//ユーザー一覧取得
-	public List<MUser> getUserList();
+	public List<MUser> selectUserList();
 	//ユーザー詳細取得
-	public MUser getUserDetail(String userId);
+	public MUser selectUserDetail(String userId);
 	//ユーザー新規登録
 	public void insertUser(MUser user);
 }

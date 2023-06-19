@@ -13,7 +13,7 @@
 		<result column="role" property="role"/>
 	</resultMap>
 	<!--ログインユーザー取得-->
-	<select id="getLoginUser" resultType="MUser">
+	<select id="selectLoginUser" resultType="MUser">
 		select
 			*
 		from
@@ -22,7 +22,7 @@
 			user_id = #{userId}
 	</select>
 	<!--ユーザー一覧取得-->
-	<select id="getUserList" resultType="MUser">
+	<select id="selectUserList" resultType="MUser">
 		select
 			*
 		from
@@ -31,7 +31,7 @@
 			role = 'USER'
 	</select>
 	<!--ユーザー詳細取得-->
-	<select id="getUserDetail" resultMap="user">
+	<select id="selectUserDetail" resultMap="user">
 		select
 			*
 		from

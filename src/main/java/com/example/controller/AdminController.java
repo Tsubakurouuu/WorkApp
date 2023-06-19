@@ -106,7 +106,7 @@ public class AdminController {
         model.addAttribute("year", year);
 		model.addAttribute("month", month);	
 		//ユーザー一覧取得
-		List<MUser> userList = userService.getUserList();
+		List<MUser> userList = userService.selectUserList();
 		//Modelに登録
 		model.addAttribute("userList", userList);
 		//admin/user_index.htmlを呼び出す
@@ -129,7 +129,7 @@ public class AdminController {
 			month = calendar.get(Calendar.MONTH) + 1;
 	    }
 		//ユーザーを1件取得
-		MUser userDetail = userService.getUserDetail(userId);
+		MUser userDetail = userService.selectUserDetail(userId);
 		//Modelに登録
 		model.addAttribute("userDetail", userDetail);
 		//勤怠情報月毎取得
@@ -307,7 +307,7 @@ public class AdminController {
 	@GetMapping("/{userId}/{year}/{month}/{date}/edit")
 	public String getAdminUserWorkEdit(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model) {
 		//ユーザーを1件取得
-		MUser userDetail = userService.getUserDetail(userId);
+		MUser userDetail = userService.selectUserDetail(userId);
 		//Modelに登録
 		model.addAttribute("userDetail", userDetail);
 		//Workをformに変換
@@ -395,7 +395,7 @@ public class AdminController {
         response.setContentType("text/csv");
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + userId + "_" + year + "_" + month + "\"");
         //ユーザーを1件取得
-  		MUser userDetail = userService.getUserDetail(userId);
+  		MUser userDetail = userService.selectUserDetail(userId);
         //勤怠情報月毎取得
   		List<Work> workList = workService.selectWorkListMonth(userDetail.getId(), year, month);
   		// CSVデータのヘッダー
