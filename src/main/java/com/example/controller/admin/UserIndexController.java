@@ -21,7 +21,7 @@ public class UserIndexController {
 	
 	/*--ユーザー一覧画面のメソッド一覧--*/
 	
-	//ユーザー一覧画面に遷移するための処理
+	//★ユーザー一覧画面に遷移するためのメソッド
 	@GetMapping("/users")
 	public String getAdminUserIndex(Model model, Integer year, Integer month) {
 		//カレンダークラスのオブジェクトを生成

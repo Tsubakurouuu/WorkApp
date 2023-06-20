@@ -14,7 +14,9 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
+			<!--出退勤情報の登録、更新を行った際にフラッシュメッセージを表示-->
 			<p th:text="${complete}" class="text-success"></p>
+			<!--登録ユーザーを一覧表示するテーブル-->
 			<table class="table mt-5">
 				<thead>
 					<tr>
@@ -23,11 +25,14 @@
 						<th>名</th>
 					</tr>
 				</thead>
+				<!--ユーザー情報を一覧表示するオブジェクト-->
 				<tbody th:each="obj:${userList}">
 					<tr>
 						<td>
+							<!--ユーザーIDをリンクにして表示-->
 							<a th:text="${obj.userId}" th:href="@{'/admin/' + ${obj.userId} + '/' + ${year} + '/' + ${month}}"></a>
 						</td>
+						<!--姓名-->
 						<td th:text="${obj.lastName}"></td>
 						<td th:text="${obj.firstName}"></td>
 					</tr>
