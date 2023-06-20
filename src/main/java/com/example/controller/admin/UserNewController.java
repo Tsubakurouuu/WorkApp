@@ -26,14 +26,14 @@ public class UserNewController {
 	
 	/*--ユーザー登録画面のメソッド一覧--*/
 	
-	//ユーザー登録画面に遷移するための処理
+	//★ユーザー登録画面に遷移するためのメソッド
 	@GetMapping("/user/new")
 	public String getAdminUserNew(@ModelAttribute UserNewForm form) {
 		//admin/user_new.htmlを呼び出す
 		return "admin/user_new";
 	}
 	
-	//新規登録ボタン押下時の処理
+	//★新規登録ボタン押下時のメソッド
 	@PostMapping("/user/new")
 	public String postAdminUserNew(@ModelAttribute @Validated(GroupOrder.class) UserNewForm form, BindingResult bindingResult) {
 		//入力チェック結果
@@ -43,7 +43,7 @@ public class UserNewController {
 		}
 		//ログを表示
 		log.info(form.toString());
-		//formの内容をmodelに詰め替える
+		//formの内容をMUserに詰め替える
 		MUser user = new MUser();
 		user.setUserId(form.getUserId());
 		user.setPassword(form.getPassword());
