@@ -15,6 +15,7 @@
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
 			<h2>申請、通知一覧画面</h2>
+			<!--ユーザーの出退勤申請を一覧表示するテーブル-->
 			<table class="table">
 				<thead>
 					<tr>
@@ -23,12 +24,16 @@
 						<th>詳細</th>
 					</tr>
 				</thead>
+				<!--ユーザーの出退勤申請を一覧表示するオブジェクト-->
 				<tbody th:each="obj:${requestFormList}">
 					<tr>
+						<!--申請日の年月日を表示-->
 						<td th:text="|${obj.year}年 ${obj.month}月 ${obj.date}日|"></td>
 						<td>
+							<!--申請ユーザーの姓名のリンク-->
 							<a th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|" th:href="@{'/admin/form/' + ${obj.id}}"></a>
 						</td>
+						<!--申請者が何の申請をしているのかのSwitch分岐-->
 						<div th:switch="${obj.workStatus}">
 							<td>
 								<p th:case="1" th:text="勤怠情報修正"></p>

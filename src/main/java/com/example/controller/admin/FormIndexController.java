@@ -20,7 +20,7 @@ public class FormIndexController {
 	
 	/*--申請、通知一覧画面のメソッド一覧--*/
 	
-	//申請、通知一覧画面に遷移するための処理
+	//★申請、通知一覧画面に遷移するためのメソッド
 	@GetMapping("/forms")
 	public String getAdminFormIndex(Model model) {
 		//申請フォーム一覧取得
