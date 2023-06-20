@@ -14,13 +14,16 @@
 	<body>
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
+		<!--申請フォーム情報を表示するメソッド-->
 		<div class="container" th:object="${requestFormDetail}">
+			<!--申請フォームと同日年月日の勤怠情報が登録されているかどうかで処理を分岐(勤怠情報が登録されている場合)-->
 			<div th:if="${requestFormDetail.workId != null}">
 				<div class="row mt-5">
 					<div class="col-md-2">
 						<h4 class="mt-5">登録内容</h4>		
 					</div>
 					<div class="col-md-10" >
+						<!--申請フォームと同日年月日の勤怠情報が登録されていれば該当日の勤怠情報を表示するテーブル-->
 						<table class="table table-borderless">
 							<thead>
 								<tr>
@@ -35,7 +38,9 @@
 							</thead>
 							<tbody>
 								<tr>
+									<!--該当年月日の表示-->
 									<td th:text="|*{year}年 *{month}月 *{date}日|"></td>
+									<!--該当日の出勤ステータスのswitch文-->
 									<div th:switch="*{work.workStatus}">
 										<td>
 											<p th:case="1" th:text="出勤"></p>
@@ -44,6 +49,7 @@
 											<p th:case="4" th:text="半休"></p>
 										</td>
 									</div>
+									<!--該当日の出勤時間、退勤時間、休憩時間、就業時間、残業時間を表示-->
 									<td th:text="|*{work.attendanceHour}時*{work.attendanceMinute}分|"></td>
 									<td th:text="|*{work.leavingHour}時*{work.leavingMinute}分|"></td>
 									<td th:text="|*{work.restHour}時間*{work.restMinute}分|"></td>
@@ -55,12 +61,14 @@
 					</div>
 				</div>
 			</div>
+			<!--申請フォームと同日年月日の勤怠情報が登録されているかどうかで処理を分岐(勤怠情報が登録されていない場合)-->
 			<div th:if="${requestFormDetail.workId == null}">
 				<div class="row mt-5">
 					<div class="col-md-2">
-						<h4 class="mt-5">登録内容</h4>		
+						<h4 class="mt-5">登録内容</h4>
 					</div>
 					<div class="col-md-10">
+						<!--該当年月日の勤怠情報はありませんと表示-->
 						<p th:text="|*{year}年 *{month}月 *{date}日 の勤怠情報はありません|" class="mt-5"></p>
 					</div>
 				</div>
@@ -75,6 +83,7 @@
 							<label for="day">日付</label>
 						</div>
 						<div class="col-md-3">
+							<!--該当年月日の表示-->
 							<p th:text="|*{year}年 *{month}月 *{date}日|"></p>
 						</div>
 					</div>
@@ -83,6 +92,7 @@
 							<p>出勤ステータス</p>
 						</div>
 						<div class="col-md-3">
+							<!--該当日の出勤ステータスのswitch文-->
 							<div th:switch="*{workStatus}">
 								<td>
 									<p th:case="1" th:text="出勤"></p>
@@ -98,6 +108,7 @@
 							<p>出勤(時)</p>
 						</div>
 						<div class="col-md-1">
+							<!--出勤時間（時）-->
 							<p th:text="*{attendanceHour}"></p>
 						</div>
 						<div class="col-md-1"></div>
@@ -105,6 +116,7 @@
 							<p>出勤(分)</p>
 						</div>
 						<div class="col-md-1">
+							<!--出勤時間（分）-->
 							<p th:text="*{attendanceMinute}"></p>
 						</div>
 					</div>
@@ -113,6 +125,7 @@
 							<p>退勤(時)</p>
 						</div>
 						<div class="col-md-1">
+							<!--退勤時間（時）-->
 							<p th:text="*{leavingHour}"></p>
 						</div>
 						<div class="col-md-1"></div>
@@ -120,6 +133,7 @@
 							<p>退勤(分)</p>
 						</div>
 						<div class="col-md-1">
+							<!--退勤時間（分）-->
 							<p th:text="*{leavingMinute}"></p>
 						</div>
 					</div>
@@ -128,6 +142,7 @@
 							<p>休憩(時)</p>
 						</div>
 						<div class="col-md-1">
+							<!--休憩時間（時）-->
 							<p th:text="*{restHour}"></p>
 						</div>
 						<div class="col-md-1"></div>
@@ -135,15 +150,18 @@
 							<p>休憩(分)</p>
 						</div>
 						<div class="col-md-1">
+							<!--休憩時間（分）-->
 							<p th:text="*{restMinute}"></p>
 						</div>
 					</div>
 					<p>コメント</p>
 					<div class="row">
 						<div class="col-md-7">
+							<!--コメント-->
 							<p th:text="*{comment}"></p>
 						</div>
 						<div class="col-md-5">
+							<!--ユーザーから申請された内容を反映させるフォーム-->
 							<form method="post" th:action="@{/admin/form/update}" th:object="${requestFormDetail}">
 								<input type="hidden" th:field="*{id}" />
 								<input type="hidden" th:field="*{work.id}" />
