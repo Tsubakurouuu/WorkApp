@@ -15,12 +15,14 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container mt-3">
+			<!--出退勤申請画面から受け取った値を表示するオブジェクト-->
 			<div class="page" th:object="${requestFormForm}">
 				<div class="row mt-5">
 					<div class="col-md-3">
 						<p>日付</p>
 					</div>
 					<div class="col-md-3">
+						<!--該当年月日の表示-->
 						<p th:text="|*{year}年 *{month}月 *{date}日|"></p>
 					</div>
 				</div>
@@ -29,6 +31,7 @@
 						<p>出勤ステータス</p>
 					</div>
 					<div class="col-md-2">
+						<!--該当日の出勤ステータスのswitch文-->
 						<div th:switch="*{workStatus}">
 							<td>
 								<p th:case="1" th:text="出勤"></p>
@@ -44,6 +47,7 @@
 						<p>出勤(時)</p>
 					</div>
 					<div class="col-md-1">
+						<!--該当日の出勤時間(時)-->
 						<p th:text="*{attendanceHour}"></p>
 					</div>
 					<div class="col-md-1"></div>
@@ -51,6 +55,7 @@
 						<p>出勤(分)</p>
 					</div>
 					<div class="col-md-1">
+						<!--該当日の出勤時間(分)-->
 						<p th:text="*{attendanceMinute}"></p>
 					</div>
 				</div>
@@ -59,6 +64,7 @@
 						<p>退勤(時)</p>
 					</div>
 					<div class="col-md-1">
+						<!--該当日の退勤時間(時)-->
 						<p th:text="*{leavingHour}"></p>
 					</div>
 					<div class="col-md-1"></div>
@@ -66,6 +72,7 @@
 						<p>退勤(分)</p>
 					</div>
 					<div class="col-md-1">
+						<!--該当日の退勤時間(分)-->
 						<p th:text="*{leavingMinute}"></p>
 					</div>
 				</div>
@@ -74,6 +81,7 @@
 						<p>休憩(時)</p>
 					</div>
 					<div class="col-md-1">
+						<!--該当日の休憩時間(時)-->
 						<p th:text="*{restHour}"></p>
 					</div>
 					<div class="col-md-1"></div>
@@ -81,6 +89,7 @@
 						<p>休憩(分)</p>
 					</div>
 					<div class="col-md-1">
+						<!--該当日の休憩時間(分)-->
 						<p th:text="*{restMinute}"></p>
 					</div>
 				</div>
@@ -94,6 +103,7 @@
 				<div class="row">
 					<div class="col-md-4"></div>
 					<div class="col-md-2">
+						<!--出退勤申請処理を行うフォーム-->
 						<form method="post" th:action="@{/form/complete}" th:object="${requestFormForm}">
 							<input type="hidden" th:field="*{userId}"/>
 							<input type="hidden" th:field="*{workId}"/>
@@ -112,7 +122,9 @@
 						</form>
 					</div>
 					<div class="col-md-2">
+						<!--該当日の出勤情報が登録されていたときの処理-->
 						<div th:if="${workDetail != null}">
+							<!--出退勤申請画面へ戻る-->
 							<form method="post" th:action="@{'/form/' + ${requestFormForm.id}}" th:object="${requestFormForm}">
 								<input type="hidden" th:ifeld="*{id}"/>
 								<input type="hidden" th:field="*{userId}"/>
@@ -131,7 +143,9 @@
 								<input type="submit" value="戻る" class="btn btn-danger"/>
 							</form>
 						</div>
+						<!--該当日の出勤情報が登録されていないときの処理-->
 						<div th:if="${workDetail == null}">
+							<!--出退勤申請画面へ戻る-->
 							<form method="post" th:action="@{'/form/' + ${requestFormForm.year} + '/' + ${requestFormForm.month} + '/' + ${requestFormForm.date}}" th:object="${requestFormForm}">
 								<input type="hidden" th:ifeld="*{id}"/>
 								<input type="hidden" th:field="*{userId}"/>
