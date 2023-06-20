@@ -34,9 +34,9 @@ public class UserDetailController {
 	
 	/*--ユーザー詳細画面のメソッド一覧--*/
 	
-	//ユーザー詳細画面に遷移するための処理
+	//★ユーザー詳細画面に遷移するためのメソッド
 	@GetMapping("/{userId:.+}/{year}/{month}")
-	public String getAdminUserDetail(@PathVariable("userId") String userId, Integer id, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model) {
+	public String getAdminUserDetail(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model) {
 		//年と月が指定されていない場合、現在の年と月を取得
 		if (year == null || month == null) {
 			Calendar calendar = Calendar.getInstance();
@@ -51,16 +51,22 @@ public class UserDetailController {
 		List<Work> workList = workService.selectWorkListMonth(userDetail.getId(), year, month);
 		//各月の最終日にちを取得
 		Integer lastDateOfMonth = YearMonth.of(year, month).lengthOfMonth();
-		//日付ごとの勤怠情報をMapに変換する
+		//日付をキーとして勤怠情報を格納するための空のハッシュマップを作成
 	    Map<Integer, Work> workMap = new HashMap<>();
+	    //勤怠情報のリストworkList内の各Workオブジェクトに対して、繰り返し処理を行う
 	    for (Work work : workList) {
+	    	//日付をキーとして、該当する勤怠情報をマップに格納します。
 	    	workMap.put(work.getDate(), work);
 	    }
-	    // 曜日情報を作成
+	    //曜日情報を格納するための空の文字列リストを作成
 	    List<String> dayOfWeekList = new ArrayList<>();
+	    //1から月の最終日までの各日に対して繰り返し処理
 	    for (int date = 1; date <= lastDateOfMonth; date++) {
+	    	//指定された年月日を使用してLocalDateオブジェクトを作成
 	        LocalDate localDate = LocalDate.of(year, month, date);
+	        //LocalDateオブジェクトから曜日情報を取得(getDayOfWeek()メソッドは曜日を表すDayOfWeek列挙型返し、getDisplayName()メソッドを使用して日本語の短縮形式の曜日名を取得する)
 	        String dayOfWeek = localDate.getDayOfWeek().getDisplayName(TextStyle.SHORT, Locale.JAPANESE);
+	        //取得した曜日情報をdayOfWeekListに追加
 	        dayOfWeekList.add(dayOfWeek);
 	    }
 	    //Modelに登録
@@ -73,7 +79,7 @@ public class UserDetailController {
 		return "admin/user_detail";
 	}
 	
-	//先月ボタン(◀︎)押下時の処理
+	//★先月ボタン(◀︎)押下時のメソッド
 	@GetMapping("/{userId}/{year}/{month}/previous")
 	public String showPreviousMonthAttendance(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month) {
 		//1ヶ月前の年と月を計算
@@ -87,7 +93,7 @@ public class UserDetailController {
 	    return "redirect:/admin/" + userId + "/" + year + "/" + month;
 	}
 	
-	//翌月ボタン(▶︎)押下時の処理
+	//★翌月ボタン(▶︎)押下時のメソッド
 	@GetMapping("/{userId}/{year}/{month}/next")
 	public String showNextMonthAttendance(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month) {
 		//1ヶ月後の年と月を計算
@@ -102,6 +108,5 @@ public class UserDetailController {
 	}
 	
 	/*----------------------------*/
-	
 
 }

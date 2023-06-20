@@ -17,29 +17,36 @@
 		<div class="container">
 			<div class="row mt-5">
 				<div class="col-md-5">
+					<!--指定したユーザーのユーザー名を表示-->
 					<h2 th:text="|${userDetail.lastName} ${userDetail.firstName}さんの勤怠情報|"></h2>
 				</div>
 				<div class="col-md-2">
+					<!--csvファイルの出力を行うためのボタン-->
 					<a th:href="@{/admin/{userId}/{year}/{month}/csv(userId = ${userDetail.userId}, year = ${year}, month = ${month})}" class="btn btn-primary">CSVダウンロード</a>
 				</div>
 				<div class="col-md-1 text-right">
+					<!--先月の勤怠情報月毎一覧へのリンク-->
 					<form method="get" th:action="@{/admin/{userId}/{year}/{month}/previous(userId = ${userDetail.userId}, year = ${year}, month = ${month})}">
 						<input type="hidden" th:field="${userDetail.userId}"/>
 						<input type="submit" value="◀" class="button"/>
 					</form>
 				</div>
 				<div class="col-md-3 text-center">
+					<!--現在表示されている年月を表示-->
 					<h3 th:text="|${year}年 ${month}月|"></h3>
 				</div>
 				<div class="col-md-1">
+					<!--翌月の勤怠情報月毎一覧へのリンク-->
 					<form method="get" th:action="@{/admin/{userId}/{year}/{month}/next(userId = ${userDetail.userId}, year = ${year}, month = ${month})}">
 						<input type="hidden" th:field="${userDetail.userId}"/>
 						<input type="submit" value="▶" class="button"/>
 					</form>
 				</div>
 			</div>
+			<!--出退勤登録、修正時にフラッシュメッセージを表示-->
 			<h3 th:text="${complete}"></h3>
 			</form>
+			<!--勤怠情報月毎一覧表示するテーブル-->
 			<table class="table">
 				<thead>
 					<tr>
@@ -55,12 +62,15 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="date, index : ${#numbers.sequence(1, lastDateOfMonth)}">
+					<!--該当月の最終日にちまで繰り返し処理-->
+					<tr th:each="date : ${#numbers.sequence(1, lastDateOfMonth)}">
+						<!--月日の表示-->
 						<td th:text="|${month}月${date}日|"></td>
-						<td th:text="${dayOfWeekList[__${index.index}__]}"></td>
-						<!-- 勤怠情報が存在するかチェック -->
+						<!--dayOfWeekListに格納した曜日情報を表示(index番号で登録されているため-1をしないとズレてしまう)-->
+						<td th:text="${dayOfWeekList[__${date - 1}__]}"></td>
+						<!--該当日の勤怠情報が登録されていれば以下を表示する-->
 		            	<th:block th:if="${workMap[__${date}__]}">
-			            	<!-- 勤怠情報が存在する場合の表示 -->
+			            	<!--該当日の出勤ステータスのswitch文-->
 			            	<div th:switch="${workMap[__${date}__].workStatus}">
 								<td>
 									<p th:case="1" th:text="出勤"></p>
@@ -69,13 +79,16 @@
 									<p th:case="4" th:text="半休"></p>
 								</td>
 							</div>
+							<!--該当日の出勤時間を表示-->
 							<td th:text="|${workMap[__${date}__].attendanceHour}時${workMap[__${date}__].attendanceMinute}分|"></td>
+							<!--該当日の退勤時間がnullでなければ退勤時間、休憩時間、就業時間、残業時間を表示-->
 							<div th:if="${workMap[__${date}__].leavingHour != null}">
 								<td th:text="|${workMap[__${date}__].leavingHour}時${workMap[__${date}__].leavingMinute}分|"></td>
 								<td th:text="|${workMap[__${date}__].restHour}時間${workMap[__${date}__].restMinute}分|"></td>
 								<td th:text="|${workMap[__${date}__].workingTimeHour}時間${workMap[__${date}__].workingTimeMinute}分|"></td>
 								<td th:text="|${workMap[__${date}__].overTimeHour}時間${workMap[__${date}__].overTimeMinute}分|"></td>
 							</div>
+							<!--該当日の退勤時間がnullであれば何も表示しない(有休登録時など、null時null分と表示されるのを防止)-->
 							<div th:if="${workMap[__${date}__].leavingHour == null}">
 								<td></td>
 								<td></td>
@@ -83,12 +96,14 @@
 								<td></td>
 							</div>
 							<td>
+								<!--該当日の出退勤修正画面へのリンク-->
 								<a th:href="@{'/admin/' + ${workMap[__${date}__].id} + '/edit'}" class="btn btn-success">修正</a>
 							</td>
 			          	</th:block>
+			          	<!--該当日の勤怠情報が登録されていなければ以下を表示する-->
 		          		<th:block th:unless="${workMap[__${date}__]}">
-		            		<!-- 勤怠情報が存在しない場合の表示 -->
-		            		<div th:switch="${dayOfWeekList[__${index.index}__]}">
+		            		<!--該当日の出勤ステータスのswitch文(曜日が月〜金なら「出勤」、土日なら「休日」を表示)-->
+		            		<div th:switch="${dayOfWeekList[__${date - 1}__]}">
 		            			<td>
 									<p th:case="日" th:text="休日" class="text-danger"></p>
 									<p th:case="月" th:text="出勤"></p>
@@ -99,12 +114,14 @@
 									<p th:case="土" th:text="休日" class="text-danger"></p>
 								</td>
 							</div>
+							<!--勤怠情報は存在しないので-と表示する-->
 		            		<td>----</td>
 		            		<td>----</td>
 		            		<td>----</td>
 		            		<td>----</td>
 		            		<td>----</td>
 		            		<td>
+								<!--該当日の出退勤登録画面へのリンク-->
 								<a th:href="@{/admin/{userId}/{year}/{month}/{date}/edit(userId=${userDetail.userId}, year=${year}, month=${month}, date=${date})}" class="btn btn-success">登録</a>
 							</td>
 		          		</th:block>
