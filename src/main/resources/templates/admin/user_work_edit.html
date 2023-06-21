@@ -15,7 +15,9 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
+			<!--該当日の勤怠情報が存在すれば該当日の勤怠情報を表示-->
 			<div th:if="${workDetail != null}">
+				<!--勤怠情報を更新するためのフォーム-->
 				<form method="post" th:action="@{/admin/edit}" th:object="${workEditForm}">
 					<input type="hidden" th:field="*{id}"/>
 					<input type="hidden" th:field="*{userId}"/>
@@ -31,6 +33,7 @@
 							<p>日付</p>
 						</div>
 						<div class="col">
+							<!--該当日の日付を表示-->
 							<p th:text="|*{year}年 *{month}月 *{date}日|"></p>
 						</div>
 					</div>
@@ -40,6 +43,7 @@
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
+								<!--該当日の出勤ステータスのラジオボタン-->
 								<div th:each="item : ${workStatusMap}" class="form-check-inline">
 									<input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{workStatus}" th:errorclass="is-invalid"/>
 									<label class="form-check-label" th:text="${item.key}"></label>
@@ -53,6 +57,7 @@
 							<label for="attendanceHour">出勤(時)</label>
 						</div>
 						<div class="col-md-3">
+							<!--出勤時間（時）のセレクトフォーム-->
 							<select name="attendanceHour" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceHour}"></option>
@@ -62,6 +67,7 @@
 							<label for="attendanceMinute">出勤(分)</label>
 						</div>
 						<div class="col-md-3">
+							<!--出勤時間（分）のセレクトフォーム-->
 							<select name="attendanceMinute" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceMinute}"></option>
@@ -73,6 +79,7 @@
 							<label for="leavingHour">退勤(時)</label>
 						</div>
 						<div class="col-md-3">
+							<!--退勤時間（時）のセレクトフォーム-->
 							<select name="leavingHour" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingHour}"></option>
@@ -82,6 +89,7 @@
 							<label for="leavingMinute">退勤(分)</label>
 						</div>
 						<div class="col-md-3">
+							<!--退勤時間（分）のセレクトフォーム-->
 							<select name="leavingMinute" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingMinute}"></option>
@@ -93,6 +101,7 @@
 							<label for="restHour">休憩(時)</label>
 						</div>
 						<div class="col-md-3">
+							<!--休憩時間（時）のセレクトフォーム-->
 							<select name="restHour" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{restHour}"></option>
@@ -102,6 +111,7 @@
 							<label for="restMinute">休憩(分)</label>
 						</div>
 						<div class="col-md-3">
+							<!--休憩時間（分）のセレクトフォーム-->
 							<select name="restMinute" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{restMinute}"></option>
@@ -109,12 +119,15 @@
 						</div>
 					</div>
 					<div class="col-md-5 button">
+						<!--修正ボタン-->
 						<input type="submit" th:value="修正" class="btn btn-primary ml-5"/>
 						<a th:href="@{/admin/users}" class="btn btn-danger ml-5">キャンセル</a>
 					</div>
 				</form>
 			</div>
-			<div th:if="${workDetail == null}">	
+			<!--該当日の勤怠情報がnullなら該当日の勤怠情報はない-->
+			<div th:if="${workDetail == null}">
+				<!--勤怠情報を登録するためのフォーム-->
 				<form method="post" th:action="@{/admin/edit}" th:object="${workEditForm}">
 					<input type="hidden" th:field="*{id}"/>
 					<input type="hidden" th:field="*{userId}"/>
@@ -130,6 +143,7 @@
 							<p>日付</p>
 						</div>
 						<div class="col">
+							<!--該当年月日の表示-->
 							<p th:text="|*{year}年 *{month}月 *{date}日|"></p>
 						</div>
 					</div>
@@ -139,6 +153,7 @@
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
+								<!--出勤ステータスのラジオボタン-->
 								<div th:each="item : ${workStatusMap}" class="form-check-inline">
 									<input type="radio" class="form-check-input" th:value="${item.value}" th:field="*{workStatus}" th:errorclass="is-invalid"/>
 									<label class="form-check-label" th:text="${item.key}"></label>
@@ -152,6 +167,7 @@
 							<label for="attendanceHour">出勤(時)</label>
 						</div>
 						<div class="col-md-3">
+							<!--出勤時間（時）のセレクトフォーム-->
 							<select name="attendanceHour" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceHour}"></option>
@@ -161,6 +177,7 @@
 							<label for="attendanceMinute">出勤(分)</label>
 						</div>
 						<div class="col-md-3">
+							<!--出勤時間（分）のセレクトフォーム-->
 							<select name="attendanceMinute" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{attendanceMinute}"></option>
@@ -172,6 +189,7 @@
 							<label for="leavingHour">退勤(時)</label>
 						</div>
 						<div class="col-md-3">
+							<!--退勤時間（時）のセレクトフォーム-->
 							<select name="leavingHour" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingHour}"></option>
@@ -181,6 +199,7 @@
 							<label for="leavingMinute">退勤(分)</label>
 						</div>
 						<div class="col-md-3">
+							<!--退勤時間（分）のセレクトフォーム-->
 							<select name="leavingMinute" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{leavingMinute}"></option>
@@ -192,6 +211,7 @@
 							<label for="restHour">休憩(時)</label>
 						</div>
 						<div class="col-md-3">
+							<!--休憩時間（時）のセレクトフォーム-->
 							<select name="restHour" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${hourNumbers}" th:value="${number}" th:text="${number}" th:field="*{restHour}"></option>
@@ -201,6 +221,7 @@
 							<label for="restMinute">休憩(分)</label>
 						</div>
 						<div class="col-md-3">
+							<!--休憩時間（分）のセレクトフォーム-->
 							<select name="restMinute" class="form-control time-form">
 								<option value="">--</option>
 								<option th:each="number : ${minuteNumbers}" th:value="${number}" th:text="${number}" th:field="*{restMinute}"></option>
@@ -208,6 +229,7 @@
 						</div>
 					</div>
 					<div class="col-md-5 button">
+						<!--登録ボタン-->
 						<input type="submit" th:value="登録" class="btn btn-primary ml-5"/>
 						<a th:href="@{/admin/users}" class="btn btn-danger ml-5">キャンセル</a>
 					</div>

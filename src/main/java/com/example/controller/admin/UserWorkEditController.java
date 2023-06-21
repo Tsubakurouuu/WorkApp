@@ -41,7 +41,7 @@ public class UserWorkEditController {
 	
 	/*--出退勤修正画面のメソッド一覧--*/
 	
-	//出退勤修正画面に遷移するための処理(勤怠情報登録時)
+	//★出退勤修正画面に遷移するためのメソッド(勤怠情報登録時)
 	@GetMapping("/{id}/edit")
 	public String getAdminUserWorkEdit(@PathVariable("id") Integer id, Model model) {
 		//勤怠情報取得
@@ -76,7 +76,7 @@ public class UserWorkEditController {
 		return "admin/user_work_edit";
 	}
 	
-	//出退勤修正画面に遷移するための処理(勤怠情報未登録時)
+	//★出退勤修正画面に遷移するためのメソッド(勤怠情報未登録時)
 	@GetMapping("/{userId}/{year}/{month}/{date}/edit")
 	public String getAdminUserWorkEdit(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model) {
 		//ユーザーを1件取得
@@ -102,7 +102,7 @@ public class UserWorkEditController {
 		return "admin/user_work_edit";
 	}
 	
-	//登録/修正ボタン押下時の処理
+	//★登録,修正ボタン押下時のメソッド
 	@PostMapping("/edit")
 	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month, Integer date, Integer userId) {
 		//入力チェック結果
@@ -125,24 +125,30 @@ public class UserWorkEditController {
 		work.setLeavingMinute(form.getLeavingMinute());
 		work.setRestHour(form.getRestHour());
 		work.setRestMinute(form.getRestMinute());
+		//RequestFormに出勤時間(時)がnullかどうかで分岐処理を行う(有休申請の場合はnullになる)
 		if(form.getAttendanceHour() != null) {
-			//就業時間と残業時間を計算するメソッド
+			//出勤時間、退勤時間、休憩時間から就業時間と残業時間を計算するメソッド
 			Integer[] calcWorkingOver = CommonController.calcWorkingOver(form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+			//上記の結果から就業時間、残業時間をセット
 			work.setWorkingTimeHour(calcWorkingOver[0]);
 			work.setWorkingTimeMinute(calcWorkingOver[1]);
 			work.setOverTimeHour(calcWorkingOver[2]);
 			work.setOverTimeMinute(calcWorkingOver[3]);
 		}
+		//出勤ステータスをセット
 		work.setWorkStatus(form.getWorkStatus());
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
+		//該当日の勤怠情報を取得できたかどうかで処理を分岐(勤怠情報がすでに存在していれば更新処理)
 		if(workDetail != null) {
 			//勤怠情報更新
 			workService.updateWork(work);
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("complete", "勤怠情報を修正しました。");
 		} 
+		//該当日の勤怠情報を取得できたかどうかで処理を分岐(勤怠情報が存在しなければ登録処理)
 		if(workDetail == null) {
+			//ユーザーIDと年月日をセット
 			work.setUserId(userId);
 			work.setYear(year);
 			work.setMonth(month);
@@ -159,4 +165,5 @@ public class UserWorkEditController {
 	}
 	
 	/*----------------------------*/
+	
 }
