@@ -48,12 +48,33 @@
 											<p th:case="4" th:text="半休"></p>
 										</td>
 									</div>
-									<!--該当日の出勤時間、退勤時間、休憩時間、就業時間、残業時間を表示-->
-									<td th:text="|*{attendanceHour}時*{attendanceMinute}分|"></td>
-									<td th:text="|*{leavingHour}時*{leavingMinute}分|"></td>
-									<td th:text="|*{restHour}時間*{restMinute}分|"></td>
-									<td th:text="|*{workingTimeHour}時間*{workingTimeMinute}分|"></td>
-									<td th:text="|*{overTimeHour}時間*{overTimeMinute}分|"></td>
+									<!--該当日の出勤ステータスが出勤であれば登録情報を表示-->
+									<div th:if="*{workStatus == 1}">
+										<!--該当日の出勤時間、退勤時間、休憩時間、就業時間、残業時間を表示-->
+										<td th:text="|*{attendanceHour}時*{attendanceMinute}分|"></td>
+										<!--該当日の退勤時間がnullでなければ退勤時間、休憩時間、就業時間、残業時間を表示-->
+										<div th:if="*{leavingHour != null}">
+											<td th:text="|*{leavingHour}時*{leavingMinute}分|"></td>
+											<td th:text="|*{restHour}時間*{restMinute}分|"></td>
+											<td th:text="|*{workingTimeHour}時間*{workingTimeMinute}分|"></td>
+											<td th:text="|*{overTimeHour}時間*{overTimeMinute}分|"></td>
+										</div>
+										<!--該当日の退勤時間がnullであれば-を表示(有休登録時など、null時null分と表示されるのを防止)-->
+										<div th:if="*{leavingHour == null}">
+											<td>----</td>
+											<td>----</td>
+											<td>----</td>
+											<td>----</td>
+										</div>
+									</div>
+									<!--該当日の出勤ステータスが出勤以外であれば-を表示(nullのため)-->
+									<div th:if="*{workStatus != 1}">
+										<td>----</td>
+										<td>----</td>
+										<td>----</td>
+										<td>----</td>
+										<td>----</td>
+									</div>
 								</tr>
 							</tbody>
 						</table>
