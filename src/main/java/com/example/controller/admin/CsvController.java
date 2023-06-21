@@ -30,11 +30,12 @@ public class CsvController {
 	
 	/*--csv出力画面のメソッド一覧--*/
 	
-	//csv出力画面に遷移するための処理
+	//★csv出力画面に遷移するためのメソッド
 	@GetMapping("/{userId:.+}/{year}/{month}/csv")
 	public String downloadCsv(HttpServletResponse response, @PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model) {
-		// レスポンスの設定
+		//レスポンスの設定("text/csv"とすることでcsv形式のテキストデータであることを認識する)
         response.setContentType("text/csv");
+        //レスポンスの設定(Content-Disposition:ブラウザに対してレスポンスの内容の扱い方を伝えるために使用される※attachmentとすることでレスポンスの内容を「添付ファイル」としてダウンロードすることをブラウザに指示する)
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + userId + "_" + year + "_" + month + "\"");
         //ユーザーを1件取得
   		MUser userDetail = userService.selectUserDetail(userId);
