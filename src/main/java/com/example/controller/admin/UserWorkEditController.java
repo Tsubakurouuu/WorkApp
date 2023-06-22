@@ -70,6 +70,7 @@ public class UserWorkEditController {
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
 		//Modelに登録
 		model.addAttribute("workStatusMap", workStatusMap);
+		model.addAttribute("workDetail", workDetail);
 		//時分フォーム入力用メソッド
 		CommonController.formNumbers(model);
 		//admin/user_work_edit.htmlを呼び出す
