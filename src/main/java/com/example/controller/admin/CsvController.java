@@ -68,34 +68,45 @@ public class CsvController {
 	        //取得した曜日情報をdayOfWeekListに追加
 	        dayOfWeekList.add(dayOfWeek);
 	    }
+	    //ヘッダーの配列を生成
   		String[] header = {"日付", "曜日", "出勤ステータス", "出勤時間", "退勤時間", "休憩時間", "就業時間", "残業時間"};
   		// CSVデータの内容を保持するStringJoiner
   		StringJoiner csvData = new StringJoiner("\n");
   		// ヘッダー行を追加
   		csvData.add(String.join(",", header));
-  		//勤怠情報をcsvデータに変換
+  		//勤怠情報をcsvデータに変換(該当年月の1日から最終日にちまでのfor文)
   		for (Integer i = 1; i <= lastDateOfMonth; i++) {
+  			//ユーザーID,年月日から出勤情報があるかを探す
             Work work = workService.selectWorkAttendance(userDetail.getId(), year, month, i);
+            //年月日
             String day = year + "年" + month + "月" + i + "日";
+            //dayOfWeekListから該当の曜日を選択
             String dayOfWeek = dayOfWeekList.get(i - 1);
+            //各変数の宣言
             String workStatus;
             String attendance;
             String leaving;
             String rest;
             String working;
             String over;
+            //該当年月日の勤怠情報がなかった時の処理
             if(work == null) {
+            	//土日であれば休日と表示
             	if(dayOfWeek.equals("土") || dayOfWeek.equals("日")) {
             		workStatus = "休日";
+            	//平日であれば出勤と表示
             	} else {
             		workStatus = "出勤";
             	}
+            	//勤怠情報がなかったら各ステータスに-を表示
             	attendance = "----";
             	leaving = "----";
             	rest = "----";
             	working = "----";
             	over = "----";
+            //該当年月日の勤怠情報があった時の処理
             } else {
+            	//出勤ステータスのSwitch文
             	switch(work.getWorkStatus()) {
             	case 1:
             		workStatus = "出勤";
@@ -113,37 +124,44 @@ public class CsvController {
             		workStatus = "その他のステータス";
             		break;
             	}
+            	//出勤時間がnullかどうかで処理を分岐(csvファイルにnullと表示されるのを防ぐ)
             	if(work.getAttendanceHour() == null || work.getAttendanceMinute() == null) {
             		attendance = "----";
             	} else {
             		attendance = work.getAttendanceHour() + "時" + work.getAttendanceMinute() + "分";
             	}
+            	//退勤時間がnullかどうかで処理を分岐(csvファイルにnullと表示されるのを防ぐ)
             	if(work.getLeavingHour() == null || work.getLeavingMinute() == null) {
             		leaving = "----";
             	} else {
             		leaving = work.getLeavingHour() + "時" + work.getLeavingMinute() + "分";
             	}
+            	//休憩時間がnullかどうかで処理を分岐(csvファイルにnullと表示されるのを防ぐ)
             	if(work.getRestHour() == null || work.getRestMinute() == null) {
             		rest = "----";
             	} else {
             		rest = work.getRestHour() + "時" + work.getRestMinute() + "分";
             	}
+            	//就業時間がnullかどうかで処理を分岐(csvファイルにnullと表示されるのを防ぐ)
             	if(work.getWorkingTimeHour() == null || work.getWorkingTimeMinute() == null) {
             		working = "----";
             	} else {
             		working = work.getWorkingTimeHour() + "時" + work.getWorkingTimeMinute() + "分";
             	}
+            	//残業時間がnullかどうかで処理を分岐(csvファイルにnullと表示されるのを防ぐ)
             	if(work.getOverTimeHour() == null || work.getOverTimeMinute() == null) {
             		over = "----";
             	} else {
             		over = work.getOverTimeHour() + "時" + work.getOverTimeMinute() + "分";
             	}
             }
+            //該当年月日の勤怠データを配列にして格納する
 		    String[] row = {day, dayOfWeek, workStatus, attendance, leaving, rest, working, over};
 		    csvData.add(String.join(",", row));
   		}
   		//CSVデータを文字列として取得
   		String csvString = csvData.toString();
+  		//Modelに登録
   		model.addAttribute("csvString", csvString);
   		model.addAttribute("userDetail", userDetail);
   		model.addAttribute("year", year);
