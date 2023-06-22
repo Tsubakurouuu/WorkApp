@@ -113,54 +113,41 @@ public class CsvController {
             		workStatus = "その他のステータス";
             		break;
             	}
-            	attendance = work.getAttendanceHour() + "時" + work.getAttendanceMinute() + "分";
-            	leaving = work.getLeavingHour() + "時" + work.getLeavingMinute() + "分";
-            	rest = work.getRestHour() + "時間" + work.getRestMinute() + "分";
-            	working = work.getWorkingTimeHour() + "時間" + work.getWorkingTimeMinute() + "分";
-            	over = work.getOverTimeHour() + "時間" + work.getOverTimeMinute() + "分";
+            	if(work.getAttendanceHour() == null || work.getAttendanceMinute() == null) {
+            		attendance = "----";
+            	} else {
+            		attendance = work.getAttendanceHour() + "時" + work.getAttendanceMinute() + "分";
+            	}
+            	if(work.getLeavingHour() == null || work.getLeavingMinute() == null) {
+            		leaving = "----";
+            	} else {
+            		leaving = work.getLeavingHour() + "時" + work.getLeavingMinute() + "分";
+            	}
+            	if(work.getRestHour() == null || work.getRestMinute() == null) {
+            		rest = "----";
+            	} else {
+            		rest = work.getRestHour() + "時" + work.getRestMinute() + "分";
+            	}
+            	if(work.getWorkingTimeHour() == null || work.getWorkingTimeMinute() == null) {
+            		working = "----";
+            	} else {
+            		working = work.getWorkingTimeHour() + "時" + work.getWorkingTimeMinute() + "分";
+            	}
+            	if(work.getOverTimeHour() == null || work.getOverTimeMinute() == null) {
+            		over = "----";
+            	} else {
+            		over = work.getOverTimeHour() + "時" + work.getOverTimeMinute() + "分";
+            	}
             }
 		    String[] row = {day, dayOfWeek, workStatus, attendance, leaving, rest, working, over};
 		    csvData.add(String.join(",", row));
   		}
-            
-  		
-  		
-  		
-  		
-  		
-//  		for (Work work : workList) {
-//  		    String day = work.getYear().toString() + "年" + work.getMonth().toString() + "月" + work.getDate().toString() + "日";
-//  		    String workStatus;
-//  		    switch(work.getWorkStatus()) {
-//  		    	case 1:
-//  		    		workStatus = "出勤";
-//  		    		break;
-//  		    	case 2:
-//  		    		workStatus = "欠勤";
-//  		    		break;
-//  		    	case 3:
-//  		    		workStatus = "有休";
-//  		    		break;
-//  		    	case 4:
-//  		    		workStatus = "半休";
-//  		    		break;
-//  		    	default:
-//  		    		workStatus = "その他のステータス";
-//  		    		break;
-//  		    }
-//  		    String attendance = work.getAttendanceHour() + "時" + work.getAttendanceMinute() + "分";
-//  		    String leaving = work.getLeavingHour() + "時" + work.getLeavingMinute() + "分";
-//  		    String rest = work.getRestHour() + "時間" + work.getRestMinute() + "分";
-//  		    String working = work.getWorkingTimeHour() + "時間" + work.getWorkingTimeMinute() + "分";
-//  		    String over = work.getOverTimeHour() + "時間" + work.getOverTimeMinute() + "分";
-//
-//  		    String[] row = {day, workStatus, attendance, leaving, rest, working, over};
-//  		    csvData.add(String.join(",", row));
-//  		}
-  		
   		//CSVデータを文字列として取得
   		String csvString = csvData.toString();
   		model.addAttribute("csvString", csvString);
+  		model.addAttribute("userDetail", userDetail);
+  		model.addAttribute("year", year);
+  		model.addAttribute("month", month);
   		return "admin/csv";
 	}
 
