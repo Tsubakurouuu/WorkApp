@@ -31,4 +31,7 @@ public interface WorkMapper {
 	//勤怠情報新規登録
 	public Integer insertWork(Work work);
 	
+	//勤怠情報を取得し不備がないかの確認
+	public List<Work> selectWorkInfoList(Integer year, Integer month, Integer date);
+	
 }

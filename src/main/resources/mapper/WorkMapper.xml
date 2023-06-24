@@ -181,4 +181,18 @@
 			#{workStatus}
 		)
 	</insert>
+	
+	<!--勤怠情報を取得し不備がないかの確認-->
+	<select id="selectWorkInfoList" resultType="Work">
+		select
+			*
+		from
+			work
+		where
+			year = #{year}
+		and
+			month = #{month}
+		and
+			date = #{date}	
+	</select>
 </mapper>

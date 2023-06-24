@@ -1,0 +1,21 @@
+package com.example.service.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.model.Notification;
+import com.example.repository.NotificationMapper;
+import com.example.service.NotificationService;
+
+@Service
+public class NotificationServiceImpl implements NotificationService {
+	
+	@Autowired
+	private NotificationMapper mapper;
+	
+	//通知新規登録
+	@Override
+	public void insertNotification(Notification notification) {
+		mapper.insertNotification(notification);
+	}
+}
