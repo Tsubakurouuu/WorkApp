@@ -17,14 +17,11 @@ public class LogAspect {
 	public Object startLog(ProceedingJoinPoint jp) throws Throwable {
 		//開始ログ出力
 		log.info("メソッド開始:" + jp.getSignature());
-	
 		try { 
 			//メソッド実行
 			Object result = jp.proceed();
-			
 			//終了ログ出力 
 			log.info("メソッド終了:" + jp.getSignature());
-			
 			//実行結果を呼び出し元に返却
 			return result;
 		} catch (Exception e) {
