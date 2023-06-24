@@ -1,5 +1,7 @@
 package com.example.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +19,11 @@ public class NotificationServiceImpl implements NotificationService {
 	@Override
 	public void insertNotification(Notification notification) {
 		mapper.insertNotification(notification);
+	}
+	
+	//通知一覧取得
+	@Override
+	public List<Notification> selectNotificationList() {
+		return mapper.selectNotificationList();
 	}
 }

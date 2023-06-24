@@ -21,7 +21,7 @@ public class NotificationScheduler {
 	@Autowired
 	private NotificationService notificationService;
 	
-	@Scheduled(cron = "0 * * * * ?") // 毎分実行
+	@Scheduled(cron = "0 59 23 * * ?") // 毎分実行
     public void checkAttendanceStatus() {
         // 退勤ボタンの押下状態を確認し、通知を送信する処理を実装する
         if (isAttendanceButtonNotPressed()) {

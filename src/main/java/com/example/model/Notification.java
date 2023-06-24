@@ -16,4 +16,10 @@ public class Notification {
 	
 	//メッセージ
 	private String message;
+	
+	//ユーザーテーブル
+	private MUser mUser;
+	
+	//勤怠テーブル
+	private Work work;
 }

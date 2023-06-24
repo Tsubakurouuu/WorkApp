@@ -8,7 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.model.Notification;
 import com.example.model.RequestForm;
+import com.example.service.NotificationService;
 import com.example.service.RequestFormService;
 
 @Controller
@@ -17,6 +19,9 @@ public class FormIndexController {
 	
 	@Autowired
 	private RequestFormService requestFormService;
+	
+	@Autowired
+	private NotificationService notificationService;
 	
 	/*--申請、通知一覧画面のメソッド一覧--*/
 	
@@ -27,6 +32,10 @@ public class FormIndexController {
 		List<RequestForm> requestFormList = requestFormService.selectRequestFormList();
 		//Modelに登録
 		model.addAttribute("requestFormList", requestFormList);
+		//通知一覧取得
+		List<Notification> notificationList = notificationService.selectNotificationList();
+		//Modelに登録
+		model.addAttribute("notificationList", notificationList);
 		//admin/work_index.htmlを呼び出す
 		return "admin/form_index";
 	}

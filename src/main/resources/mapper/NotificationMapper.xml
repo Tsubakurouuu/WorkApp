@@ -7,8 +7,41 @@
 	<resultMap id="notification" type="com.example.model.Notification">
 		<id column="id" property="id"/>
 		<result column="user_id" property="userId"/>
-		<result column="work_id" property="workI"/>
+		<result column="work_id" property="workId"/>
 		<result column="message" property="message"/>
+		<association property="work" resultMap="work" columnPrefix="work_"/>
+		<association property="mUser" resultMap="user" columnPrefix="user_"/>
+	</resultMap>
+	
+	<!--マッピング定義(ユーザー)-->
+	<resultMap id="user" type="com.example.model.MUser">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="password" property="password"/>
+		<result column="last_name" property="lastName"/>
+		<result column="first_name" property="firstName"/>
+		<result column="birthday" property="birthday"/>
+		<result column="role" property="role"/>
+	</resultMap>
+	
+	<!--マッピング定義(勤怠)-->
+	<resultMap id="work" type="com.example.model.Work">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="year" property="year"/>
+		<result column="month" property="month"/>
+		<result column="date" property="date"/>
+		<result column="attendance_hour" property="attendanceHour"/>
+		<result column="attendance_minute" property="attendanceMinute"/>
+		<result column="leaving_hour" property="leavingHour"/>
+		<result column="leaving_minute" property="leavingMinute"/>
+		<result column="rest_hour" property="restHour"/>
+		<result column="rest_minute" property="restMinute"/>
+		<result column="working_time_hour" property="workingTimeHour"/>
+		<result column="working_time_minute" property="workingTimeMinute"/>
+		<result column="over_time_hour" property="overTimeHour"/>
+		<result column="over_time_minute" property="overTimeMinute"/>
+		<result column="work_status" property="workStatus"/>
 	</resultMap>
 	
 	<!--通知新規登録-->
@@ -26,5 +59,49 @@
 			#{message}
 		)
 	</insert>
+	
+	<!--通知一覧取得-->
+	<select id="selectNotificationList" resultMap="notification" resultType="Notification">
+		select 
+			notification.id,
+			notification.user_id,
+			notification.work_id,
+			notification.message,
+			m_user.id as user_id,
+			m_user.user_id as user_user_id,
+			m_user.password as user_password,
+			m_user.first_name as user_first_name,
+			m_user.last_name as user_last_name,
+			m_user.birthday as user_birthday,
+			m_user.role as user_role,
+			work.id as work_id,
+			work.user_id as work_user_id,
+			work.year as work_year,
+			work.month as work_month,
+			work.date as work_date,
+			work.attendance_hour as work_attendance_hour,
+			work.attendance_minute as work_attendance_minute,
+			work.leaving_hour as work_leaving_hour,
+			work.leaving_minute as work_leaving_minute,
+			work.rest_hour as work_rest_hour,
+			work.rest_minute as work_rest_minute,
+			work.working_time_hour as work_working_time_hour,
+			work.working_time_minute as work_working_time_minute,
+			work.over_time_hour as work_over_time_hour,
+			work.over_time_minute as work_over_time_minute,
+			work.work_status as work_work_status
+		from
+			notification
+		left
+		join
+			m_user
+		on
+			notification.user_id = m_user.id
+		left
+		join
+			work
+		on
+			notification.work_id = work.id
+	</select>
 	
 </mapper>
