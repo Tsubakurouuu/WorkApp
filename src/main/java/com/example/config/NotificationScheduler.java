@@ -21,19 +21,15 @@ public class NotificationScheduler {
 	@Autowired
 	private NotificationService notificationService;
 	
-	@Scheduled(cron = "0 59 23 * * ?") // 毎分実行
+	//★毎日23時59分0秒に起動するメソッド
+	@Scheduled(cron = "0 59 23 * * ?")
     public void checkAttendanceStatus() {
-        // 退勤ボタンの押下状態を確認し、通知を送信する処理を実装する
-        if (isAttendanceButtonNotPressed()) {
-            sendNotificationToAdmin();
-        }
+		//出勤打刻がされていて退勤打刻がされていないときに通知テーブルの作成をするメソッド
+		isAttendanceButtonNotPressed();
     }
-
+	
+	//出勤打刻がされていて退勤打刻がされていないときに通知テーブルの作成をするメソッド
 	private boolean isAttendanceButtonNotPressed() {
-        // データベースやセッションからユーザーの退勤ボタンの状態を取得するロジックを実装する
-        // 例えば、データベースの値をチェックするなど
-        // このメソッドの返り値が true の場合、退勤ボタンが押されていないことを意味します
-        // 必要に応じて実際のロジックを追加してください
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//現在の年を取得
@@ -42,25 +38,25 @@ public class NotificationScheduler {
         Integer month = calendar.get(Calendar.MONTH) + 1;
         //現在の日を取得
         Integer date = calendar.get(Calendar.DATE);
-        //勤怠情報を取得し不備がないかの確認
+        //勤怠情報を取得し不備がないかの確認(今日日付の勤怠リストを取得)
         List<Work> workList = workService.selectWorkInfoList(year, month, date);
+        //取得したデータで繰り返し分
         for(Work work : workList) {
+        	//出勤時間が登録されていて退勤時間が登録されていなければ(退勤打刻の押しわすれ)処理を実行
         	if(work.getAttendanceHour() != null && work.getLeavingHour() == null) {
+        		//Notificationインスタンスの生成
         		Notification notification = new Notification();
         		notification.setUserId(work.getUserId());
         		notification.setWorkId(work.getId());
         		notification.setMessage("退勤打刻が登録されていません。");
+        		//通知新規登録
         		notificationService.insertNotification(notification);
+        		//trueを返し、処理が実行される
         		return true;
         	}
         }
+        //取得したデータが全て問題いなければfalseをかえし処理は実行されない
         return false;
     }
-
-    private void sendNotificationToAdmin() {
-        // 管理者に通知を送信する処理を実装する
-        // 例えば、メール送信やプッシュ通知のAPIを呼び出すなど
-        // 必要に応じて実際の通知処理を追加してください
-        System.out.println("退勤ボタンが押されていません。管理者に通知します。");
-    }
+	
 }
