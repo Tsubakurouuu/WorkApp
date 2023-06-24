@@ -27,7 +27,7 @@ public class FormDetailController {
 	
 	/*--申請、通知詳細画面のメソッド一覧--*/
 	
-	//★申請、通知詳細画面に遷移するためのメソッド
+	//★申請、通知詳細画面に遷移するためのメソッド(申請)
 	@GetMapping("/form/{id}")
 	public String getAdminFormDetail(Model model, @PathVariable("id") Integer id) {
 		//ユーザーを1件取得
@@ -37,6 +37,7 @@ public class FormDetailController {
 		//admin/form_detail.htmlを呼び出す
 		return "admin/form_detail";
 	}
+	
 	
 	//★申請内容を反映するボタン押下時のメソッド
 	@PostMapping("/form/update")

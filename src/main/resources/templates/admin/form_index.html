@@ -66,6 +66,7 @@
 								<th>日付</th>
 								<th>ユーザー名</th>
 								<th>詳細</th>
+								<th>修正</th>
 							</tr>
 						</thead>
 						<!--出退勤申請を一覧表示するオブジェクト-->
@@ -73,11 +74,11 @@
 							<tr>
 								<!--申請日の年月日を表示-->
 								<td th:text="|${obj.work.year}年 ${obj.work.month}月 ${obj.work.date}日|"></td>
-								<td>
-									<!--申請ユーザーの姓名のリンク-->
-									<a th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|" th:href="@{'/admin/form/' + ${obj.id}}"></a>
-								</td>
+								<td th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|"></td>
 								<td th:text="${obj.message}"></td>
+								<td>
+									<a th:href="@{/admin/{id}/edit(id=${obj.work.id})}" class="btn btn-success">修正</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>

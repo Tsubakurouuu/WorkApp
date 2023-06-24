@@ -26,4 +26,5 @@ public class NotificationServiceImpl implements NotificationService {
 	public List<Notification> selectNotificationList() {
 		return mapper.selectNotificationList();
 	}
+	
 }

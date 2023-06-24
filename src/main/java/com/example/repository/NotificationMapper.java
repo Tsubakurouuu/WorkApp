@@ -14,4 +14,5 @@ public interface NotificationMapper {
 	
 	//通知一覧取得
 	public List<Notification> selectNotificationList();
+	
 }
