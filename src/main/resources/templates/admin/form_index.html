@@ -16,7 +16,7 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
-			<h2>申請、通知一覧画面</h2>
+			<h2 class="mt-3">申請、アラート一覧</h2>
 			<ul class="nav nav-tabs">
 				<li class="nav-item">
 			    	<a href="#requestForm" class="nav-link active" data-bs-toggle="tab">申請</a>
@@ -31,9 +31,10 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th>日付</th>
-								<th>ユーザー名</th>
-								<th>詳細</th>
+								<th width="30%">日付</th>
+								<th width="30%">ユーザー名</th>
+								<th width="30%">内容</th>
+								<th width="10%">詳細</th>
 							</tr>
 						</thead>
 						<!--出退勤申請を一覧表示するオブジェクト-->
@@ -41,10 +42,8 @@
 							<tr>
 								<!--申請日の年月日を表示-->
 								<td th:text="|${obj.year}年 ${obj.month}月 ${obj.date}日|"></td>
-								<td>
-									<!--申請ユーザーの姓名のリンク-->
-									<a th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|" th:href="@{'/admin/form/' + ${obj.id}}"></a>
-								</td>
+								<!--ユーザー名-->
+								<td th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|"></td>
 								<!--申請者が何の申請をしているのかのSwitch分岐-->
 								<div th:switch="${obj.workStatus}">
 									<td>
@@ -54,6 +53,10 @@
 										<p th:case="4" th:text="半休"></p>
 									</td>
 								</div>
+								<!--詳細画面へのリンク-->
+								<td>
+									<a th:href="@{'/admin/form/' + ${obj.id}}" class="btn btn-success">詳細</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -63,10 +66,10 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th>日付</th>
-								<th>ユーザー名</th>
-								<th>詳細</th>
-								<th>修正</th>
+								<th width="30%">日付</th>
+								<th width="30%">ユーザー名</th>
+								<th width="30%">内容</th>
+								<th width="10%">修正</th>
 							</tr>
 						</thead>
 						<!--出退勤申請を一覧表示するオブジェクト-->
@@ -74,8 +77,11 @@
 							<tr>
 								<!--申請日の年月日を表示-->
 								<td th:text="|${obj.work.year}年 ${obj.work.month}月 ${obj.work.date}日|"></td>
+								<!--ユーザー名-->
 								<td th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|"></td>
+								<!--メッセージ-->
 								<td th:text="${obj.message}"></td>
+								<!--修正画面へのリンク-->
 								<td>
 									<a th:href="@{/admin/{id}/edit(id=${obj.work.id})}" class="btn btn-success">修正</a>
 								</td>
