@@ -47,7 +47,7 @@
 			<h3 th:text="${complete}"></h3>
 			</form>
 			<!--勤怠情報月毎一覧表示するテーブル-->
-			<table class="table">
+			<table class="table table-bordered">
 				<thead>
 					<tr>
 						<th width="10%">日付</th>
@@ -65,122 +65,120 @@
 					<!--該当月の最終日にちまで繰り返し処理-->
 					<tr th:each="date : ${#numbers.sequence(1, lastDateOfMonth)}">
 						<!--月日の表示-->
-						<td th:text="|${month}月${date}日|"></td>
+						<td class="align-middle" th:text="|${month}月${date}日|"></td>
 						<!--dayOfWeekListに格納した曜日情報を表示(index番号で登録されているため-1をしないとズレてしまう)-->
-						<td th:text="${dayOfWeekList[__${date - 1}__]}"></td>
+						<td class="align-middle" th:text="${dayOfWeekList[__${date - 1}__]}"></td>
 						<!--該当日の勤怠情報が登録されていれば以下を表示する-->
 		            	<th:block th:if="${workMap[__${date}__]}">
 			            	<!--該当日の出勤ステータスのswitch文-->
-			            	<div th:switch="${workMap[__${date}__].workStatus}">
-								<td>
-									<p th:case="1" th:text="出勤"></p>
-									<p th:case="2" th:text="欠勤"></p>
-									<p th:case="3" th:text="有休"></p>
-									<p th:case="4" th:text="半休"></p>
-								</td>
+							<div th:switch="${workMap[__${date}__].workStatus}">
+								<td th:case="1" th:text="出勤" class="align-middle"></td>
+								<td th:case="2" th:text="欠勤" class="align-middle"></td>
+								<td th:case="3" th:text="有休" class="align-middle"></td>
+								<td th:case="4" th:text="半休" class="align-middle"></td>
 							</div>
 							<!--該当日の出勤ステータスが出勤であれば登録情報を表示を表示-->
 							<div th:if="${workMap[__${date}__].workStatus == 1}">
 								<!--出勤時間(登録時間が一桁か二桁かで表示方法を分岐)-->
 								<div th:if="${workMap[__${date}__].attendanceHour == null or workMap[__${date}__].attendanceMinute == null}">
-									<td>----</td>
+									<td class="align-middle">----</td>
 								</div>
 								<div th:if="${workMap[__${date}__].attendanceHour != null and workMap[__${date}__].attendanceMinute != null}">
 									<div th:if="${workMap[__${date}__].attendanceHour < 10 and workMap[__${date}__].attendanceMinute < 10}">
-										<td th:text="|0${workMap[__${date}__].attendanceHour}:0${workMap[__${date}__].attendanceMinute}|"></td>
+										<td class="align-middle" th:text="|0${workMap[__${date}__].attendanceHour}:0${workMap[__${date}__].attendanceMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].attendanceHour < 10 and workMap[__${date}__].attendanceMinute >= 10}">
-										<td th:text="|0${workMap[__${date}__].attendanceHour}:${workMap[__${date}__].attendanceMinute}|"></td>
+										<td class="align-middle" th:text="|0${workMap[__${date}__].attendanceHour}:${workMap[__${date}__].attendanceMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].attendanceHour >= 10 and workMap[__${date}__].attendanceMinute < 10}">
-										<td th:text="|${workMap[__${date}__].attendanceHour}:0${workMap[__${date}__].attendanceMinute}|"></td>
+										<td class="align-middle" th:text="|${workMap[__${date}__].attendanceHour}:0${workMap[__${date}__].attendanceMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].attendanceHour >= 10 and workMap[__${date}__].attendanceMinute >= 10}">
-										<td th:text="|${workMap[__${date}__].attendanceHour}:${workMap[__${date}__].attendanceMinute}|"></td>
+										<td class="align-middle" th:text="|${workMap[__${date}__].attendanceHour}:${workMap[__${date}__].attendanceMinute}|"></td>
 									</div>
 								</div>
 								<!--退勤時間(登録時間が一桁か二桁かで表示方法を分岐)-->
 								<div th:if="${workMap[__${date}__].leavingHour == null or workMap[__${date}__].leavingMinute == null}">
-									<td>----</td>
+									<td class="align-middle">----</td>
 								</div>
 								<div th:if="${workMap[__${date}__].leavingHour != null and workMap[__${date}__].leavingMinute != null}">
 									<div th:if="${workMap[__${date}__].leavingHour < 10 and workMap[__${date}__].leavingMinute < 10}">
-										<td th:text="|0${workMap[__${date}__].leavingHour}:0${workMap[__${date}__].leavingMinute}|"></td>
+										<td class="align-middle" th:text="|0${workMap[__${date}__].leavingHour}:0${workMap[__${date}__].leavingMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].leavingHour < 10 and workMap[__${date}__].leavingMinute >= 10}">
-										<td th:text="|0${workMap[__${date}__].leavingHour}:${workMap[__${date}__].leavingMinute}|"></td>
+										<td class="align-middle" th:text="|0${workMap[__${date}__].leavingHour}:${workMap[__${date}__].leavingMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].leavingHour >= 10 and workMap[__${date}__].leavingMinute < 10}">
-										<td th:text="|${workMap[__${date}__].leavingHour}:0${workMap[__${date}__].leavingMinute}|"></td>
+										<td class="align-middle" th:text="|${workMap[__${date}__].leavingHour}:0${workMap[__${date}__].leavingMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].leavingHour >= 10 and workMap[__${date}__].leavingMinute >= 10}">
-										<td th:text="|${workMap[__${date}__].leavingHour}:${workMap[__${date}__].leavingMinute}|"></td>
+										<td class="align-middle" th:text="|${workMap[__${date}__].leavingHour}:${workMap[__${date}__].leavingMinute}|"></td>
 									</div>
 								</div>
 								<!--休憩時間(登録時間が一桁か二桁かで表示方法を分岐)-->
 								<div th:if="${workMap[__${date}__].restHour == null or workMap[__${date}__].restMinute == null}">
-									<td>----</td>
+									<td class="align-middle">----</td>
 								</div>
 								<div th:if="${workMap[__${date}__].restHour != null and workMap[__${date}__].restMinute != null}">
 									<div th:if="${workMap[__${date}__].restHour < 10 and workMap[__${date}__].restMinute < 10}">
-										<td th:text="|0${workMap[__${date}__].restHour}:0${workMap[__${date}__].restMinute}|"></td>
+										<td class="align-middle" th:text="|0${workMap[__${date}__].restHour}:0${workMap[__${date}__].restMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].restHour < 10 and workMap[__${date}__].restMinute >= 10}">
-										<td th:text="|0${workMap[__${date}__].restHour}:${workMap[__${date}__].restMinute}|"></td>
+										<td class="align-middle" th:text="|0${workMap[__${date}__].restHour}:${workMap[__${date}__].restMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].restHour >= 10 and workMap[__${date}__].restMinute < 10}">
-										<td th:text="|${workMap[__${date}__].restHour}:0${workMap[__${date}__].restMinute}|"></td>
+										<td class="align-middle" th:text="|${workMap[__${date}__].restHour}:0${workMap[__${date}__].restMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].restHour >= 10 and workMap[__${date}__].restMinute >= 10}">
-										<td th:text="|${workMap[__${date}__].restHour}:${workMap[__${date}__].restMinute}|"></td>
+										<td class="align-middle" th:text="|${workMap[__${date}__].restHour}:${workMap[__${date}__].restMinute}|"></td>
 									</div>
 								</div>
 								<!--就業時間(登録時間が一桁か二桁かで表示方法を分岐)-->
 								<div th:if="${workMap[__${date}__].workingTimeHour == null or workMap[__${date}__].workingTimeMinute == null}">
-									<td>----</td>
+									<td class="align-middle">----</td>
 								</div>
 								<div th:if="${workMap[__${date}__].workingTimeHour != null and workMap[__${date}__].workingTimeMinute != null}">
 									<div th:if="${workMap[__${date}__].workingTimeHour < 10 and workMap[__${date}__].workingTimeMinute < 10}">
-										<td th:text="|0${workMap[__${date}__].workingTimeHour}:0${workMap[__${date}__].workingTimeMinute}|"></td>
+										<td class="align-middle" th:text="|0${workMap[__${date}__].workingTimeHour}:0${workMap[__${date}__].workingTimeMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].workingTimeHour < 10 and workMap[__${date}__].workingTimeMinute >= 10}">
-										<td th:text="|0${workMap[__${date}__].workingTimeHour}:${workMap[__${date}__].workingTimeMinute}|"></td>
+										<td class="align-middle" th:text="|0${workMap[__${date}__].workingTimeHour}:${workMap[__${date}__].workingTimeMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].workingTimeHour >= 10 and workMap[__${date}__].workingTimeMinute < 10}">
-										<td th:text="|${workMap[__${date}__].workingTimeHour}:0${workMap[__${date}__].workingTimeMinute}|"></td>
+										<td class="align-middle" th:text="|${workMap[__${date}__].workingTimeHour}:0${workMap[__${date}__].workingTimeMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].workingTimeHour >= 10 and workMap[__${date}__].workingTimeMinute >= 10}">
-										<td th:text="|${workMap[__${date}__].workingTimeHour}:${workMap[__${date}__].workingTimeMinute}|"></td>
+										<td class="align-middle" th:text="|${workMap[__${date}__].workingTimeHour}:${workMap[__${date}__].workingTimeMinute}|"></td>
 									</div>
 								</div>
 								<!--残業時間(登録時間が一桁か二桁かで表示方法を分岐)-->
 								<div th:if="${workMap[__${date}__].overTimeHour == null or workMap[__${date}__].overTimeMinute == null}">
-									<td>----</td>
+									<td class="align-middle">----</td>
 								</div>
 								<div th:if="${workMap[__${date}__].overTimeHour != null and workMap[__${date}__].overTimeMinute != null}">
 									<div th:if="${workMap[__${date}__].overTimeHour < 10 and workMap[__${date}__].overTimeMinute < 10}">
-										<td th:text="|0${workMap[__${date}__].overTimeHour}:0${workMap[__${date}__].overTimeMinute}|"></td>
+										<td class="align-middle" th:text="|0${workMap[__${date}__].overTimeHour}:0${workMap[__${date}__].overTimeMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].overTimeHour < 10 and workMap[__${date}__].overTimeMinute >= 10}">
-										<td th:text="|0${workMap[__${date}__].overTimeHour}:${workMap[__${date}__].overTimeMinute}|"></td>
+										<td class="align-middle" th:text="|0${workMap[__${date}__].overTimeHour}:${workMap[__${date}__].overTimeMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].overTimeHour >= 10 and workMap[__${date}__].overTimeMinute < 10}">
-										<td th:text="|${workMap[__${date}__].overTimeHour}:0${workMap[__${date}__].overTimeMinute}|"></td>
+										<td class="align-middle" th:text="|${workMap[__${date}__].overTimeHour}:0${workMap[__${date}__].overTimeMinute}|"></td>
 									</div>
 									<div th:if="${workMap[__${date}__].overTimeHour >= 10 and workMap[__${date}__].overTimeMinute >= 10}">
-										<td th:text="|${workMap[__${date}__].overTimeHour}:${workMap[__${date}__].overTimeMinute}|"></td>
+										<td class="align-middle" th:text="|${workMap[__${date}__].overTimeHour}:${workMap[__${date}__].overTimeMinute}|"></td>
 									</div>
 								</div>
 							</div>
 							<!--該当日の出勤ステータスが出勤以外であれば-を表示(nullのため)-->
 							<div th:if="${workMap[__${date}__].workStatus != 1}">
-								<td>----</td>
-								<td>----</td>
-								<td>----</td>
-								<td>----</td>
-								<td>----</td>
+								<td class="align-middle">----</td>
+								<td class="align-middle">----</td>
+								<td class="align-middle">----</td>
+								<td class="align-middle">----</td>
+								<td class="align-middle">----</td>
 							</div>
-							<td>
+							<td class="align-middle">
 								<!--該当日の出退勤修正画面へのリンク-->
 								<a th:href="@{'/admin/' + ${workMap[__${date}__].id} + '/edit'}" class="btn btn-success">修正</a>
 							</td>
@@ -189,23 +187,21 @@
 		          		<th:block th:unless="${workMap[__${date}__]}">
 		            		<!--該当日の出勤ステータスのswitch文(曜日が月〜金なら「出勤」、土日なら「休日」を表示)-->
 		            		<div th:switch="${dayOfWeekList[__${date - 1}__]}">
-		            			<td>
-									<p th:case="日" th:text="休日" class="text-danger"></p>
-									<p th:case="月" th:text="出勤"></p>
-									<p th:case="火" th:text="出勤"></p>
-									<p th:case="水" th:text="出勤"></p>
-									<p th:case="木" th:text="出勤"></p>
-									<p th:case="金" th:text="出勤"></p>
-									<p th:case="土" th:text="休日" class="text-danger"></p>
-								</td>
+								<td th:case="日" th:text="休日" class="text-danger align-middle"></td>
+								<td th:case="月" th:text="出勤" class="align-middle"></td>
+								<td th:case="火" th:text="出勤" class="align-middle"></td>
+								<td th:case="水" th:text="出勤" class="align-middle"></td>
+								<td th:case="木" th:text="出勤" class="align-middle"></td>
+								<td th:case="金" th:text="出勤" class="align-middle"></td>
+								<td th:case="土" th:text="休日" class="text-danger align-middle"></td>
 							</div>
 							<!--勤怠情報は存在しないので-と表示する-->
-		            		<td>----</td>
-		            		<td>----</td>
-		            		<td>----</td>
-		            		<td>----</td>
-		            		<td>----</td>
-		            		<td>
+		            		<td class="align-middle">----</td>
+		            		<td class="align-middle">----</td>
+		            		<td class="align-middle">----</td>
+		            		<td class="align-middle">----</td>
+		            		<td class="align-middle">----</td>
+		            		<td class="align-middle">
 								<!--該当日の出退勤登録画面へのリンク-->
 								<a th:href="@{/admin/{userId}/{year}/{month}/{date}/edit(userId=${userDetail.userId}, year=${year}, month=${month}, date=${date})}" class="btn btn-success">登録</a>
 							</td>
