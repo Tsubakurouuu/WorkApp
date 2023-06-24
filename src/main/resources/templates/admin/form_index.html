@@ -8,6 +8,8 @@
 		<!--JS読込-->
 		<script th:src="@{/webjars/jquery/jquery.min.js}" defer></script>
 		<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}" defer></script>
+		<!--bootstrapでタブ切り替えを行うためのコード-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 		<title>WorkApp</title>
 	</head>
 	<body>
@@ -15,36 +17,72 @@
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
 			<h2>申請、通知一覧画面</h2>
-			<!--ユーザーの出退勤申請を一覧表示するテーブル-->
-			<table class="table">
-				<thead>
-					<tr>
-						<th>日付</th>
-						<th>ユーザー名</th>
-						<th>詳細</th>
-					</tr>
-				</thead>
-				<!--ユーザーの出退勤申請を一覧表示するオブジェクト-->
-				<tbody th:each="obj:${requestFormList}">
-					<tr>
-						<!--申請日の年月日を表示-->
-						<td th:text="|${obj.year}年 ${obj.month}月 ${obj.date}日|"></td>
-						<td>
-							<!--申請ユーザーの姓名のリンク-->
-							<a th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|" th:href="@{'/admin/form/' + ${obj.id}}"></a>
-						</td>
-						<!--申請者が何の申請をしているのかのSwitch分岐-->
-						<div th:switch="${obj.workStatus}">
-							<td>
-								<p th:case="1" th:text="勤怠情報修正"></p>
-								<p th:case="2" th:text="欠勤"></p>
-								<p th:case="3" th:text="有休申請"></p>
-								<p th:case="4" th:text="半休"></p>
-							</td>
-						</div>
-					</tr>
-				</tbody>
-			</table>
+			<ul class="nav nav-tabs">
+				<li class="nav-item">
+			    	<a href="#requestForm" class="nav-link active" data-bs-toggle="tab">申請</a>
+			    </li>
+			    <li class="nav-item">
+		        	<a href="#notification" class="nav-link" data-bs-toggle="tab">アラート</a>
+		        </li>
+			</ul>
+			<div class="tab-content">
+				<!--ユーザーの出退勤申請を一覧表示するテーブル-->
+				<div id="requestForm" class="tab-pane active">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>日付</th>
+								<th>ユーザー名</th>
+								<th>詳細</th>
+							</tr>
+						</thead>
+						<!--出退勤申請を一覧表示するオブジェクト-->
+						<tbody th:each="obj:${requestFormList}">
+							<tr>
+								<!--申請日の年月日を表示-->
+								<td th:text="|${obj.year}年 ${obj.month}月 ${obj.date}日|"></td>
+								<td>
+									<!--申請ユーザーの姓名のリンク-->
+									<a th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|" th:href="@{'/admin/form/' + ${obj.id}}"></a>
+								</td>
+								<!--申請者が何の申請をしているのかのSwitch分岐-->
+								<div th:switch="${obj.workStatus}">
+									<td>
+										<p th:case="1" th:text="勤怠情報修正"></p>
+										<p th:case="2" th:text="欠勤"></p>
+										<p th:case="3" th:text="有休申請"></p>
+										<p th:case="4" th:text="半休"></p>
+									</td>
+								</div>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!--アラートを一覧表示するテーブル-->
+				<div id="notification" class="tab-pane">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>日付</th>
+								<th>ユーザー名</th>
+								<th>詳細</th>
+							</tr>
+						</thead>
+						<!--出退勤申請を一覧表示するオブジェクト-->
+						<tbody th:each="obj:${notificationList}">
+							<tr>
+								<!--申請日の年月日を表示-->
+								<td th:text="|${obj.work.year}年 ${obj.work.month}月 ${obj.work.date}日|"></td>
+								<td>
+									<!--申請ユーザーの姓名のリンク-->
+									<a th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|" th:href="@{'/admin/form/' + ${obj.id}}"></a>
+								</td>
+								<td th:text="${obj.message}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
