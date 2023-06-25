@@ -17,6 +17,7 @@ public class UserNewForm {
 	//ユーザーID
 	@NotBlank(groups = ValidGroup1.class)
 	@Length(min = 5, groups = ValidGroup2.class)
+	@UniqueUserId(groups = ValidGroup1.class)
 	private String userId;
 	
 	//パスワード

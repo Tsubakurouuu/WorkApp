@@ -15,4 +15,7 @@ public interface MUserService {
 	//ユーザー新規登録
 	public void insertUser(MUser user);
 	
+	//ユーザーのuserId一覧取得
+	public List<String> selectUserIdList();
+	
 }

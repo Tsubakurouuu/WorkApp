@@ -18,4 +18,7 @@ public interface MUserMapper {
 	//ユーザー新規登録
 	public int insertUser(MUser user);
 	
+	//ユーザーのuserId一覧取得
+	public List<String> selectUserIdList();
+	
 }
