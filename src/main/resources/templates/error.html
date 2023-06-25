@@ -5,7 +5,10 @@
 		<title>Error</title>
 	</head>
 	<body>
+		<!--${status}httpのエラーコードが格納されている-->
+		<!--${error}httpのエラー概要が表示される-->
 		<h1 th:text="${status} + ' ' + ${error}"></h1>
+		<!--${message}エラーメッセージが表示される-->
 		<p th:text="${message}"></p>
 		<p>ログイン画面に戻ってください</p>
 		<form method="post" th:action="@{/logout}">
