@@ -43,7 +43,7 @@ public class MUserServiceImpl implements MUserService {
 		mapper.insertUser(user);
 	}
 	
-	////ユーザーのuserId一覧取得
+	//ユーザーのuserId一覧取得
 	@Override
 	public List<String> selectUserIdList() {
 		return mapper.selectUserIdList();
