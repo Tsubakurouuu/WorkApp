@@ -83,13 +83,16 @@ public class CommonController {
 	
 	
 	
-	//★休憩時間
+	//★休憩時間に1or0をセットするメソッド
 	public static Integer calcRest(Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute) {
 		//出勤時間、退勤時間を分換算する
 		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
         Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
+        //出勤時間、退勤時間の分換算が60より大きいかどうかで処理を分岐
         if(totalLeavingMinutes - totalAttendanceMinutes > 60) {
+        	//60より大きければ1を返す
         	return 1;
+        	//60未満なら0を返す
         } else {
         	return 0;
         }
