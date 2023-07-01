@@ -92,8 +92,8 @@ public class CommonController {
         if(totalLeavingMinutes - totalAttendanceMinutes > 60) {
         	//60より大きければ1を返す
         	return 1;
-        	//60未満なら0を返す
         } else {
+        	//60未満なら0を返す
         	return 0;
         }
 	}
