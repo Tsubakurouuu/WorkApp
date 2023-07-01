@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 @Controller
 public class CommonController {
 	
-	//就業時間と残業時間を計算するメソッド
+	//★就業時間と残業時間を計算するメソッド
 	public static Integer[] calcWorkingOver(Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
 		//出勤時間、退勤時間、休憩時間を分換算する
 		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
@@ -44,7 +44,7 @@ public class CommonController {
 	
 	
 	
-	//5捨6入をして現在時分を返すメソッド
+	//★5捨6入をして現在時分を返すメソッド
 	public static Integer[] roundOff(Integer hour, Integer minute) {
 		//時を取得
 		if(minute >= 56) {
@@ -72,7 +72,7 @@ public class CommonController {
 	
 	
 	
-	//時分フォーム入力用メソッド
+	//★時分フォーム入力用メソッド
 	public static void formNumbers(Model model) {
 		List<Integer> hourNumbers = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
 		model.addAttribute("hourNumbers", hourNumbers);
@@ -80,4 +80,21 @@ public class CommonController {
 		model.addAttribute("minuteNumbers", minuteNumbers);
 	}
 	/*----------------------------*/
+	
+	
+	
+	//★休憩時間
+	public static Integer calcRest(Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute) {
+		//出勤時間、退勤時間を分換算する
+		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
+        Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
+        if(totalLeavingMinutes - totalAttendanceMinutes > 60) {
+        	return 1;
+        } else {
+        	return 0;
+        }
+	}
+	
+	/*----------------------------*/
+	
 }

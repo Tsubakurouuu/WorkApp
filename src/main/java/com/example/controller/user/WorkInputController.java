@@ -168,7 +168,7 @@ public class WorkInputController {
 		work.setLeavingHour(roundOff[0]);
 		work.setLeavingMinute(roundOff[1]);
 		//休憩時間にはデフォルトで１時間０分をセット
-		work.setRestHour(1);
+		work.setRestHour(CommonController.calcRest(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute()));
 		work.setRestMinute(0);
 		//出勤時間と退勤時間から就業時間と残業時間を計算するメソッド
 		Integer[] calcWorkingOver = CommonController.calcWorkingOver(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute(), work.getRestHour(),work.getRestMinute());
