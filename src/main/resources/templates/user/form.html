@@ -80,6 +80,7 @@
 						</table>
 					</div>
 				</div>
+				<p th:text="${error}" class="text-danger"></p>
 				<div class="row mt-5">
 					<div class="col-md-2">
 						<h4 class="mt-5">変更内容</h4>	
@@ -214,6 +215,7 @@
 						<p th:text="|${year}年 ${month}月 ${date}日 の勤怠情報はありません|" class="mt-5"></p>
 					</div>
 				</div>
+				<p th:text="${error}" class="text-danger"></p>
 				<div class="row mt-5">
 					<div class="col-md-2">
 						<h4 class="mt-5">変更内容</h4>	

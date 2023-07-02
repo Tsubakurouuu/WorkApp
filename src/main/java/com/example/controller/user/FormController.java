@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.application.service.WorkStatusService;
 import com.example.controller.common.CommonController;
@@ -70,7 +71,7 @@ public class FormController {
 	
 	//★確認画面へボタン押下時のメソッド
 	@PostMapping("/form/confirm")
-	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, Integer year, Integer month, Integer date) {
+	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, Integer year, Integer month, Integer date, RedirectAttributes redirectAttributes) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		//勤怠情報登録時(not null)の時の処理
@@ -102,13 +103,46 @@ public class FormController {
 			//NGがあれば出退勤申請画面に戻る
 			return "user/form";
 		}
-		//user/form_confirm.htmlを呼び出す
+		switch (CommonController.confirmWorkForm(form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute())) {
+		case 1:
+			redirectAttributes.addFlashAttribute("error", "出勤の場合はフォームを全て入力してください。");
+			//時分フォーム入力用メソッド
+			CommonController.formNumbers(model);
+			if(workDetail != null) {
+				return "redirect:/form/" + id;
+			}
+			return "redirect:/form/" + year + "/" + month + "/" + date;
+		case 2:
+			redirectAttributes.addFlashAttribute("error", "出勤以外の場合はフォームを全て入力しないでください。");
+			//時分フォーム入力用メソッド
+			CommonController.formNumbers(model);
+			if(workDetail != null) {
+				return "redirect:/form/" + id;
+			}
+			return "redirect:/form/" + year + "/" + month + "/" + date;
+		case 3:
+			redirectAttributes.addFlashAttribute("error", "出勤時間が退勤時間よりも大きい値になっています。");
+			//時分フォーム入力用メソッド
+			CommonController.formNumbers(model);
+			if(workDetail != null) {
+				return "redirect:/form/" + id;
+			}
+			return "redirect:/form/" + year + "/" + month + "/" + date;
+		case 4:
+			redirectAttributes.addFlashAttribute("error", "休憩時間の値を修正してください。");
+			//時分フォーム入力用メソッド
+			CommonController.formNumbers(model);
+			if(workDetail != null) {
+				return "redirect:/form/" + id;
+			}
+			return "redirect:/form/" + year + "/" + month + "/" + date;
+		}
 		return "user/form_confirm";
 	}
 	
 	/*----------------------------*/
 	
-
+	
 }
 
 

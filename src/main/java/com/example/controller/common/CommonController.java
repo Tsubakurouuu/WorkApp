@@ -100,4 +100,34 @@ public class CommonController {
 	
 	/*----------------------------*/
 	
+	
+	
+	//★入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッド
+	public static Integer confirmWorkForm(Integer workStatus, Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
+		if(workStatus == 1) {
+			if(attendanceHour == null || attendanceMinute == null || leavingHour == null || leavingMinute == null || restHour == null || restMinute  == null) {
+				return 1;
+			}
+		}
+		if(workStatus != 1) {
+			if(attendanceHour != null || attendanceMinute != null || leavingHour != null || leavingMinute != null || restHour != null || restMinute  != null) {
+				return 2;
+			}
+			return 0;
+		}
+		//出勤時間、退勤時間、休憩時間を分換算する
+		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
+        Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
+        Integer totalRestMinutes = restHour * 60 + restMinute;
+        
+        if(totalAttendanceMinutes > totalLeavingMinutes) {
+			return 3;
+        }
+        if(totalAttendanceMinutes - totalLeavingMinutes < totalRestMinutes) {
+			return 4;
+        }
+        
+        return 0;
+	}
+	
 }
