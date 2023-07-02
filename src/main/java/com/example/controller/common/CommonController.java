@@ -104,29 +104,35 @@ public class CommonController {
 	
 	//★入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッド
 	public static Integer confirmWorkForm(Integer workStatus, Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
+		//出勤ステータスが「出勤」であれば
 		if(workStatus == 1) {
+			//時間入力部分が全て入力されていないとエラーを返す
 			if(attendanceHour == null || attendanceMinute == null || leavingHour == null || leavingMinute == null || restHour == null || restMinute  == null) {
 				return 1;
 			}
 		}
+		//出勤ステータスが「出勤」以外であれば
 		if(workStatus != 1) {
+			//時間入力部分に値が入力されているとエラーになる
 			if(attendanceHour != null || attendanceMinute != null || leavingHour != null || leavingMinute != null || restHour != null || restMinute  != null) {
 				return 2;
 			}
+			//問題なければ処理を抜ける
 			return 0;
 		}
 		//出勤時間、退勤時間、休憩時間を分換算する
 		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
         Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
         Integer totalRestMinutes = restHour * 60 + restMinute;
-        
+        //出勤時間が退勤時間よりも遅い時間になっていたらエラーを返す
         if(totalAttendanceMinutes > totalLeavingMinutes) {
 			return 3;
         }
-        if(totalAttendanceMinutes - totalLeavingMinutes < totalRestMinutes) {
+        //出勤時間と退勤時間の差分よりも休憩時間の値が大きければエラーを返す
+        if(totalLeavingMinutes - totalAttendanceMinutes < totalRestMinutes) {
 			return 4;
         }
-        
+        //問題なければ処理を抜ける
         return 0;
 	}
 	
