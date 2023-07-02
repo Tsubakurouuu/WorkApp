@@ -3,8 +3,13 @@ package com.example.controller.common;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.form.RequestFormForm;
 
 @Controller
 public class CommonController {
@@ -135,5 +140,71 @@ public class CommonController {
         //問題なければ処理を抜ける
         return 0;
 	}
+	
+	/*----------------------------*/
+	
+	
+	
+	//★入力フォームエラー時（リダイレクト時）、セッション情報を残すためのメソッド
+	public static void sessionNumbersFormSet(HttpSession session, @RequestParam("workStatus") String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
+		session.setAttribute("workStatus", workStatus);
+		session.setAttribute("attendanceHour", attendanceHour);
+		session.setAttribute("attendanceMinute", attendanceMinute);
+		session.setAttribute("leavingHour", leavingHour);
+		session.setAttribute("leavingMinute", leavingMinute);
+		session.setAttribute("restHour", restHour);
+		session.setAttribute("restMinute", restMinute);
+	}
+	
+	/*----------------------------*/
+	
+	
+	
+	//★セッション情報をフォームに詰めるメソッド
+	public static void sessionNumbersFormGet(HttpSession session, RequestFormForm form) {
+		String workStatusString = (String)session.getAttribute("workStatus");
+		if(workStatusString != null) {
+			Integer workStatus = Integer.parseInt(workStatusString); 
+			form.setWorkStatus(workStatus);
+		}
+		
+		String attendanceHourString = (String)session.getAttribute("attendanceHour");
+		if(attendanceHourString != null) {
+			Integer attendanceHour = Integer.parseInt(attendanceHourString); 
+			form.setAttendanceHour(attendanceHour);
+		}
+		
+		String attendanceMinuteString = (String)session.getAttribute("attendanceMinute");
+		if(attendanceMinuteString != null) {
+			Integer attendanceMinute = Integer.parseInt(attendanceMinuteString); 
+			form.setAttendanceMinute(attendanceMinute);
+		}
+		
+		String leavingHourString = (String)session.getAttribute("leavingHour");
+		if(leavingHourString != null) {
+			Integer leavingHour = Integer.parseInt(leavingHourString); 
+			form.setLeavingHour(leavingHour);
+		}
+		
+		String leavingMinuteString = (String)session.getAttribute("leavingMinute");
+		if(leavingMinuteString != null) {
+			Integer leavingMinute = Integer.parseInt(leavingMinuteString); 
+			form.setLeavingMinute(leavingMinute);
+		}
+		
+		String restHourString = (String)session.getAttribute("restHour");
+		if(restHourString != null) {
+			Integer restHour = Integer.parseInt(restHourString); 
+			form.setRestHour(restHour);
+		}
+		
+		String restMinuteString = (String)session.getAttribute("restMinute");
+		if(restMinuteString != null) {
+			Integer restMinute = Integer.parseInt(restMinuteString); 
+			form.setRestMinute(restMinute);
+		}
+	}
+	
+	/*----------------------------*/
 	
 }

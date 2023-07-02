@@ -2,6 +2,9 @@ package com.example.controller.user;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.application.service.WorkStatusService;
@@ -33,7 +37,10 @@ public class FormController {
 	
 	//★出退勤申請画面に遷移するためのメソッド(勤怠情報登録時)
 	@GetMapping("/form/{id}")
-	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model) {
+	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model, HttpSession session) {
+		String attendanceHourString = (String)session.getAttribute("attendanceHour");
+		Integer attendanceHour = Integer.parseInt(attendanceHourString); 
+		form.setAttendanceHour(attendanceHour);
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		//Modelに登録
@@ -71,7 +78,7 @@ public class FormController {
 	
 	//★確認画面へボタン押下時のメソッド
 	@PostMapping("/form/confirm")
-	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, Integer year, Integer month, Integer date, RedirectAttributes redirectAttributes) {
+	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, Integer year, Integer month, Integer date, RedirectAttributes redirectAttributes, HttpSession session, @RequestParam("attendanceHour") String attendanceHour) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		//勤怠情報登録時(not null)の時の処理
@@ -106,6 +113,8 @@ public class FormController {
 		//入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するswitch文
 		switch (CommonController.confirmWorkForm(form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute())) {
 		case 1:
+			session.setAttribute("attendanceHour", attendanceHour);
+			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤の場合はフォームを全て入力してください。");
 			//時分フォーム入力用メソッド
 			CommonController.formNumbers(model);
@@ -115,6 +124,7 @@ public class FormController {
 			}
 			return "redirect:/form/" + year + "/" + month + "/" + date;
 		case 2:
+			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤以外の場合はフォームを全て入力しないでください。");
 			//時分フォーム入力用メソッド
 			CommonController.formNumbers(model);
@@ -124,6 +134,7 @@ public class FormController {
 			}
 			return "redirect:/form/" + year + "/" + month + "/" + date;
 		case 3:
+			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤時間が退勤時間よりも大きい値になっています。");
 			//時分フォーム入力用メソッド
 			CommonController.formNumbers(model);
@@ -133,6 +144,7 @@ public class FormController {
 			}
 			return "redirect:/form/" + year + "/" + month + "/" + date;
 		case 4:
+			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "休憩時間の値を修正してください。");
 			//時分フォーム入力用メソッド
 			CommonController.formNumbers(model);
