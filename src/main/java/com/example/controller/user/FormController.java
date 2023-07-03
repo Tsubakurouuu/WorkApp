@@ -37,42 +37,7 @@ public class FormController {
 	@GetMapping("/form/{id}")
 	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model, @ModelAttribute("model") ModelMap modelMap) {
 		RequestFormForm formRedirect = (RequestFormForm) modelMap.get("form");
-		if(formRedirect != null) {
-			String workStatusStr = formRedirect.getWorkStatus() != null ? formRedirect.getWorkStatus().toString() : null;
-			String attendanceHourStr = formRedirect.getAttendanceHour() != null ? formRedirect.getAttendanceHour().toString() : null;
-			String attendanceMinuteStr = formRedirect.getAttendanceMinute() != null ? formRedirect.getAttendanceMinute().toString() : null;
-			String leavingHourStr = formRedirect.getLeavingHour() != null ? formRedirect.getLeavingHour().toString() : null;
-			String leavingMinuteStr = formRedirect.getLeavingMinute() != null ? formRedirect.getLeavingMinute().toString() : null;
-			String restHourStr = formRedirect.getRestHour() != null ? formRedirect.getRestHour().toString() : null;
-			String restMinuteStr = formRedirect.getRestMinute() != null ? formRedirect.getRestMinute().toString() : null;
-			if(workStatusStr != null && !workStatusStr.isEmpty()) {
-				form.setWorkStatus(Integer.parseInt(workStatusStr));
-			}
-			
-			if(attendanceHourStr != null && !attendanceHourStr.isEmpty()) {
-				form.setAttendanceHour(Integer.parseInt(attendanceHourStr));
-			}
-			
-			if(attendanceMinuteStr != null && !attendanceMinuteStr.isEmpty()) {
-				form.setAttendanceMinute(Integer.parseInt(attendanceMinuteStr));
-			}
-			
-			if(leavingHourStr != null && !leavingHourStr.isEmpty()) {
-				form.setLeavingHour(Integer.parseInt(leavingHourStr));
-			}
-			
-			if(leavingMinuteStr != null && !leavingMinuteStr.isEmpty()) {
-				form.setLeavingMinute(Integer.parseInt(leavingMinuteStr));
-			}
-			
-			if(restHourStr != null && !restHourStr.isEmpty()) {
-				form.setRestHour(Integer.parseInt(restHourStr));
-			}
-			
-			if(restMinuteStr != null && !restMinuteStr.isEmpty()) {
-				form.setRestMinute(Integer.parseInt(restMinuteStr));
-			}
-		}
+		CommonController.formRedirect(form, formRedirect);
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		//Modelに登録
@@ -94,7 +59,9 @@ public class FormController {
 	
 	//★出退勤申請画面に遷移するためのメソッド(勤怠情報未登録時)
 	@GetMapping("/form/{year}/{month}/{date}")
-	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model) {
+	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model, @ModelAttribute("model") ModelMap modelMap) {
+		RequestFormForm formRedirect = (RequestFormForm) modelMap.get("form");
+		CommonController.formRedirect(form, formRedirect);
 		//出勤ステータスのMap
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
 		//Modelに登録
@@ -110,7 +77,7 @@ public class FormController {
 	
 	//★確認画面へボタン押下時のメソッド
 	@PostMapping("/form/confirm")
-	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, Integer year, Integer month, Integer date, RedirectAttributes redirectAttributes, @RequestParam("workStatus") String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
+	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, Integer year, Integer month, Integer date, RedirectAttributes redirectAttributes, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
 		ModelMap modelMap = new ModelMap();
 		modelMap.addAttribute("form", form);
 		redirectAttributes.addFlashAttribute("model", modelMap);

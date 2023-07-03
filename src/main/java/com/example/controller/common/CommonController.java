@@ -160,50 +160,42 @@ public class CommonController {
 	
 	
 	
-	//★セッション情報をフォームに詰めるメソッド
-	public static void sessionNumbersFormGet(HttpSession session, RequestFormForm form) {
-		String workStatusString = (String)session.getAttribute("workStatus");
-		if(workStatusString != null) {
-			Integer workStatus = Integer.parseInt(workStatusString); 
-			form.setWorkStatus(workStatus);
-		}
-		
-		String attendanceHourString = (String)session.getAttribute("attendanceHour");
-		if(attendanceHourString != null) {
-			Integer attendanceHour = Integer.parseInt(attendanceHourString); 
-			form.setAttendanceHour(attendanceHour);
-		}
-		
-		String attendanceMinuteString = (String)session.getAttribute("attendanceMinute");
-		if(attendanceMinuteString != null) {
-			Integer attendanceMinute = Integer.parseInt(attendanceMinuteString); 
-			form.setAttendanceMinute(attendanceMinute);
-		}
-		
-		String leavingHourString = (String)session.getAttribute("leavingHour");
-		if(leavingHourString != null) {
-			Integer leavingHour = Integer.parseInt(leavingHourString); 
-			form.setLeavingHour(leavingHour);
-		}
-		
-		String leavingMinuteString = (String)session.getAttribute("leavingMinute");
-		if(leavingMinuteString != null) {
-			Integer leavingMinute = Integer.parseInt(leavingMinuteString); 
-			form.setLeavingMinute(leavingMinute);
-		}
-		
-		String restHourString = (String)session.getAttribute("restHour");
-		if(restHourString != null) {
-			Integer restHour = Integer.parseInt(restHourString); 
-			form.setRestHour(restHour);
-		}
-		
-		String restMinuteString = (String)session.getAttribute("restMinute");
-		if(restMinuteString != null) {
-			Integer restMinute = Integer.parseInt(restMinuteString); 
-			form.setRestMinute(restMinute);
-		}
+	//★入力チェックエラー時にリダイレクトして値を保持するメソッド
+	public static void formRedirect(RequestFormForm form, RequestFormForm formRedirect) {
+		if (formRedirect != null) {
+	        String attendanceHourStr = formRedirect.getAttendanceHour() != null ? formRedirect.getAttendanceHour().toString() : null;
+	        String attendanceMinuteStr = formRedirect.getAttendanceMinute() != null ? formRedirect.getAttendanceMinute().toString() : null;
+	        String leavingHourStr = formRedirect.getLeavingHour() != null ? formRedirect.getLeavingHour().toString() : null;
+	        String leavingMinuteStr = formRedirect.getLeavingMinute() != null ? formRedirect.getLeavingMinute().toString() : null;
+	        String restHourStr = formRedirect.getRestHour() != null ? formRedirect.getRestHour().toString() : null;
+	        String restMinuteStr = formRedirect.getRestMinute() != null ? formRedirect.getRestMinute().toString() : null;
+	        
+	        if (attendanceHourStr != null && !attendanceHourStr.isEmpty()) {
+	            form.setAttendanceHour(Integer.parseInt(attendanceHourStr));
+	        }
+	        
+	        if (attendanceMinuteStr != null && !attendanceMinuteStr.isEmpty()) {
+	            form.setAttendanceMinute(Integer.parseInt(attendanceMinuteStr));
+	        }
+	        
+	        if (leavingHourStr != null && !leavingHourStr.isEmpty()) {
+	            form.setLeavingHour(Integer.parseInt(leavingHourStr));
+	        }
+	        
+	        if (leavingMinuteStr != null && !leavingMinuteStr.isEmpty()) {
+	            form.setLeavingMinute(Integer.parseInt(leavingMinuteStr));
+	        }
+	        
+	        if (restHourStr != null && !restHourStr.isEmpty()) {
+	            form.setRestHour(Integer.parseInt(restHourStr));
+	        }
+	        
+	        if (restMinuteStr != null && !restMinuteStr.isEmpty()) {
+	            form.setRestMinute(Integer.parseInt(restMinuteStr));
+	        }
+	    }
 	}
+	
 	
 	/*----------------------------*/
 	
