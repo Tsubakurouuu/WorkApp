@@ -162,34 +162,36 @@ public class CommonController {
 	
 	//★入力チェックエラー時にリダイレクトして値を保持するメソッド
 	public static void formRedirect(RequestFormForm form, RequestFormForm formRedirect) {
+		//formRedirectがnullかどうかの判定(フォーム入力時にエラーがあった場合にはformRedirectに値が格納されている)
 		if (formRedirect != null) {
+			//フォームに値が入っていれば各変数に値を格納する(入っていなければnullが入る)
 	        String attendanceHourStr = formRedirect.getAttendanceHour() != null ? formRedirect.getAttendanceHour().toString() : null;
 	        String attendanceMinuteStr = formRedirect.getAttendanceMinute() != null ? formRedirect.getAttendanceMinute().toString() : null;
 	        String leavingHourStr = formRedirect.getLeavingHour() != null ? formRedirect.getLeavingHour().toString() : null;
 	        String leavingMinuteStr = formRedirect.getLeavingMinute() != null ? formRedirect.getLeavingMinute().toString() : null;
 	        String restHourStr = formRedirect.getRestHour() != null ? formRedirect.getRestHour().toString() : null;
 	        String restMinuteStr = formRedirect.getRestMinute() != null ? formRedirect.getRestMinute().toString() : null;
-	        
+	        //出勤（時）がnullではなく空文字でもなければフォームに値を格納する
 	        if (attendanceHourStr != null && !attendanceHourStr.isEmpty()) {
 	            form.setAttendanceHour(Integer.parseInt(attendanceHourStr));
 	        }
-	        
+	        //出勤（分）がnullではなく空文字でもなければフォームに値を格納する
 	        if (attendanceMinuteStr != null && !attendanceMinuteStr.isEmpty()) {
 	            form.setAttendanceMinute(Integer.parseInt(attendanceMinuteStr));
 	        }
-	        
+	        //退勤（時）がnullではなく空文字でもなければフォームに値を格納する
 	        if (leavingHourStr != null && !leavingHourStr.isEmpty()) {
 	            form.setLeavingHour(Integer.parseInt(leavingHourStr));
 	        }
-	        
+	        //退勤（分）がnullではなく空文字でもなければフォームに値を格納する
 	        if (leavingMinuteStr != null && !leavingMinuteStr.isEmpty()) {
 	            form.setLeavingMinute(Integer.parseInt(leavingMinuteStr));
 	        }
-	        
+	        //休憩（時）がnullではなく空文字でもなければフォームに値を格納する
 	        if (restHourStr != null && !restHourStr.isEmpty()) {
 	            form.setRestHour(Integer.parseInt(restHourStr));
 	        }
-	        
+	        //休憩（分）がnullではなく空文字でもなければフォームに値を格納する
 	        if (restMinuteStr != null && !restMinuteStr.isEmpty()) {
 	            form.setRestMinute(Integer.parseInt(restMinuteStr));
 	        }
