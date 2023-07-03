@@ -2,12 +2,10 @@ package com.example.controller.user;
 
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,10 +35,44 @@ public class FormController {
 	
 	//★出退勤申請画面に遷移するためのメソッド(勤怠情報登録時)
 	@GetMapping("/form/{id}")
-	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model, HttpSession session) {
-		String attendanceHourString = (String)session.getAttribute("attendanceHour");
-		Integer attendanceHour = Integer.parseInt(attendanceHourString); 
-		form.setAttendanceHour(attendanceHour);
+	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model, @ModelAttribute("model") ModelMap modelMap) {
+		RequestFormForm formRedirect = (RequestFormForm) modelMap.get("form");
+		if(formRedirect != null) {
+			String workStatusStr = formRedirect.getWorkStatus() != null ? formRedirect.getWorkStatus().toString() : null;
+			String attendanceHourStr = formRedirect.getAttendanceHour() != null ? formRedirect.getAttendanceHour().toString() : null;
+			String attendanceMinuteStr = formRedirect.getAttendanceMinute() != null ? formRedirect.getAttendanceMinute().toString() : null;
+			String leavingHourStr = formRedirect.getLeavingHour() != null ? formRedirect.getLeavingHour().toString() : null;
+			String leavingMinuteStr = formRedirect.getLeavingMinute() != null ? formRedirect.getLeavingMinute().toString() : null;
+			String restHourStr = formRedirect.getRestHour() != null ? formRedirect.getRestHour().toString() : null;
+			String restMinuteStr = formRedirect.getRestMinute() != null ? formRedirect.getRestMinute().toString() : null;
+			if(workStatusStr != null && !workStatusStr.isEmpty()) {
+				form.setWorkStatus(Integer.parseInt(workStatusStr));
+			}
+			
+			if(attendanceHourStr != null && !attendanceHourStr.isEmpty()) {
+				form.setAttendanceHour(Integer.parseInt(attendanceHourStr));
+			}
+			
+			if(attendanceMinuteStr != null && !attendanceMinuteStr.isEmpty()) {
+				form.setAttendanceMinute(Integer.parseInt(attendanceMinuteStr));
+			}
+			
+			if(leavingHourStr != null && !leavingHourStr.isEmpty()) {
+				form.setLeavingHour(Integer.parseInt(leavingHourStr));
+			}
+			
+			if(leavingMinuteStr != null && !leavingMinuteStr.isEmpty()) {
+				form.setLeavingMinute(Integer.parseInt(leavingMinuteStr));
+			}
+			
+			if(restHourStr != null && !restHourStr.isEmpty()) {
+				form.setRestHour(Integer.parseInt(restHourStr));
+			}
+			
+			if(restMinuteStr != null && !restMinuteStr.isEmpty()) {
+				form.setRestMinute(Integer.parseInt(restMinuteStr));
+			}
+		}
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		//Modelに登録
@@ -78,7 +110,10 @@ public class FormController {
 	
 	//★確認画面へボタン押下時のメソッド
 	@PostMapping("/form/confirm")
-	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, Integer year, Integer month, Integer date, RedirectAttributes redirectAttributes, HttpSession session, @RequestParam("attendanceHour") String attendanceHour) {
+	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, Integer year, Integer month, Integer date, RedirectAttributes redirectAttributes, @RequestParam("workStatus") String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
+		ModelMap modelMap = new ModelMap();
+		modelMap.addAttribute("form", form);
+		redirectAttributes.addFlashAttribute("model", modelMap);
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		//勤怠情報登録時(not null)の時の処理
@@ -113,7 +148,6 @@ public class FormController {
 		//入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するswitch文
 		switch (CommonController.confirmWorkForm(form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute())) {
 		case 1:
-			session.setAttribute("attendanceHour", attendanceHour);
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤の場合はフォームを全て入力してください。");
 			//時分フォーム入力用メソッド
