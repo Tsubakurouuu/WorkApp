@@ -12,6 +12,27 @@
 		<result column="first_name" property="firstName"/>
 		<result column="birthday" property="birthday"/>
 		<result column="role" property="role"/>
+		<association property="work" resultMap="work" columnPrefix="work_"/>
+	</resultMap>
+	
+	<!--マッピング定義(勤怠)-->
+	<resultMap id="work" type="com.example.model.Work">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="year" property="year"/>
+		<result column="month" property="month"/>
+		<result column="date" property="date"/>
+		<result column="attendance_hour" property="attendanceHour"/>
+		<result column="attendance_minute" property="attendanceMinute"/>
+		<result column="leaving_hour" property="leavingHour"/>
+		<result column="leaving_minute" property="leavingMinute"/>
+		<result column="rest_hour" property="restHour"/>
+		<result column="rest_minute" property="restMinute"/>
+		<result column="working_time_hour" property="workingTimeHour"/>
+		<result column="working_time_minute" property="workingTimeMinute"/>
+		<result column="over_time_hour" property="overTimeHour"/>
+		<result column="over_time_minute" property="overTimeMinute"/>
+		<result column="work_status" property="workStatus"/>
 	</resultMap>
 	
 	<!--ユーザー一覧取得-->
@@ -62,6 +83,21 @@
 			user_id
 		from
 			m_user
+	</select>
+	
+	<!--ユーザーID(Str)詳細取得-->
+	<select id="selectUserIdStr" resultMap="user" resultType="MUser">
+		select
+			*
+		from
+			m_user
+		left
+		join
+			work
+		on
+			m_user.id = work.user_id
+		where
+			m_user.id = #{id}
 	</select>
 	
 </mapper>

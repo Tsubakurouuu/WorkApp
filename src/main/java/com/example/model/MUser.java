@@ -28,4 +28,7 @@ public class MUser {
 	//ロール
 	private String role;
 	
+	//勤怠テーブル
+	private Work work;
+	
 }

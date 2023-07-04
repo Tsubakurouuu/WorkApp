@@ -142,22 +142,7 @@ public class CommonController {
 	}
 	
 	/*----------------------------*/
-	
-	
-	
-	//★入力フォームエラー時（リダイレクト時）、セッション情報を残すためのメソッド
-	public static void sessionNumbersFormSet(HttpSession session, @RequestParam("workStatus") String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
-		session.setAttribute("workStatus", workStatus);
-		session.setAttribute("attendanceHour", attendanceHour);
-		session.setAttribute("attendanceMinute", attendanceMinute);
-		session.setAttribute("leavingHour", leavingHour);
-		session.setAttribute("leavingMinute", leavingMinute);
-		session.setAttribute("restHour", restHour);
-		session.setAttribute("restMinute", restMinute);
-	}
-	
-	/*----------------------------*/
-	
+
 	
 	
 	//★入力チェックエラー時にリダイレクトして値を保持するメソッド

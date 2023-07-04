@@ -18,4 +18,7 @@ public interface MUserService {
 	//ユーザーのuserId一覧取得
 	public List<String> selectUserIdList();
 	
+	//ユーザーID(Str)詳細取得
+	public MUser selectUserIdStr(Integer id);
+	
 }

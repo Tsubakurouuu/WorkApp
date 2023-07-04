@@ -49,4 +49,10 @@ public class MUserServiceImpl implements MUserService {
 		return mapper.selectUserIdList();
 	}
 	
+	//ユーザーID(Str)詳細取得
+	@Override
+	public MUser selectUserIdStr(Integer id) {
+		return mapper.selectUserIdStr(id);
+	}
+	
 }

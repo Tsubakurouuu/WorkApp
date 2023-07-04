@@ -195,4 +195,5 @@
 		and
 			date = #{date}	
 	</select>
+	
 </mapper>

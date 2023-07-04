@@ -15,6 +15,8 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
+			<!--フォーム内容入力チェックエラー時-->
+			<p th:text="${error}" class="text-danger"></p>
 			<!--勤怠情報を登録するためのフォーム-->
 			<form method="post" th:action="@{/admin/edit}" th:object="${workEditForm}">
 				<input type="hidden" th:field="*{id}"/>

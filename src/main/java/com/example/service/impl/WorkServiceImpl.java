@@ -62,5 +62,6 @@ public class WorkServiceImpl implements WorkService {
 	public List<Work> selectWorkInfoList(Integer year, Integer month, Integer date) {
 		return mapper.selectWorkInfoList(year, month, date);
 	}
+	
 }
 

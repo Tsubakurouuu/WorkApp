@@ -117,6 +117,52 @@ public class UserWorkEditController {
 			//NGがあれば出退勤修正画面に戻る
 			return "admin/user_work_edit";
 		}
+		//勤怠情報取得
+		Work workDetail = workService.selectWork(id);
+		MUser userIdStr = userService.selectUserIdStr(form.getUserId());
+		//入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するswitch文
+		switch (CommonController.confirmWorkForm(form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute())) {
+		case 1:	
+			//フラッシュスコープ
+			redirectAttributes.addFlashAttribute("error", "出勤の場合はフォームを全て入力してください。");
+			//時分フォーム入力用メソッド
+			CommonController.formNumbers(model);
+			//出勤情報があるかどうかでリダイレクト先URLが異なる
+			if(workDetail != null) {
+				return "redirect:/admin/" + id + "/edit";
+			}
+			return "redirect:/admin/" + userIdStr.getUserId() + "/" + year + "/" + month + "/" + date + "/edit";
+		case 2:
+			//フラッシュスコープ
+			redirectAttributes.addFlashAttribute("error", "出勤以外の場合はフォームを全て入力しないでください。");
+			//時分フォーム入力用メソッド
+			CommonController.formNumbers(model);
+			//出勤情報があるかどうかでリダイレクト先URLが異なる
+			if(workDetail != null) {
+				return "redirect:/admin/" + id + "/edit";
+			}
+			return "redirect:/form/" + year + "/" + month + "/" + date;
+		case 3:
+			//フラッシュスコープ
+			redirectAttributes.addFlashAttribute("error", "出勤時間が退勤時間よりも大きい値になっています。");
+			//時分フォーム入力用メソッド
+			CommonController.formNumbers(model);
+			//出勤情報があるかどうかでリダイレクト先URLが異なる
+			if(workDetail != null) {
+				return "redirect:/admin/" + id + "/edit";
+			}
+			return "redirect:/form/" + year + "/" + month + "/" + date;
+		case 4:
+			//フラッシュスコープ
+			redirectAttributes.addFlashAttribute("error", "休憩時間の値を修正してください。");
+			//時分フォーム入力用メソッド
+			CommonController.formNumbers(model);
+			//出勤情報があるかどうかでリダイレクト先URLが異なる
+			if(workDetail != null) {
+				return "redirect:/admin/" + id + "/edit";
+			}
+			return "redirect:/form/" + year + "/" + month + "/" + date;
+		}
 		//formをWorkクラスに変換
 		Work work = new Work();
 		work.setId(form.getId());
@@ -138,8 +184,6 @@ public class UserWorkEditController {
 		}
 		//出勤ステータスをセット
 		work.setWorkStatus(form.getWorkStatus());
-		//勤怠情報取得
-		Work workDetail = workService.selectWork(id);
 		//該当日の勤怠情報を取得できたかどうかで処理を分岐(勤怠情報がすでに存在していれば更新処理)
 		if(workDetail != null) {
 			//勤怠情報更新
