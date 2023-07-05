@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.application.service.WorkStatusService;
@@ -43,11 +45,9 @@ public class UserWorkEditController {
 	
 	//★出退勤修正画面に遷移するためのメソッド(勤怠情報登録時)
 	@GetMapping("/{id}/edit")
-	public String getAdminUserWorkEdit(@PathVariable("id") Integer id, Model model) {
+	public String getAdminUserWorkEdit(@ModelAttribute WorkEditForm form, @PathVariable("id") Integer id, Model model, @ModelAttribute("model") ModelMap modelMap) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
-		//Workをformに変換
-		WorkEditForm form = new WorkEditForm();
 		form.setId(workDetail.getId());
 		form.setUserId(workDetail.getUserId());
 		form.setYear(workDetail.getYear());
@@ -64,13 +64,17 @@ public class UserWorkEditController {
 		form.setOverTimeHour(workDetail.getOverTimeHour());
 		form.setOverTimeMinute(workDetail.getOverTimeMinute());
 		form.setWorkStatus(workDetail.getWorkStatus());
-		//Modelに登録
-		model.addAttribute("workEditForm", form);
 		//出勤ステータスのMap
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
 		//Modelに登録
 		model.addAttribute("workStatusMap", workStatusMap);
 		model.addAttribute("workDetail", workDetail);
+		//エラー時にリダイレクトされてきた値を受け取る
+		WorkEditForm formRedirect = (WorkEditForm) modelMap.get("form");
+		//formRedirectメソッドの呼び出し
+		CommonController.formRedirect(form, formRedirect);
+		//Modelに登録
+		model.addAttribute("workEditForm", form);
 		//時分フォーム入力用メソッド
 		CommonController.formNumbers(model);
 		//admin/user_work_edit.htmlを呼び出す
@@ -79,13 +83,17 @@ public class UserWorkEditController {
 	
 	//★出退勤修正画面に遷移するためのメソッド(勤怠情報未登録時)
 	@GetMapping("/{userId}/{year}/{month}/{date}/edit")
-	public String getAdminUserWorkEdit(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model) {
+	public String getAdminUserWorkEdit(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model, @ModelAttribute("model") ModelMap modelMap) {
+		//Workをformに変換
+		WorkEditForm form = new WorkEditForm();
+		//エラー時にリダイレクトされてきた値を受け取る
+		WorkEditForm formRedirect = (WorkEditForm) modelMap.get("form");
+		//formRedirectメソッドの呼び出し
+		CommonController.formRedirect(form, formRedirect);
 		//ユーザーを1件取得
 		MUser userDetail = userService.selectUserDetail(userId);
 		//Modelに登録
 		model.addAttribute("userDetail", userDetail);
-		//Workをformに変換
-		WorkEditForm form = new WorkEditForm();
 		//formにユーザーIDと年月日をセット
 		form.setUserId(userDetail.getId());
 		form.setYear(year);
@@ -105,7 +113,13 @@ public class UserWorkEditController {
 	
 	//★登録,修正ボタン押下時のメソッド
 	@PostMapping("/edit")
-	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month, Integer date, Integer userId) {
+	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month, Integer date, Integer userId, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
+		//ModelMapインスタンスを生成
+		ModelMap modelMap = new ModelMap();
+		//エラー時にリダイレクトされてきた値をModelMapに格納する
+		modelMap.addAttribute("form", form);
+		//エラー時にリダイレクト先に値を渡すためのModelをセット
+		redirectAttributes.addFlashAttribute("model", modelMap);
 		//入力チェック結果
 		if(bindingResult.hasErrors()) {
 			//出勤ステータスのMap
@@ -141,7 +155,7 @@ public class UserWorkEditController {
 			if(workDetail != null) {
 				return "redirect:/admin/" + id + "/edit";
 			}
-			return "redirect:/form/" + year + "/" + month + "/" + date;
+			return "redirect:/admin/" + userIdStr.getUserId() + "/" + year + "/" + month + "/" + date + "/edit";
 		case 3:
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤時間が退勤時間よりも大きい値になっています。");
@@ -151,7 +165,7 @@ public class UserWorkEditController {
 			if(workDetail != null) {
 				return "redirect:/admin/" + id + "/edit";
 			}
-			return "redirect:/form/" + year + "/" + month + "/" + date;
+			return "redirect:/admin/" + userIdStr.getUserId() + "/" + year + "/" + month + "/" + date + "/edit";
 		case 4:
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "休憩時間の値を修正してください。");
@@ -161,7 +175,7 @@ public class UserWorkEditController {
 			if(workDetail != null) {
 				return "redirect:/admin/" + id + "/edit";
 			}
-			return "redirect:/form/" + year + "/" + month + "/" + date;
+			return "redirect:/admin/" + userIdStr.getUserId() + "/" + year + "/" + month + "/" + date + "/edit";
 		}
 		//formをWorkクラスに変換
 		Work work = new Work();

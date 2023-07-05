@@ -3,13 +3,11 @@ package com.example.controller.common;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.form.RequestFormForm;
+import com.example.form.WorkEditForm;
 
 @Controller
 public class CommonController {
@@ -145,7 +143,7 @@ public class CommonController {
 
 	
 	
-	//★入力チェックエラー時にリダイレクトして値を保持するメソッド
+	//★入力チェックエラー時にリダイレクトして値を保持するメソッド(出退勤申請画面)
 	public static void formRedirect(RequestFormForm form, RequestFormForm formRedirect) {
 		//formRedirectがnullかどうかの判定(フォーム入力時にエラーがあった場合にはformRedirectに値が格納されている)
 		if (formRedirect != null) {
@@ -183,7 +181,61 @@ public class CommonController {
 	    }
 	}
 	
+	/*----------------------------*/
 	
+	
+	
+	
+	//★入力チェックエラー時にリダイレクトして値を保持するメソッド
+	public static void formRedirect(WorkEditForm form, WorkEditForm formRedirect) {
+		//formRedirectがnullかどうかの判定(フォーム入力時にエラーがあった場合にはformRedirectに値が格納されている)
+		if (formRedirect != null) {
+			//フォームに値が入っていれば各変数に値を格納する(入っていなければnullが入る)
+	        String attendanceHourStr = formRedirect.getAttendanceHour() != null ? formRedirect.getAttendanceHour().toString() : null;
+	        String attendanceMinuteStr = formRedirect.getAttendanceMinute() != null ? formRedirect.getAttendanceMinute().toString() : null;
+	        String leavingHourStr = formRedirect.getLeavingHour() != null ? formRedirect.getLeavingHour().toString() : null;
+	        String leavingMinuteStr = formRedirect.getLeavingMinute() != null ? formRedirect.getLeavingMinute().toString() : null;
+	        String restHourStr = formRedirect.getRestHour() != null ? formRedirect.getRestHour().toString() : null;
+	        String restMinuteStr = formRedirect.getRestMinute() != null ? formRedirect.getRestMinute().toString() : null;
+	        //出勤（時）がnullではなく空文字でもなければフォームに値を格納する
+	        if (attendanceHourStr != null && !attendanceHourStr.isEmpty()) {
+	            form.setAttendanceHour(Integer.parseInt(attendanceHourStr));
+	        } else {
+	        	form.setAttendanceHour(null);
+	        }
+	        //出勤（分）がnullではなく空文字でもなければフォームに値を格納する
+	        if (attendanceMinuteStr != null && !attendanceMinuteStr.isEmpty()) {
+	            form.setAttendanceMinute(Integer.parseInt(attendanceMinuteStr));
+	        } else {
+	        	form.setAttendanceMinute(null);
+	        }
+	        //退勤（時）がnullではなく空文字でもなければフォームに値を格納する
+	        if (leavingHourStr != null && !leavingHourStr.isEmpty()) {
+	            form.setLeavingHour(Integer.parseInt(leavingHourStr));
+	        } else {
+	        	form.setLeavingHour(null);
+	        }
+	        //退勤（分）がnullではなく空文字でもなければフォームに値を格納する
+	        if (leavingMinuteStr != null && !leavingMinuteStr.isEmpty()) {
+	            form.setLeavingMinute(Integer.parseInt(leavingMinuteStr));
+	        } else {
+	        	form.setLeavingMinute(null);
+	        }
+	        //休憩（時）がnullではなく空文字でもなければフォームに値を格納する
+	        if (restHourStr != null && !restHourStr.isEmpty()) {
+	            form.setRestHour(Integer.parseInt(restHourStr));
+	        } else {
+	        	form.setRestHour(null);
+	        }
+	        //休憩（分）がnullではなく空文字でもなければフォームに値を格納する
+	        if (restMinuteStr != null && !restMinuteStr.isEmpty()) {
+	            form.setRestMinute(Integer.parseInt(restMinuteStr));
+	        } else {
+	        	form.setRestMinute(null);
+	        }
+	    }
+	}
+		
 	/*----------------------------*/
 	
 }
