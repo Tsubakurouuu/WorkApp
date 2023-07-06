@@ -113,7 +113,7 @@ public class UserWorkEditController {
 	
 	//★登録,修正ボタン押下時のメソッド
 	@PostMapping("/edit")
-	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month, Integer date, Integer userId, @RequestParam("workStatus") String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
+	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month, Integer date, Integer userId, @RequestParam(name = "workStatus", required = false) String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
 		//ModelMapインスタンスを生成
 		ModelMap modelMap = new ModelMap();
 		//エラー時にリダイレクトされてきた値をModelMapに格納する

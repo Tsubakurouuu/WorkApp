@@ -81,7 +81,7 @@ public class FormController {
 	
 	//★確認画面へボタン押下時のメソッド
 	@PostMapping("/form/confirm")
-	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, Integer year, Integer month, Integer date, RedirectAttributes redirectAttributes, @RequestParam("workStatus") String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
+	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, Integer year, Integer month, Integer date, RedirectAttributes redirectAttributes, @RequestParam(name = "workStatus", required = false) String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
 		//ModelMapインスタンスを生成
 		ModelMap modelMap = new ModelMap();
 		//エラー時にリダイレクトされてきた値をModelMapに格納する
