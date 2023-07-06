@@ -155,6 +155,7 @@ public class CommonController {
 	        String leavingMinuteStr = formRedirect.getLeavingMinute() != null ? formRedirect.getLeavingMinute().toString() : null;
 	        String restHourStr = formRedirect.getRestHour() != null ? formRedirect.getRestHour().toString() : null;
 	        String restMinuteStr = formRedirect.getRestMinute() != null ? formRedirect.getRestMinute().toString() : null;
+	        //出勤ステータスがnullではなく空文字でもなければフォームに値を格納する
 	        if (workStatusStr != null && !workStatusStr.isEmpty()) {
 	        	form.setWorkStatus(Integer.parseInt(workStatusStr));
 	        }
@@ -202,6 +203,7 @@ public class CommonController {
 	        String leavingMinuteStr = formRedirect.getLeavingMinute() != null ? formRedirect.getLeavingMinute().toString() : null;
 	        String restHourStr = formRedirect.getRestHour() != null ? formRedirect.getRestHour().toString() : null;
 	        String restMinuteStr = formRedirect.getRestMinute() != null ? formRedirect.getRestMinute().toString() : null;
+	        //出勤ステータスがnullではなく空文字でもなければフォームに値を格納する
 	        if (workStatusStr != null && !workStatusStr.isEmpty()) {
 	        	form.setWorkStatus(Integer.parseInt(workStatusStr));
 	        } else {
