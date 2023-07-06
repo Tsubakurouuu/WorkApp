@@ -191,6 +191,7 @@ public class CommonController {
 		//formRedirectがnullかどうかの判定(フォーム入力時にエラーがあった場合にはformRedirectに値が格納されている)
 		if (formRedirect != null) {
 			//フォームに値が入っていれば各変数に値を格納する(入っていなければnullが入る)
+			String workStatusStr = formRedirect.getWorkStatus() != null ? formRedirect.getWorkStatus().toString() : null;
 	        String attendanceHourStr = formRedirect.getAttendanceHour() != null ? formRedirect.getAttendanceHour().toString() : null;
 	        String attendanceMinuteStr = formRedirect.getAttendanceMinute() != null ? formRedirect.getAttendanceMinute().toString() : null;
 	        String leavingHourStr = formRedirect.getLeavingHour() != null ? formRedirect.getLeavingHour().toString() : null;
@@ -198,6 +199,11 @@ public class CommonController {
 	        String restHourStr = formRedirect.getRestHour() != null ? formRedirect.getRestHour().toString() : null;
 	        String restMinuteStr = formRedirect.getRestMinute() != null ? formRedirect.getRestMinute().toString() : null;
 	        //出勤（時）がnullではなく空文字でもなければフォームに値を格納する
+	        if (workStatusStr != null && !workStatusStr.isEmpty()) {
+	        	form.setWorkStatus(Integer.parseInt(workStatusStr));
+	        } else {
+	        	form.setWorkStatus(null);
+	        }
 	        if (attendanceHourStr != null && !attendanceHourStr.isEmpty()) {
 	            form.setAttendanceHour(Integer.parseInt(attendanceHourStr));
 	        } else {
