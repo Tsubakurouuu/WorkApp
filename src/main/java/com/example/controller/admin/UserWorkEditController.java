@@ -135,7 +135,7 @@ public class UserWorkEditController {
 		Work workDetail = workService.selectWork(id);
 		MUser userIdStr = userService.selectUserIdStr(form.getUserId());
 		//入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するswitch文
-		switch (CommonController.confirmWorkForm(form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute())) {
+		switch (CommonController.confirmWorkForm(year, month, date, form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute())) {
 		case 1:	
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤の場合はフォームを全て入力してください。");

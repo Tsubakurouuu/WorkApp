@@ -1,6 +1,7 @@
 package com.example.controller.common;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -106,9 +107,68 @@ public class CommonController {
 	
 	
 	//★入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッド
-	public static Integer confirmWorkForm(Integer workStatus, Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
+	public static Integer confirmWorkForm(Integer year, Integer month, Integer date, Integer workStatus, Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
 		//出勤ステータスが「出勤」であれば
 		if(workStatus == 1) {
+			//カレンダークラスのオブジェクトを生成
+			Calendar calendar = Calendar.getInstance();
+			//現在の年を取得
+	        Integer yearNow = calendar.get(Calendar.YEAR);
+	        //現在の月(Str)宣言
+	        String monthNowStr;
+	        //現在の月が２桁かどうかで条件分岐
+	        if(calendar.get(Calendar.MONTH) + 1 < 10) {
+	        	//１桁であれば先頭に0をつける
+	        	monthNowStr = "0" +  (calendar.get(Calendar.MONTH) + 1);
+	        } else {
+	        	//２桁であればそのまま
+	        	Integer monthInt = (calendar.get(Calendar.MONTH) + 1);
+	        	monthNowStr = Integer.toString(monthInt);
+	        }
+	        //現在の日(Str)宣言
+	        String dateNowStr;
+	        //現在の日が２桁かどうかで条件分岐
+	        if(calendar.get(Calendar.MONTH) + 1 < 10) {
+	        	//１桁であれば先頭に0をつける
+	        	dateNowStr = "0" +  calendar.get(Calendar.DATE);
+	        } else {
+	        	//２桁であればそのまま
+	        	Integer dateInt = calendar.get(Calendar.DATE);
+	        	dateNowStr = Integer.toString(dateInt);
+	        }
+	        //yyyyMMdd形式で変数に代入する
+	        String yyyyMMddNowStr = yearNow + monthNowStr + dateNowStr;
+	        //Integer形に変換
+	        Integer yyyyMMddNow = Integer.parseInt(yyyyMMddNowStr);
+	        //対象の月(Str)を宣言
+	        String monthStr;
+	        //対象の月が２桁かどうかで条件分岐
+	        if(month < 10) {
+	        	//１桁であれば先頭に0をつける
+	        	monthStr = "0" +  month;
+	        } else {
+	        	//２桁であればそのまま
+	        	monthStr = Integer.toString(month);
+	        }
+	        //対象の日(Str)を宣言
+	        String dateStr;
+	        //現在の月が２桁かどうかで条件分岐
+	        if(date < 10) {
+	        	//１桁であれば先頭に0をつける
+	        	dateStr = "0" +  date;
+	        } else {
+	        	//２桁であればそのまま
+	        	dateStr = Integer.toString(date);
+	        }
+	        //yyyyMMdd形式で変数に代入する
+	        String yyyyMMddStr = year + monthStr + dateStr;
+	        //Integer形に変換
+	        Integer yyyyMMdd = Integer.parseInt(yyyyMMddStr);
+	        //現在年月日と対象年月日を比較する
+	        if(yyyyMMddNow < yyyyMMdd) {
+	        	//対象年月日の値の方が大きければエラーを返す
+	        	return 5;
+	        }
 			//時間入力部分が全て入力されていないとエラーを返す
 			if(attendanceHour == null || attendanceMinute == null || leavingHour == null || leavingMinute == null || restHour == null || restMinute  == null) {
 				return 1;
