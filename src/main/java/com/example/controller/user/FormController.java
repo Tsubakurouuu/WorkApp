@@ -120,7 +120,13 @@ public class FormController {
 			return "user/form";
 		}
 		//入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するswitch文
-		switch (CommonController.confirmWorkForm(year, month, date, form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute())) {
+		Integer errorNumber;
+		if(workDetail != null) {
+			errorNumber = CommonController.confirmWorkForm(workDetail.getYear(), workDetail.getMonth(), workDetail.getDate(), form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+		} else {
+			errorNumber = CommonController.confirmWorkForm(year, month, date, form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+		}
+		switch (errorNumber) {
 		case 5:
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤の場合、未来日付の指定はできません");
