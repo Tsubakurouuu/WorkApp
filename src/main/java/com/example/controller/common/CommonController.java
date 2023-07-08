@@ -167,18 +167,18 @@ public class CommonController {
 	        //現在年月日と対象年月日を比較する
 	        if(yyyyMMddNow < yyyyMMdd) {
 	        	//対象年月日の値の方が大きければエラーを返す
-	        	return 5;
+	        	return 1;
 	        }
 			//時間入力部分が全て入力されていないとエラーを返す
 			if(attendanceHour == null || attendanceMinute == null || leavingHour == null || leavingMinute == null || restHour == null || restMinute  == null) {
-				return 1;
+				return 2;
 			}
 		}
 		//出勤ステータスが「出勤」以外であれば
 		if(workStatus != 1) {
 			//時間入力部分に値が入力されているとエラーになる
 			if(attendanceHour != null || attendanceMinute != null || leavingHour != null || leavingMinute != null || restHour != null || restMinute  != null) {
-				return 2;
+				return 3;
 			}
 			//問題なければ処理を抜ける
 			return 0;
@@ -189,11 +189,11 @@ public class CommonController {
         Integer totalRestMinutes = restHour * 60 + restMinute;
         //出勤時間が退勤時間よりも遅い時間になっていたらエラーを返す
         if(totalAttendanceMinutes > totalLeavingMinutes) {
-			return 3;
+			return 4;
         }
         //出勤時間と退勤時間の差分よりも休憩時間の値が大きければエラーを返す
         if(totalLeavingMinutes - totalAttendanceMinutes < totalRestMinutes) {
-			return 4;
+			return 5;
         }
         //問題なければ処理を抜ける
         return 0;

@@ -119,15 +119,17 @@ public class FormController {
 			//NGがあれば出退勤申請画面に戻る
 			return "user/form";
 		}
-		//入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するswitch文
+		//errorNumber(switch分を使用するための変数)を宣言
 		Integer errorNumber;
+		//入力された内容があっているかどうかを判断するメソッド(勤怠情報が登録されているか否かで引数が変わる)
 		if(workDetail != null) {
 			errorNumber = CommonController.confirmWorkForm(workDetail.getYear(), workDetail.getMonth(), workDetail.getDate(), form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
 		} else {
 			errorNumber = CommonController.confirmWorkForm(year, month, date, form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
 		}
+		//入力された年月日、出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するswitch文
 		switch (errorNumber) {
-		case 5:
+		case 1:
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤の場合、未来日付の指定はできません");
 			//時分フォーム入力用メソッド
@@ -137,7 +139,7 @@ public class FormController {
 				return "redirect:/form/" + id;
 			}
 			return "redirect:/form/" + year + "/" + month + "/" + date;
-		case 1:
+		case 2:
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤の場合はフォームを全て入力してください。");
 			//時分フォーム入力用メソッド
@@ -147,7 +149,7 @@ public class FormController {
 				return "redirect:/form/" + id;
 			}
 			return "redirect:/form/" + year + "/" + month + "/" + date;
-		case 2:
+		case 3:
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤以外の場合はフォームを全て入力しないでください。");
 			//時分フォーム入力用メソッド
@@ -157,7 +159,7 @@ public class FormController {
 				return "redirect:/form/" + id;
 			}
 			return "redirect:/form/" + year + "/" + month + "/" + date;
-		case 3:
+		case 4:
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "出勤時間が退勤時間よりも大きい値になっています。");
 			//時分フォーム入力用メソッド
@@ -167,7 +169,7 @@ public class FormController {
 				return "redirect:/form/" + id;
 			}
 			return "redirect:/form/" + year + "/" + month + "/" + date;
-		case 4:
+		case 5:
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", "休憩時間の値を修正してください。");
 			//時分フォーム入力用メソッド
