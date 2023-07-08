@@ -46,8 +46,11 @@ public class FormIndexController {
 	//★削除ボタン押下時のメソッド
 	@PostMapping("/notification/delete")
 	public String deleteNotification(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
+		//通知削除
 	    notificationService.deleteNotification(id);
+	    //フラッシュスコープ
 	    redirectAttributes.addFlashAttribute("complete", "アラートを削除しました。");
+	    //申請、アラート一覧画面へリダイレクト
 	    return "redirect:/admin/forms";
 	}
 	

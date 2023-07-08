@@ -104,16 +104,6 @@
 			notification.work_id = work.id
 	</select>
 	
-	<!--通知詳細取得-->
-	<select id="selectNotificationDetail" resultMap="notification" resultType="Notification">
-		select
-			*
-		from
-			notification
-		where
-			notification.id = #{id}
-	</select>
-	
 	<!--通知削除-->
 	<delete id="deleteNotification">
 		delete
