@@ -104,4 +104,13 @@
 			notification.work_id = work.id
 	</select>
 	
+	<!--通知削除-->
+	<delete id="deleteNotification">
+		delete
+		from
+			notification
+		where
+			id = #{id}
+	</delete>
+	
 </mapper>

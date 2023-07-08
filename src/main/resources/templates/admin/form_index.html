@@ -66,6 +66,7 @@
 								<th>日付</th>
 								<th>ユーザー名</th>
 								<th>詳細</th>
+								<th>削除</th>
 							</tr>
 						</thead>
 						<!--出退勤申請を一覧表示するオブジェクト-->
@@ -78,6 +79,9 @@
 									<a th:text="|${obj.mUser.lastName} ${obj.mUser.firstName}|" th:href="@{'/admin/form/' + ${obj.id}}"></a>
 								</td>
 								<td th:text="${obj.message}"></td>
+								<td>
+									<a th:action="@{/admin/notification/delete}" class="btn btn-danger">削除</a>
+								</td>
 							</tr>
 						</tbody>
 					</table>

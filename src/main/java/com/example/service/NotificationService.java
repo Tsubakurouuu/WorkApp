@@ -11,4 +11,8 @@ public interface NotificationService {
 	
 	//通知一覧取得
 	public List<Notification> selectNotificationList();
+	
+	//通知削除
+	public void deleteNotification(Integer id);
+	
 }

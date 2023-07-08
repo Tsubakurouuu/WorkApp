@@ -26,4 +26,10 @@ public class NotificationServiceImpl implements NotificationService {
 	public List<Notification> selectNotificationList() {
 		return mapper.selectNotificationList();
 	}
+	
+	//通知削除
+	@Override
+	public void deleteNotification(Integer id) {
+		mapper.deleteNotification(id);
+	}
 }
