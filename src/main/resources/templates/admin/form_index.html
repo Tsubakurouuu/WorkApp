@@ -17,6 +17,7 @@
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
 			<h2 class="mt-3">申請、アラート一覧</h2>
+			<p th:text="${complete}" class="text-success"></p>
 			<ul class="nav nav-tabs">
 				<li class="nav-item">
 			    	<a href="#requestForm" class="nav-link active" data-bs-toggle="tab">申請</a>
@@ -87,7 +88,8 @@
 									<a th:href="@{/admin/{id}/edit(id=${obj.work.id})}" class="btn btn-success">修正</a>
 								</td>
 								<td>
-									<form method="post" th:action="@{/admin/notification/delete}" th:object="${notificationList}">
+									<form method="post" th:action="@{/admin/notification/delete}">
+										<input type="hidden" name="id" th:value="${obj.id}" />
 										<input type="submit" class="btn btn-danger" th:value="削除"/>
 									</form>
 								</td>

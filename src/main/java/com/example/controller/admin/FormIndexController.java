@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.model.Notification;
 import com.example.model.RequestForm;
@@ -43,10 +45,10 @@ public class FormIndexController {
 	
 	//★削除ボタン押下時のメソッド
 	@PostMapping("/notification/delete")
-	public String deleteNotification(Integer id) {
-		Notification notificationDetail = notificationService.selectNotificationDetail(id);
-		notificationService.deleteNotification(notificationDetail.getId());
-		return "redirect:/admin/forms";
+	public String deleteNotification(@RequestParam("id") Integer id, RedirectAttributes redirectAttributes) {
+	    notificationService.deleteNotification(id);
+	    redirectAttributes.addFlashAttribute("complete", "アラートを削除しました。");
+	    return "redirect:/admin/forms";
 	}
 	
 	/*----------------------------*/

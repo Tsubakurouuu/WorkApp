@@ -107,45 +107,9 @@
 	<!--通知詳細取得-->
 	<select id="selectNotificationDetail" resultMap="notification" resultType="Notification">
 		select
-			notification.id,
-			notification.user_id,
-			notification.work_id,
-			notification.message,
-			m_user.id as user_id,
-			m_user.user_id as user_user_id,
-			m_user.password as user_password,
-			m_user.first_name as user_first_name,
-			m_user.last_name as user_last_name,
-			m_user.birthday as user_birthday,
-			m_user.role as user_role,
-			work.id as work_id,
-			work.user_id as work_user_id,
-			work.year as work_year,
-			work.month as work_month,
-			work.date as work_date,
-			work.attendance_hour as work_attendance_hour,
-			work.attendance_minute as work_attendance_minute,
-			work.leaving_hour as work_leaving_hour,
-			work.leaving_minute as work_leaving_minute,
-			work.rest_hour as work_rest_hour,
-			work.rest_minute as work_rest_minute,
-			work.working_time_hour as work_working_time_hour,
-			work.working_time_minute as work_working_time_minute,
-			work.over_time_hour as work_over_time_hour,
-			work.over_time_minute as work_over_time_minute,
-			work.work_status as work_work_status
+			*
 		from
 			notification
-		left
-		join
-			m_user
-		on
-			notification.user_id = m_user.id
-		left
-		join
-			work
-		on
-			notification.work_id = work.id
 		where
 			notification.id = #{id}
 	</select>
