@@ -66,10 +66,11 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<th width="30%">日付</th>
-								<th width="30%">ユーザー名</th>
+								<th width="25%">日付</th>
+								<th width="25%">ユーザー名</th>
 								<th width="30%">内容</th>
 								<th width="10%">修正</th>
+								<th width="10%">削除</th>
 							</tr>
 						</thead>
 						<!--出退勤申請を一覧表示するオブジェクト-->
@@ -84,6 +85,11 @@
 								<!--修正画面へのリンク-->
 								<td>
 									<a th:href="@{/admin/{id}/edit(id=${obj.work.id})}" class="btn btn-success">修正</a>
+								</td>
+								<td>
+									<form method="post" th:action="@{/admin/notification/delete}" th:object="${notificationList}">
+										<input type="submit" class="btn btn-danger" th:value="削除"/>
+									</form>
 								</td>
 							</tr>
 						</tbody>

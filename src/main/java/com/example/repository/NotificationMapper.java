@@ -15,4 +15,10 @@ public interface NotificationMapper {
 	//通知一覧取得
 	public List<Notification> selectNotificationList();
 	
+	//通知詳細取得
+	public Notification selectNotificationDetail(Integer id);
+	
+	//通知削除
+	public void deleteNotification(Integer id);
+	
 }
