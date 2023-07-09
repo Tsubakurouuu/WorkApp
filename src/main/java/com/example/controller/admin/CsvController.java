@@ -117,9 +117,6 @@ public class CsvController {
             	case 3:
             		workStatus = "有休";
             		break;
-            	case 4:
-            		workStatus = "半休";
-            		break;
             	default:
             		workStatus = "その他のステータス";
             		break;

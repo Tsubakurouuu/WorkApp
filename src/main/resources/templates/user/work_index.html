@@ -68,7 +68,6 @@
 								<td th:case="1" th:text="出勤" class="align-middle"></td>
 								<td th:case="2" th:text="欠勤" class="align-middle"></td>
 								<td th:case="3" th:text="有休" class="align-middle"></td>
-								<td th:case="4" th:text="半休" class="align-middle"></td>
 							</div>
 							<!--該当日の出勤ステータスが出勤であれば登録情報を表示を表示-->
 							<div th:if="${workMap[__${date}__].workStatus == 1}">
