@@ -14,8 +14,6 @@
 		<!--テンプレートの呼び出し-->
 		<header layout:replace="~{layout/header::header}"></header>
 		<div class="container">
-			<!--出退勤情報の登録、更新を行った際にフラッシュメッセージを表示-->
-			<p th:text="${complete}" class="text-success"></p>
 			<h2 class="mt-4">ユーザー一覧</h2>
 			<!--登録ユーザーを一覧表示するテーブル-->
 			<table class="table mt-3">

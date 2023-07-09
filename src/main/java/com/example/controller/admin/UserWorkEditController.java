@@ -238,7 +238,7 @@ public class UserWorkEditController {
 		//ログの表示
 		log.info(form.toString());
 		//ユーザー一覧画面にリダイレクト
-		return "redirect:/admin/users";
+		return "redirect:/admin/" + userIdStr.getUserId() + "/" + year + "/" + month;
 	}
 	
 	/*----------------------------*/
