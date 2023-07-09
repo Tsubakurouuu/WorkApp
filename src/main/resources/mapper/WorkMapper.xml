@@ -85,11 +85,38 @@
 	<!--勤怠情報取得-->
 	<select id="selectWork" resultMap="work">
 		select
-			*
+			work.id,
+			work.user_id,
+			work.year,
+			work.month,
+			work.date,
+			work.attendance_hour,
+			work.attendance_minute,
+			work.leaving_hour,
+			work.leaving_minute,
+			work.rest_hour,
+			work.rest_minute,
+			work.working_time_hour,
+			work.working_time_minute,
+			work.over_time_hour,
+			work.over_time_minute,
+			work.work_status,
+			m_user.id as user_id,
+			m_user.user_id as user_user_id,
+			m_user.password as user_password,
+			m_user.first_name as user_first_name,
+			m_user.last_name as user_last_name,
+			m_user.birthday as user_birthday,
+			m_user.role as user_role
 		from
 			work
+		left
+		join
+			m_user
+		on
+			work.user_id = m_user.id
 		where
-			id = #{id}
+			work.id = #{id}
 	</select>
 	
 	<!--勤怠情報更新-->

@@ -122,12 +122,12 @@
 					<!--登録ボタン-->
 					<div th:if="${workDetail == null}">
 						<input type="submit" th:value="登録" class="btn btn-primary ml-5"/>
-						<a th:href="@{/admin/users}" class="btn btn-danger ml-5">キャンセル</a>
+						<a th:href="@{/admin/{userId}/{year}/{month} (userId=${userDetail.userId}, year=*{year}, month=*{month})}" class="btn btn-danger ml-5">キャンセル</a>
 					</div>
 					<!--修正ボタン-->
 					<div th:if="${workDetail != null}">
 						<input type="submit" th:value="修正" class="btn btn-primary ml-5"/>
-						<a th:href="@{/admin/users}" class="btn btn-danger ml-5">キャンセル</a>
+						<a th:href="@{/admin/{userId}/{year}/{month} (userId=${workDetail.mUser.userId}, year=*{year}, month=*{month})}" class="btn btn-danger ml-5">キャンセル</a>
 					</div>
 				</div>
 			</form>
