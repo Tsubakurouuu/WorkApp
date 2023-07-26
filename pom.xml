@@ -124,12 +124,13 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
 		</dependency>
-		<!--JUnit-->
+		 <!--JUnitJupiter (JUnit 5) の依存関係 -->
 		<dependency>
-    		<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-starter-test</artifactId>
-    	<scope>test</scope>
-</dependency>
+		    <groupId>org.junit.jupiter</groupId>
+		    <artifactId>junit-jupiter</artifactId>
+		    <version>5.7.0</version>
+		    <scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -145,6 +146,18 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<!-- Maven Surefire プラグインの設定（JUnit 5用） -->
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-surefire-plugin</artifactId>
+	            <version>2.22.2</version>
+	        </plugin>
+	        <!-- Maven Failsafe プラグインの設定（JUnit 5用） -->
+	        <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-failsafe-plugin</artifactId>
+	            <version>2.22.2</version>
+	        </plugin>
 		</plugins>
 	</build>
 
