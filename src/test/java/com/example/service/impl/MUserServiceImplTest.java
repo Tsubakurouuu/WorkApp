@@ -27,22 +27,35 @@ public class MUserServiceImplTest {
 	private MUserService userService;
 	
 	@Test
-	@DisplayName("ユーザーリスト取得テスト")
+	@DisplayName("ユーザー一覧取得テスト")
 	public void testSelectUserList() {
-		
+		//モックのMUserリストを作成
 		List<MUser> mockUserList = new ArrayList<>();
+		//MUserリストが空でないことを保証
 		mockUserList.add(new MUser());
-		
+		//mapperのselectUserListメソッドが呼び出されたときにモックのMUserリストを返すように設定
 		when(mapper.selectUserList()).thenReturn(mockUserList);
-		
-		List<MUser> resultList = userService.selectUserList();
-		
-		assertSame(mockUserList, resultList);
+		//テスト対象のメソッドを呼び出して結果を受け取る
+		List<MUser> resultUserList = userService.selectUserList();
+		//モックのMUserリストが返されることを確認
+		assertSame(mockUserList, resultUserList);
 	}
 
 	@Test
+	@DisplayName("ユーザー詳細取得テスト")
 	public void testSelectUserDetail() {
-		fail("まだ実装されていません");
+		//ダミーデータを宣言(selectUserDetailメソッドの引数用)
+		String testUserId = "testUser";
+		//モックのMUserインスタンスの生成
+		MUser mockUserDetail = new MUser();
+		//モックのMUserにダミーデータのセット
+		mockUserDetail.setUserId(testUserId);
+		//mapperのselectUserDetailメソッド呼び出されたときにモックのMUserを返すように設定
+		when(mapper.selectUserDetail(testUserId)).thenReturn(mockUserDetail);
+		//テスト対象のメソッドを呼び出して結果を受け取る
+		MUser resultUserDetail = userService.selectUserDetail(testUserId);
+		//モックのMUserが返されることを確認
+		assertSame(mockUserDetail, resultUserDetail);
 	}
 
 	@Test
