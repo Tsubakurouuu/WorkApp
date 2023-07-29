@@ -102,8 +102,20 @@ public class MUserServiceImplTest {
 	}
 
 	@Test
+	@DisplayName("ユーザーのuserId(Str)詳細取得テスト")
 	public void testSelectUserIdStr() {
-		fail("まだ実装されていません");
+		//ダミーデータを宣言(selectUserIdStrメソッドの引数用)
+		Integer testId = 1;
+		//モックのMUserインスタンスの生成
+		MUser mockUserDetail = new MUser();
+		//モックのMUserにダミーデータのセット
+		mockUserDetail.setId(testId);
+		//mapperのselectUserIdStrメソッド呼び出されたときにモックのMUserを返すように設定
+		when(mapper.selectUserIdStr(testId)).thenReturn(mockUserDetail);
+		//テスト対象のメソッドを実行してMUserを受け取る
+		MUser resultUserDetail = userService.selectUserIdStr(testId);
+		//モックのMUserが返されることを確認
+		assertSame(mockUserDetail, resultUserDetail);
 	}
 }
 
