@@ -209,7 +209,7 @@
 		)
 	</insert>
 	
-	<!--勤怠情報を取得し不備がないかの確認-->
+	<!--勤怠情報取得-->
 	<select id="selectWorkInfoList" resultType="Work">
 		select
 			*

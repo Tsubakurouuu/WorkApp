@@ -57,7 +57,7 @@ public class WorkServiceImpl implements WorkService {
 		mapper.insertWork(work);
 	}
 	
-	//勤怠情報を取得し不備がないかの確認
+	//勤怠情報取得
 	@Override
 	public List<Work> selectWorkInfoList(Integer year, Integer month, Integer date) {
 		return mapper.selectWorkInfoList(year, month, date);
