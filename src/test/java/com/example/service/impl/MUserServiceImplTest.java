@@ -86,8 +86,19 @@ public class MUserServiceImplTest {
 	}
 
 	@Test
+	@DisplayName("ユーザーのuserId一覧取得テスト")
 	public void testSelectUserIdList() {
-		fail("まだ実装されていません");
+		//モックのStringリストを作成
+		List<String> mockUserIdList = new ArrayList<>();
+		//Stringリストが空でないことを保証
+		mockUserIdList.add(new String());
+		//mapperのselectUserIdListメソッドが呼び出されたときにモックのStringリストを返すように設定
+		when(mapper.selectUserIdList()).thenReturn(mockUserIdList);
+		//テスト対象のメソッドを実行してStringのListを受け取る
+		List<String> resultUserIdList = userService.selectUserIdList();
+		//モックのStringリストが返されることを確認
+		assertSame(mockUserIdList, resultUserIdList);
+		
 	}
 
 	@Test
