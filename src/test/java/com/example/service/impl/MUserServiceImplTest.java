@@ -2,7 +2,6 @@ package com.example.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -37,7 +36,7 @@ public class MUserServiceImplTest {
 	@Test
 	@DisplayName("ユーザー一覧取得テスト")
 	public void testSelectUserList() {
-		//モックのMUserリストを作成
+		//モックのMUserリストを生成
 		List<MUser> mockUserList = new ArrayList<>();
 		//MUserリストが空でないことを保証
 		mockUserList.add(new MUser());
