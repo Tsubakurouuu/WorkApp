@@ -1,9 +1,17 @@
 package com.example.controller.common;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.ui.ExtendedModelMap;
+import org.springframework.ui.Model;
 
 class CommonControllerTest {
 
@@ -86,8 +94,23 @@ class CommonControllerTest {
 	}
 
 	@Test
+	@DisplayName("時分フォーム入力用メソッドのテスト")
 	void testFormNumbers() {
-		fail("まだ実装されていません");
+		//モックのModelを生成
+		Model mockModel = new ExtendedModelMap();
+		//モックのList<Integer>を宣言(Modelの期待値)
+		List<Integer> mockHourNumbers = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
+		List<Integer> mockMinuteNumbers = Arrays.asList(0, 10, 20, 30, 40, 50);
+		//テスト対象のメソッドを実行する
+		CommonController.formNumbers(mockModel);
+		//モックのModelが"hourNumbers"を持っているかの確認
+		assertTrue(mockModel.containsAttribute("hourNumbers"));
+		//モックのModelが"minuteNumbers"を持っているかの確認
+		assertTrue(mockModel.containsAttribute("minuteNumbers"));
+		//"hourNumbers"と期待値が同じであるかどうかを確認
+		assertEquals(mockHourNumbers, mockModel.getAttribute("hourNumbers"));
+		//"minuteNumbers"と期待値が同じであるかどうかを確認
+		assertEquals(mockMinuteNumbers, mockModel.getAttribute("minuteNumbers"));
 	}
 
 	@Test
