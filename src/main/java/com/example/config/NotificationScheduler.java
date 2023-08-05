@@ -29,7 +29,7 @@ public class NotificationScheduler {
     }
 	
 	//出勤打刻がされていて退勤打刻がされていないときに通知テーブルの作成をするメソッド
-	private boolean isAttendanceButtonNotPressed() {
+	public boolean isAttendanceButtonNotPressed() {
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//現在の年を取得
