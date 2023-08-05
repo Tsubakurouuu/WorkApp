@@ -251,7 +251,7 @@ public class CommonController {
 	
 	
 	
-	//★入力チェックエラー時にリダイレクトして値を保持するメソッド
+	//★入力チェックエラー時にリダイレクトして値を保持するメソッド(出退勤修正画面)
 	public static void formRedirect(WorkEditForm form, WorkEditForm formRedirect) {
 		//formRedirectがnullかどうかの判定(フォーム入力時にエラーがあった場合にはformRedirectに値が格納されている)
 		if (formRedirect != null) {
