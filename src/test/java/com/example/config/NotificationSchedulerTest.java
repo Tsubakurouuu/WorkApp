@@ -40,11 +40,11 @@ class NotificationSchedulerTest {
 		//ダミーデータを宣言(selectWorkメソッドの引数用)
 		Integer testAttendanceHour = 1;
 		//カレンダークラスのオブジェクトを生成
-		Calendar calendar = Calendar.getInstance();
+		Calendar mockCalendar = Calendar.getInstance();
 		//現在の年月日を取得
-        Integer testYear = calendar.get(Calendar.YEAR);
-        Integer testMonth = calendar.get(Calendar.MONTH) + 1;
-        Integer testDate = calendar.get(Calendar.DATE);
+        Integer testYear = mockCalendar.get(Calendar.YEAR);
+        Integer testMonth = mockCalendar.get(Calendar.MONTH) + 1;
+        Integer testDate = mockCalendar.get(Calendar.DATE);
         //モックのWorkを生成
         Work mockWork = new Work();
 		//モックのWorkにダミーデータのセット
