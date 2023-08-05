@@ -114,8 +114,35 @@ class CommonControllerTest {
 	}
 
 	@Test
-	void testCalcRest() {
-		fail("まだ実装されていません");
+	@DisplayName("休憩時間に1or0をセットするメソッドのテスト1(返り値が1の時)")
+	void testCalcRest1() {
+		//ダミーデータを宣言(calcRestメソッドの引数用)
+		Integer testAttendanceHour = 9;
+        Integer testAttendanceMinute = 20;
+        Integer testLeavingHour = 20;
+        Integer testLeavingMinute = 50;
+        //テスト対象のメソッドを実行してIntegerを受け取る
+        Integer result = CommonController.calcRest(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute);
+        //calcRestメソッドの期待する値
+        Integer expected = 1;
+        //calcRestメソッドの実行結果と期待値が同値であることを確認
+        assertEquals(expected, result);
+	}
+	
+	@Test
+	@DisplayName("休憩時間に1or0をセットするメソッドのテスト2(返り値が0の時)")
+	void testCalcRest2() {
+		//ダミーデータを宣言(calcRestメソッドの引数用)
+		Integer testAttendanceHour = 9;
+        Integer testAttendanceMinute = 20;
+        Integer testLeavingHour = 10;
+        Integer testLeavingMinute = 10;
+        //テスト対象のメソッドを実行してIntegerを受け取る
+        Integer result = CommonController.calcRest(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute);
+        //calcRestメソッドの期待する値
+        Integer expected = 0;
+        //calcRestメソッドの実行結果と期待値が同値であることを確認
+        assertEquals(expected, result);
 	}
 
 	@Test

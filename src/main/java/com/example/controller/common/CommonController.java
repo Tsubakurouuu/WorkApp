@@ -97,7 +97,7 @@ public class CommonController {
         	//60より大きければ1を返す
         	return 1;
         } else {
-        	//60未満なら0を返す
+        	//60以下なら0を返す
         	return 0;
         }
 	}
