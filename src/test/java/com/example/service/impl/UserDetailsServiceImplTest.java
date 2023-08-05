@@ -1,6 +1,7 @@
 package com.example.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -12,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.example.model.MUser;
 import com.example.service.MUserService;
@@ -60,6 +62,18 @@ class UserDetailsServiceImplTest {
 		//モックのMUserのroleがtrueであることを確認
 		assertTrue(flg);
 	}
-
+	
+	@Test
+	@DisplayName("ユーザーが存在しない場合に例外がスローされるテスト")
+    public void testLoadUserByUsername_NotFound() {
+		//ダミーデータを宣言(selectUserDetail,loadUserByUsernameの引数用)
+        String userId = "user1";
+        //userServiceのselectUserDetailメソッドを呼び出したときにnullを返すように設定
+        when(userService.selectUserDetail(userId)).thenReturn(null);
+        //テスト対象のメソッドが例外をスローすることを確認
+        assertThrows(UsernameNotFoundException.class, () -> {
+            userDetailsService.loadUserByUsername(userId);
+        });
+    }
 
 }
