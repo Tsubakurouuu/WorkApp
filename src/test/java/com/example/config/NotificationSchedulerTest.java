@@ -1,9 +1,7 @@
 package com.example.config;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,11 +33,6 @@ class NotificationSchedulerTest {
 
     @Mock
     private NotificationServiceImpl notificationService;
-	
-	@Test
-	void testCheckAttendanceStatus() {
-		fail("まだ実装されていません");
-	}
 
 	@Test
 	@DisplayName("出勤打刻がされていて退勤打刻がされていないときに通知テーブルの作成をするメソッドのテスト")
