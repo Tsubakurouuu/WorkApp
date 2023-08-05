@@ -10,22 +10,22 @@ import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.model.Notification;
 import com.example.repository.NotificationMapper;
-import com.example.service.NotificationService;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class NotificationServiceImplTest {
 	
-	@MockBean
-	private  NotificationMapper mapper;
+	@InjectMocks
+	private NotificationServiceImpl notificationService;
 	
-	@Autowired
-	private NotificationService notificationService;
+	@Mock
+	private  NotificationMapper mapper;
 
 	@Test
 	@DisplayName("通知新規登録テスト")

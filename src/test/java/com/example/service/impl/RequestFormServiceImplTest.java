@@ -10,22 +10,22 @@ import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.model.RequestForm;
 import com.example.repository.RequestFormMapper;
-import com.example.service.RequestFormService;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class RequestFormServiceImplTest {
 	
-	@MockBean
-	private RequestFormMapper mapper;
+	@InjectMocks
+	private RequestFormServiceImpl requestFormService;
 	
-	@Autowired
-	private RequestFormService requestFormService;
+	@Mock
+	private RequestFormMapper mapper;
 
 	@Test
 	@DisplayName("申請フォーム登録登録テスト")

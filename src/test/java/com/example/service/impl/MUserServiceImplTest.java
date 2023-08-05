@@ -12,26 +12,26 @@ import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.model.MUser;
 import com.example.repository.MUserMapper;
-import com.example.service.MUserService;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class MUserServiceImplTest {
 
-	@MockBean
+	@InjectMocks
+	private MUserServiceImpl userService;
+	
+	@Mock
 	private MUserMapper mapper;
 	
-	@MockBean
+	@Mock
     private PasswordEncoder encoder;
-	
-	@Autowired
-	private MUserService userService;
 	
 	@Test
 	@DisplayName("ユーザー一覧取得テスト")

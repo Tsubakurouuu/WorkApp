@@ -10,22 +10,22 @@ import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.model.Work;
 import com.example.repository.WorkMapper;
-import com.example.service.WorkService;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 class WorkServiceImplTest {
 	
-	@MockBean
-	private WorkMapper mapper;
+	@InjectMocks
+	private WorkServiceImpl workService;
 	
-	@Autowired
-    private WorkService workService;
+	@Mock
+	private WorkMapper mapper;
 
 	@Test
 	@DisplayName("出勤時間登録テスト")
