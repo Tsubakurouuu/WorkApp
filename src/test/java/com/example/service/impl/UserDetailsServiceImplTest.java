@@ -26,7 +26,7 @@ class UserDetailsServiceImplTest {
     private MUserService userService;
 	
 	@Test
-	@DisplayName("")
+	@DisplayName("指定されたユーザーIDを使用して、ユーザーの詳細をロードするメソッドのテスト")
 	void testLoadUserByUsername() {
 		//ダミーデータを宣言(selectUserDetail,loadUserByUsernameの引数用)
 		String testUserId = "testUserId";
@@ -46,15 +46,19 @@ class UserDetailsServiceImplTest {
 		assertEquals(mockUser.getUserId(), resultUserDetails.getUsername());
 		//モックのMUserのpasswordが返されることを確認
 		assertEquals(mockUser.getPassword(), resultUserDetails.getPassword());
-		boolean containsRoleUser = false;
+		//boolean型変数をfalseで宣言
+		boolean flg = false;
+		//UserDetailsオブジェクトの権限リストをループで回す
 		for (GrantedAuthority authority : resultUserDetails.getAuthorities()) {
+			//権限が期待するものと一致するかチェック
 		    if (authority.getAuthority().equals("testRole")) {
-		        containsRoleUser = true;
+		    	//一致すればflgをtrueに変えてfor文から抜ける
+		        flg = true;
 		        break;
 		    }
 		}
 		//モックのMUserのroleがtrueであることを確認
-		assertTrue(containsRoleUser);
+		assertTrue(flg);
 	}
 
 
