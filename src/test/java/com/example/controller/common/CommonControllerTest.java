@@ -13,6 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 
+import com.example.form.RequestFormForm;
+
 class CommonControllerTest {
 
 	@Test
@@ -300,12 +302,74 @@ class CommonControllerTest {
 	}
 
 	@Test
-	void testFormRedirectRequestFormFormRequestFormForm() {
-		fail("まだ実装されていません");
+	@DisplayName("入力チェックエラー時にリダイレクトして値を保持するメソッド(出退勤申請画面)1(formRedirectがnullの場合)")
+	void testFormRedirectRequestFormForm1() {
+		//モックのRequestFormFormを生成
+		RequestFormForm mockForm = new RequestFormForm();
+		//ダミーデータを宣言(FormRedirectメソッドの引数用)
+		Integer testWorkStatus = 1;
+		Integer testAttendanceHour = 9;
+        Integer testAttendanceMinute = 20;
+        Integer testLeavingHour = 17;
+        Integer testLeavingMinute = 50;
+        Integer testRestHour = 1;
+        Integer testRestMinute = 10;
+        //モックのRequestFormFormにダミーデータのセット
+        mockForm.setWorkStatus(testWorkStatus);
+        mockForm.setAttendanceHour(testAttendanceHour);
+        mockForm.setAttendanceMinute(testAttendanceMinute);
+        mockForm.setLeavingHour(testLeavingHour);
+        mockForm.setLeavingMinute(testLeavingMinute);
+        mockForm.setRestHour(testRestHour);
+        mockForm.setRestMinute(testRestMinute);
+        //テスト対象のメソッドを実行する
+	    CommonController.formRedirect(mockForm, null);
+	    //FormRedirectメソッドの実行結果と期待値が同値であることを確認
+	    assertEquals(1, mockForm.getWorkStatus());
+	    assertEquals(9, mockForm.getAttendanceHour());
+	    assertEquals(20, mockForm.getAttendanceMinute());
+	    assertEquals(17, mockForm.getLeavingHour());
+	    assertEquals(50, mockForm.getLeavingMinute());
+	    assertEquals(1, mockForm.getRestHour());
+	    assertEquals(10, mockForm.getRestMinute());
+	}
+	
+	@Test
+	@DisplayName("入力チェックエラー時にリダイレクトして値を保持するメソッド(出退勤申請画面)2(formRedirectがnotnullの場合)")
+	void testFormRedirectRequestFormForm2() {
+		//モックのRequestFormFormを生成
+		RequestFormForm mockForm = new RequestFormForm();
+		RequestFormForm mockFormRedirect = new RequestFormForm();
+		//ダミーデータを宣言(FormRedirectメソッドの引数用)
+		Integer testWorkStatus = 1;
+		Integer testAttendanceHour = 9;
+        Integer testAttendanceMinute = 20;
+        Integer testLeavingHour = 17;
+        Integer testLeavingMinute = 50;
+        Integer testRestHour = 1;
+        Integer testRestMinute = 10;
+        //モックのRequestFormFormにダミーデータのセット
+        mockFormRedirect.setWorkStatus(testWorkStatus);
+        mockFormRedirect.setAttendanceHour(testAttendanceHour);
+        mockFormRedirect.setAttendanceMinute(testAttendanceMinute);
+        mockFormRedirect.setLeavingHour(testLeavingHour);
+        mockFormRedirect.setLeavingMinute(testLeavingMinute);
+        mockFormRedirect.setRestHour(testRestHour);
+        mockFormRedirect.setRestMinute(testRestMinute);
+        //テスト対象のメソッドを実行する
+	    CommonController.formRedirect(mockForm, mockFormRedirect);
+	    //FormRedirectメソッドの実行結果と期待値が同値であることを確認
+	    assertEquals(1, mockForm.getWorkStatus());
+	    assertEquals(9, mockForm.getAttendanceHour());
+	    assertEquals(20, mockForm.getAttendanceMinute());
+	    assertEquals(17, mockForm.getLeavingHour());
+	    assertEquals(50, mockForm.getLeavingMinute());
+	    assertEquals(1, mockForm.getRestHour());
+	    assertEquals(10, mockForm.getRestMinute());
 	}
 
 	@Test
-	void testFormRedirectWorkEditFormWorkEditForm() {
+	void testFormRedirectWorkEditForm() {
 		fail("まだ実装されていません");
 	}
 
