@@ -1,9 +1,12 @@
 package com.example.controller.admin;
 
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -74,7 +77,7 @@ class FormIndexControllerTest {
         mockNotificationList.add(mockNotification);
         //notificationServiceのselectNotificationListメソッドが呼び出されたときにモックのNotificationリストを返すように設定
 	    when(notificationService.selectNotificationList()).thenReturn(mockNotificationList);
-	    // mockMvcを使って/admin/formsにGETリクエストを送る
+	    //mockMvcを使って/admin/formsにGETリクエストを送る
 	    mockMvc.perform(get("/admin/forms"))
 	        //HTTPステータスが200（OK）であることを確認
 	        .andExpect(status().isOk())
@@ -90,10 +93,21 @@ class FormIndexControllerTest {
 	        .andExpect(model().attribute("notificationList", mockNotificationList));
 	}
 
-
 	@Test
-	void testDeleteNotification() {
-		fail("まだ実装されていません");
+	@DisplayName("削除ボタン押下時のメソッドのテスト")
+	void testDeleteNotification() throws Exception {
+		//ダミーデータを宣言(deleteNotificationメソッドの引数用)
+	    Integer testId = 1;
+	    //mockMvcを使って"/notification/delete"にPOSTリクエストを送る
+	    mockMvc.perform(post("/admin/notification/delete")
+	    		//HTTPリクエストのデータを設定
+	            .param("id", testId.toString()))
+	        //HTTPステータスが302（Found）であるとをを確認
+	        .andExpect(status().isFound())
+	        //"/admin/forms"へリダイレクトされることを確認
+	        .andExpect(redirectedUrl("/admin/forms"));
+	    //notificationServiceのdeleteNotificationが1度だけ呼び出されたことを確認
+	    verify(notificationService, times(1)).deleteNotification(testId);
 	}
 
 }
