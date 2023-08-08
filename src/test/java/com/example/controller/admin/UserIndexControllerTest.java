@@ -41,24 +41,24 @@ class UserIndexControllerTest {
 	@Test
     @DisplayName("ユーザー一覧画面に遷移するためのメソッドのテスト")
     void testGetAdminUserIndex() throws Exception {
-        // モックのMUserリストを作成
+        //モックのMUserリストを作成
         List<MUser> mockUserList = new ArrayList<>();
-        // MUserリストが空でないことを保証
+        //MUserリストが空でないことを保証
         mockUserList.add(new MUser());
-        // userServiceのselectUserListメソッドが呼び出されたときにモックのMUserリストを返すように設定
+        //userServiceのselectUserListメソッドが呼び出されたときにモックのMUserリストを返すように設定
         when(userService.selectUserList()).thenReturn(mockUserList);
         //カレンダークラスのオブジェクトを生成
   		Calendar mockCalendar = Calendar.getInstance();
   		//現在の年月を取得
   		Integer testYear = mockCalendar.get(Calendar.YEAR);
   		Integer testMonth = mockCalendar.get(Calendar.MONTH) + 1;
-        // mockMvcを使って/admin/usersにGETリクエストを送る
+        //mockMvcを使って/admin/usersにGETリクエストを送る
         mockMvc.perform(get("/admin/users"))
-            // HTTPステータスが200（OK）であることを確認
+            //HTTPステータスが200（OK）であることを確認
             .andExpect(status().isOk())
-            // 返されたビューの名前が"admin/user_index"であることを確認
+            //返されたビューの名前が"admin/user_index"であることを確認
             .andExpect(view().name("admin/user_index"))
-            // Modelに正しく属性が設定されていることを確認
+            //Modelに正しく属性が設定されていることを確認
             .andExpect(model().attributeExists("userList"))
             .andExpect(model().attribute("userList", mockUserList))
             .andExpect(model().attributeExists("year"))
