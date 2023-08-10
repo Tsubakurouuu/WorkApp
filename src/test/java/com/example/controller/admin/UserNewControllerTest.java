@@ -1,6 +1,8 @@
 package com.example.controller.admin;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -11,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +25,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import com.example.config.AuthenticationSuccessHandler;
 import com.example.model.MUser;
@@ -57,9 +63,9 @@ class UserNewControllerTest {
 	}
 
 	@Test
-	@DisplayName("新規登録ボタン押下時のメソッドのテスト")
-	void testPostAdminUserNew() throws Exception {
-	    //ダミーデータを宣言
+	@DisplayName("新規登録ボタン押下時のメソッドのテスト1(新規登録成功時)")
+	void testPostAdminUserNew1() throws Exception {
+	    //ダミーデータを宣言(insertUserメソッドの引数用)
 	    String testUserId = "testUserId";
 	    String testPassword = "password";
 	    String testLastName = "田中";
@@ -92,6 +98,73 @@ class UserNewControllerTest {
 	    assertEquals(testFirstName, userArgument.getFirstName());
 	    assertEquals(changeDate, userArgument.getBirthday());
 	}
+	
+	@Test
+	@DisplayName("新規登録ボタン押下時のメソッドのテスト2(新規登録失敗時)")
+	void testPostAdminUserNew2() throws Exception {
+	    //ダミーデータを宣言
+	    String testUserId = " ";
+	    String testPassword = "パスワード";
+	    String testLastName = " ";
+	    String testFirstName = " ";
+	    String testBirthday = null;
+	    //mockMvcを使って"/admin/user/new"にPOSTリクエストを送る
+	    MvcResult mvcResult = mockMvc.perform(post("/admin/user/new")
+	    		//HTTPリクエストのデータを設定
+	            .param("userId", testUserId)
+	            .param("password", testPassword)
+	            .param("lastName", testLastName)
+	            .param("firstName", testFirstName)
+	            .param("birthday", testBirthday))
+	        //HTTPステータスが200（OK）であることを確認
+	        .andExpect(status().isOk())
+	        //"/admin/users"へリダイレクトされることを確認
+	        .andExpect(view().name("admin/user_new"))
+	        //mvcResultオブジェクトを返す
+	        .andReturn();
+	    //userServiceのinsertUserが呼び出されていないことを確認
+	    verify(userService, times(0)).insertUser(any(MUser.class));
+	    //バリデーションエラーの詳細情報を取得
+	    BindingResult bindingResult = (BindingResult) mvcResult.getModelAndView().getModel().get("org.springframework.validation.BindingResult.userNewForm");
+	    //バリデーションエラーが発生していることを確認
+	    assertTrue(bindingResult.hasErrors());
+	    //バリデーションエラーの数が５つあることを確認
+	    assertEquals(5, bindingResult.getErrorCount());
+	    //バリデーションエラーメッセージをListに格納
+	    List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+	    //Listに格納したバリデーションエラーメッセージを順番に抜き出す
+	    for(FieldError error : fieldErrors) {
+	    	//エラーの発生したカラムを取得
+	    	String fieldName = error.getField();
+	    	//エラーメッセージの取得
+	    	String errorMessage = error.getDefaultMessage();
+	    	//userIdの比較
+	    	if("userId".equals(fieldName)) {
+	    		//エラーメッセージと期待値が同一であることを確認
+	    		assertEquals("must not be blank", errorMessage);
+	    	}
+	    	//passwordの比較
+	    	if("password".equals(fieldName)) {
+	    		//エラーメッセージと期待値が同一であることを確認
+	    		assertEquals("must match \"^[a-zA-Z0-9]+$\"", errorMessage);
+	    	}
+	    	//lastNameの比較
+	    	if("lastName".equals(fieldName)) {
+	    		//エラーメッセージと期待値が同一であることを確認
+	    		assertEquals("must not be blank", errorMessage);
+	    	}
+	    	//firstNameの比較
+	    	if("firstName".equals(fieldName)) {
+	    		//エラーメッセージと期待値が同一であることを確認
+	    		assertEquals("must not be blank", errorMessage);
+	    	}
+	    	//birthdayの比較
+	    	if("birthday".equals(fieldName)) {
+	    		//エラーメッセージと期待値が同一であることを確認
+	    		assertEquals("must not be null", errorMessage);
+	    	}
+	    }
+	}
 
-
+	
 }
