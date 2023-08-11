@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
@@ -12,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -266,6 +268,56 @@ class UserNewControllerTest {
 	    	}
 	    }
 	}
+	
+	@Test
+	@DisplayName("新規登録ボタン押下時のメソッドのテスト5(新規登録失敗時(@UniqueUserId))")
+	void testPostAdminUserNew5() throws Exception {
+		//ダミーデータを宣言(insertUserメソッドの引数用)
+		String testPassword = "password";
+	    String testLastName = "ゆにっと";
+	    String testFirstName = "てすと";
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+	    Date changeDate = sdf.parse("2000/01/01");
+	    String testBirthday = sdf.format(changeDate);
+		List<String> testUserIdList = Arrays.asList("testUserId1", "testUserId2", "testUserId3");
+		//mapperのselectUserIdListメソッドが呼び出されたときにモックのtestUserIdListリストを返すように設定
+	    when(mapper.selectUserIdList()).thenReturn(testUserIdList);
+	    //mockMvcを使って"/admin/user/new"にPOSTリクエストを送る
+	    MvcResult mvcResult = mockMvc.perform(post("/admin/user/new")
+	    		//HTTPリクエストのデータを設定
+	    		.param("userId", "testUserId1")
+	    		.param("password", testPassword)
+	            .param("lastName", testLastName)
+	            .param("firstName", testFirstName)
+	            .param("birthday", testBirthday))
+	    		//HTTPステータスが200（OK）であることを確認
+		        .andExpect(status().isOk())
+		        //返されたビューの名前が"admin/user_new"であることを確認
+		        .andExpect(view().name("admin/user_new"))
+		        //mvcResultオブジェクトを返す
+		        .andReturn();
+	    //userServiceのinsertUserが呼び出されていないことを確認
+	    verify(userService, times(0)).insertUser(any(MUser.class));
+	    //バリデーションエラーの詳細情報を取得
+	    BindingResult bindingResult = (BindingResult) mvcResult.getModelAndView().getModel().get("org.springframework.validation.BindingResult.userNewForm");
+	    //バリデーションエラーが発生していることを確認
+	    assertTrue(bindingResult.hasErrors());
+	    //バリデーションエラーの数が1つあることを確認
+	    assertEquals(1, bindingResult.getErrorCount());
+	    //バリデーションエラーメッセージをListに格納
+	    List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+	    //Listに格納したバリデーションエラーメッセージを順番に抜き出す
+	    for(FieldError error : fieldErrors) {
+	        //エラーの発生したカラムを取得
+	        String fieldName = error.getField();
+	        //userIdの比較
+	        if("userId".equals(fieldName)) {
+	            //エラーメッセージと期待値が同一であることを確認
+	            assertEquals("ユーザーIDが重複しています", error.getDefaultMessage());
+	        }
+	    }
+	}
+
 
 	
 }
