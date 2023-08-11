@@ -68,8 +68,8 @@ class UserNewControllerTest {
 	    //ダミーデータを宣言(insertUserメソッドの引数用)
 	    String testUserId = "testUserId";
 	    String testPassword = "password";
-	    String testLastName = "田中";
-	    String testFirstName = "太郎";
+	    String testLastName = "ゆにっと";
+	    String testFirstName = "てすと";
 	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 	    Date changeDate = sdf.parse("2000/01/01");
 	    String testBirthday = sdf.format(changeDate);
@@ -169,7 +169,7 @@ class UserNewControllerTest {
 	@Test
 	@DisplayName("新規登録ボタン押下時のメソッドのテスト3(新規登録失敗時(ValidGroup2))")
 	void testPostAdminUserNew3() throws Exception {
-	    //ダミーデータを宣言
+		//ダミーデータを宣言(insertUserメソッドの引数用)
 	    String testUserId = "test";
 	    String testPassword = "passw";
 	    String testLastName = "ゆにっと";
@@ -216,6 +216,53 @@ class UserNewControllerTest {
 	    	if("password".equals(fieldName)) {
 	    		//エラーメッセージと期待値が同一であることを確認
 	    		assertEquals("length must be between 6 and 2147483647", errorMessage);
+	    	}
+	    }
+	}
+	
+	@Test
+	@DisplayName("新規登録ボタン押下時のメソッドのテスト4(新規登録失敗時(@DateTimeFormat))")
+	void testPostAdminUserNew4() throws Exception {
+		//ダミーデータを宣言(insertUserメソッドの引数用)
+	    String testUserId = "testUserId";
+	    String testPassword = "password";
+	    String testLastName = "ゆにっと";
+	    String testFirstName = "てすと";
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	    Date changeDate = sdf.parse("2000-01-01");
+	    String testBirthday = sdf.format(changeDate);
+	    //mockMvcを使って"/admin/user/new"にPOSTリクエストを送る
+	    MvcResult mvcResult = mockMvc.perform(post("/admin/user/new")
+	    		//HTTPリクエストのデータを設定
+	            .param("userId", testUserId)
+	            .param("password", testPassword)
+	            .param("lastName", testLastName)
+	            .param("firstName", testFirstName)
+	            .param("birthday", testBirthday))
+	        //HTTPステータスが200（OK）であることを確認
+	        .andExpect(status().isOk())
+	        //返されたビューの名前が"admin/user_new"であることを確認
+	        .andExpect(view().name("admin/user_new"))
+	        //mvcResultオブジェクトを返す
+	        .andReturn();
+	    //userServiceのinsertUserが呼び出されていないことを確認
+	    verify(userService, times(0)).insertUser(any(MUser.class));
+	    //バリデーションエラーの詳細情報を取得
+	    BindingResult bindingResult = (BindingResult) mvcResult.getModelAndView().getModel().get("org.springframework.validation.BindingResult.userNewForm");
+	    //バリデーションエラーが発生していることを確認
+	    assertTrue(bindingResult.hasErrors());
+	    //バリデーションエラーの数が1つあることを確認
+	    assertEquals(1, bindingResult.getErrorCount());
+	    //バリデーションエラーメッセージをListに格納
+	    List<FieldError> fieldErrors = bindingResult.getFieldErrors();
+	    //Listに格納したバリデーションエラーメッセージを順番に抜き出す
+	    for(FieldError error : fieldErrors) {
+	    	//エラーの発生したカラムを取得
+	    	String fieldName = error.getField();
+	    	//birthdayの比較
+	    	if("birthday".equals(fieldName)) {
+	    		//エラーメッセージと期待値が同一であることを確認
+	    	    assertEquals("typeMismatch", error.getCode());
 	    	}
 	    }
 	}
