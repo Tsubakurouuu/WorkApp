@@ -60,7 +60,7 @@ class UserNewControllerTest {
 	    mockMvc.perform(get("/admin/user/new"))
 	        //HTTPステータスが200（OK）であることを確認
 	        .andExpect(status().isOk())
-	        //返されたビューの名前が"admin/form_index"であることを確認
+	        //返されたビューの名前が"admin/user_new"であることを確認
 	        .andExpect(view().name("admin/user_new"));
 	}
 
