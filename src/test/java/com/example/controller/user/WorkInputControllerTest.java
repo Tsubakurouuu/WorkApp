@@ -101,6 +101,7 @@ class WorkInputControllerTest {
 	}
 
 	@Test
+	@DisplayName("出勤ボタン押下時のメソッド")
 	void testPostUserWorkAttendance() {
 		fail("まだ実装されていません");
 	}
