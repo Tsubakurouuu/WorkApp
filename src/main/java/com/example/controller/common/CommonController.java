@@ -128,7 +128,7 @@ public class CommonController {
 	        //現在の日(Str)宣言
 	        String dateNowStr;
 	        //現在の日が２桁かどうかで条件分岐
-	        if(calendar.get(Calendar.MONTH) + 1 < 10) {
+	        if(calendar.get(Calendar.DATE) < 10) {
 	        	//１桁であれば先頭に0をつける
 	        	dateNowStr = "0" +  calendar.get(Calendar.DATE);
 	        } else {
