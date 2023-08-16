@@ -39,6 +39,8 @@
 			</div>
 			<!--出退勤申請成功時のフラッシュメッセージ-->
 			<p th:text="${complete}" class="text-success"></p>
+			<!--URLに不正な年月が入力された際のフラッシュメッセージ-->
+			<p th:text="${error}" class="text-danger"></p>
 			<!--勤怠情報月毎一覧表示するテーブル-->
 			<table class="table table-bordered">
 				<thead>

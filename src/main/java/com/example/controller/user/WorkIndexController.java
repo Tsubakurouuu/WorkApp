@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.model.MUser;
 import com.example.model.Work;
@@ -35,12 +36,22 @@ public class WorkIndexController {
 	
 	//★出退勤一覧画面に遷移するためのメソッド
 	@GetMapping("/work/{year}/{month}")
-	public String getUserWorkIndex(Integer userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model, MUser loginUser) {
+	public String getUserWorkIndex(Integer userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model, MUser loginUser, RedirectAttributes redirectAttributes) {
 		//年と月が指定されていない場合、現在の年と月を取得
 		if (year == null || month == null) {
 			Calendar calendar = Calendar.getInstance();
 			year = calendar.get(Calendar.YEAR);
 			month = calendar.get(Calendar.MONTH) + 1;
+	    }
+		//年と月のバリデーション
+	    if (year < 2000 || year > 2100 || month < 1 || month > 12) {
+	    	Calendar calendar = Calendar.getInstance();
+			year = calendar.get(Calendar.YEAR);
+			month = calendar.get(Calendar.MONTH) + 1;
+			//フラッシュスコープ
+			redirectAttributes.addFlashAttribute("error", "不正なパラメータが入力されました。");
+			//指定した年月日画面へリダイレクト
+		    return "redirect:/work/" + year + "/" + month;
 	    }
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.selectLoginUser();
