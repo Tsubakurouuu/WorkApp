@@ -136,12 +136,22 @@ public class UserWorkEditController {
 		MUser userIdStr = userService.selectUserIdStr(form.getUserId());
 		//errorNumber(switch分を使用するための変数)を宣言
 		Integer errorNumber;
+		//CommonController.confirmWorkFormメソッドで使用する変数の宣言
+		Integer targetYear;
+		Integer targetMonth;
+		Integer targetDate;
 		//入力された内容があっているかどうかを判断するメソッド(勤怠情報が登録されているか否かで引数が変わる)
 		if(workDetail != null) {
-			errorNumber = CommonController.confirmWorkForm(workDetail.getYear(), workDetail.getMonth(), workDetail.getDate(), form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+		    targetYear = workDetail.getYear();
+		    targetMonth = workDetail.getMonth();
+		    targetDate = workDetail.getDate();
 		} else {
-			errorNumber = CommonController.confirmWorkForm(year, month, date, form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+		    targetYear = year;
+		    targetMonth = month;
+		    targetDate = date;
 		}
+		//入力された内容があっているかどうかを判断するメソッド
+		errorNumber = CommonController.confirmWorkForm(targetYear, targetMonth, targetDate, form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
 		//入力された年月日、出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するswitch文
 		switch (errorNumber) {
 		case 1:
