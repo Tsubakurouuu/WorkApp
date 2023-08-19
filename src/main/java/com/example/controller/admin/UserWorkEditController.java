@@ -142,10 +142,12 @@ public class UserWorkEditController {
 		Integer targetDate;
 		//入力された内容があっているかどうかを判断するメソッド(勤怠情報が登録されているか否かで引数が変わる)
 		if(workDetail != null) {
+			//勤怠情報が登録されていれば年月日を取得する
 		    targetYear = workDetail.getYear();
 		    targetMonth = workDetail.getMonth();
 		    targetDate = workDetail.getDate();
 		} else {
+			//勤怠情報が登録されていなければ選択した年月日を取得する
 		    targetYear = year;
 		    targetMonth = month;
 		    targetDate = date;

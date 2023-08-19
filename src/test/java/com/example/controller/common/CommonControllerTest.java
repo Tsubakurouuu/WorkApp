@@ -193,30 +193,8 @@ class CommonControllerTest {
 	}
 	
 	@Test
-	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト3(出勤ステータスが出勤以外の時にフォームの値を入力)")
+	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト3(出勤時間が退勤時間よりも大きい場合)")
 	void testConfirmWorkForm3() {
-		//ダミーデータを宣言(confirmWorkFormメソッドの引数用)
-		Integer testYear = 2023;
-		Integer testMonth = 3;
-		Integer testDate = 15;
-		Integer testWorkStatus = 3;
-		Integer testAttendanceHour = null;
-        Integer testAttendanceMinute = null;
-        Integer testLeavingHour = null;
-        Integer testLeavingMinute = 50;
-        Integer testRestHour = null;
-        Integer testRestMinute = null;
-        //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonController.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
-        //confirmWorkFormメソッドの期待する値
-        Integer expected = 3;
-        //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
-        assertEquals(expected, result);
-	}
-	
-	@Test
-	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト4(出勤時間が退勤時間よりも大きい場合)")
-	void testConfirmWorkForm4() {
 		//ダミーデータを宣言(confirmWorkFormメソッドの引数用)
 		Integer testYear = 2023;
 		Integer testMonth = 3;
@@ -231,14 +209,14 @@ class CommonControllerTest {
         //テスト対象のメソッドを実行してIntegerを受け取る
         Integer result = CommonController.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
-        Integer expected = 4;
+        Integer expected = 3;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
         assertEquals(expected, result);
 	}
 	
 	@Test
-	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト5(休憩時間の値が就業時間の値よりも大きい場合)")
-	void testConfirmWorkForm5() {
+	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト4(休憩時間の値が就業時間の値よりも大きい場合)")
+	void testConfirmWorkForm4() {
 		//ダミーデータを宣言(confirmWorkFormメソッドの引数用)
 		Integer testYear = 2023;
 		Integer testMonth = 3;
@@ -250,6 +228,28 @@ class CommonControllerTest {
         Integer testLeavingMinute = 50;
         Integer testRestHour = 3;
         Integer testRestMinute = 30;
+        //テスト対象のメソッドを実行してIntegerを受け取る
+        Integer result = CommonController.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        //confirmWorkFormメソッドの期待する値
+        Integer expected = 4;
+        //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
+        assertEquals(expected, result);
+	}
+	
+	@Test
+	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト5(出勤ステータスが出勤以外の時にフォームの値を入力)")
+	void testConfirmWorkForm5() {
+		//ダミーデータを宣言(confirmWorkFormメソッドの引数用)
+		Integer testYear = 2023;
+		Integer testMonth = 3;
+		Integer testDate = 15;
+		Integer testWorkStatus = 3;
+		Integer testAttendanceHour = null;
+        Integer testAttendanceMinute = null;
+        Integer testLeavingHour = null;
+        Integer testLeavingMinute = 50;
+        Integer testRestHour = null;
+        Integer testRestMinute = null;
         //テスト対象のメソッドを実行してIntegerを受け取る
         Integer result = CommonController.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値

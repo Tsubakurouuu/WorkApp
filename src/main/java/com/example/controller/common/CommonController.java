@@ -104,99 +104,150 @@ public class CommonController {
 	
 	/*----------------------------*/
 	
+//	public static final Integer INCORRECT_TARGET_DATE = 1;
+//	public static final Integer INCOMPLETE_WORK_FORM = 2;
+//	public static final Integer UNNECESSARY_WORK_FORM = 3;
+//	public static final Integer INCORRECT_WORK_TIME = 4;
+//	public static final Integer INCORRECT_REST_TIME = 5;
+//	
+//	//★入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッド
+//	public static Integer confirmWorkForm(Integer year, Integer month, Integer date, Integer workStatus, Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
+//		//出勤ステータスが「出勤」であれば
+//		if(workStatus == 1) {
+//			//カレンダークラスのオブジェクトを生成
+//			Calendar calendar = Calendar.getInstance();
+//			//現在の年を取得
+//	        Integer yearNow = calendar.get(Calendar.YEAR);
+//	        //現在の月(Str)宣言
+//	        String monthNowStr;
+//	        //現在の月が２桁かどうかで条件分岐
+//	        if(calendar.get(Calendar.MONTH) + 1 < 10) {
+//	        	//１桁であれば先頭に0をつける
+//	        	monthNowStr = "0" +  (calendar.get(Calendar.MONTH) + 1);
+//	        } else {
+//	        	//２桁であればそのまま
+//	        	Integer monthInt = (calendar.get(Calendar.MONTH) + 1);
+//	        	monthNowStr = Integer.toString(monthInt);
+//	        }
+//	        //現在の日(Str)宣言
+//	        String dateNowStr;
+//	        //現在の日が２桁かどうかで条件分岐
+//	        if(calendar.get(Calendar.DATE) < 10) {
+//	        	//１桁であれば先頭に0をつける
+//	        	dateNowStr = "0" +  calendar.get(Calendar.DATE);
+//	        } else {
+//	        	//２桁であればそのまま
+//	        	Integer dateInt = calendar.get(Calendar.DATE);
+//	        	dateNowStr = Integer.toString(dateInt);
+//	        }
+//	        //yyyyMMdd形式で変数に代入する
+//	        String yyyyMMddNowStr = yearNow + monthNowStr + dateNowStr;
+//	        //Integer形に変換
+//	        Integer yyyyMMddNow = Integer.parseInt(yyyyMMddNowStr);
+//	        //対象の月(Str)を宣言
+//	        String monthStr;
+//	        //対象の月が２桁かどうかで条件分岐
+//	        if(month < 10) {
+//	        	//１桁であれば先頭に0をつける
+//	        	monthStr = "0" +  month;
+//	        } else {
+//	        	//２桁であればそのまま
+//	        	monthStr = Integer.toString(month);
+//	        }
+//	        //対象の日(Str)を宣言
+//	        String dateStr;
+//	        //現在の月が２桁かどうかで条件分岐
+//	        if(date < 10) {
+//	        	//１桁であれば先頭に0をつける
+//	        	dateStr = "0" +  date;
+//	        } else {
+//	        	//２桁であればそのまま
+//	        	dateStr = Integer.toString(date);
+//	        }
+//	        //yyyyMMdd形式で変数に代入する
+//	        String yyyyMMddStr = year + monthStr + dateStr;
+//	        //Integer形に変換
+//	        Integer yyyyMMdd = Integer.parseInt(yyyyMMddStr);
+//	        //現在年月日と対象年月日を比較する
+//	        if(yyyyMMddNow < yyyyMMdd) {
+//	        	//対象年月日の値の方が大きければエラーを返す
+//	        	return 1;
+//	        }
+//			//時間入力部分が全て入力されていないとエラーを返す
+//			if(attendanceHour == null || attendanceMinute == null || leavingHour == null || leavingMinute == null || restHour == null || restMinute  == null) {
+//				return 2;
+//			}
+//		}
+//		//出勤ステータスが「出勤」以外であれば
+//		if(workStatus != 1) {
+//			//時間入力部分に値が入力されているとエラーになる
+//			if(attendanceHour != null || attendanceMinute != null || leavingHour != null || leavingMinute != null || restHour != null || restMinute  != null) {
+//				return 3;
+//			}
+//			//問題なければ処理を抜ける
+//			return 0;
+//		}
+//		//出勤時間、退勤時間、休憩時間を分換算する
+//		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
+//        Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
+//        Integer totalRestMinutes = restHour * 60 + restMinute;
+//        //出勤時間が退勤時間よりも遅い時間になっていたらエラーを返す
+//        if(totalAttendanceMinutes > totalLeavingMinutes) {
+//			return 4;
+//        }
+//        //出勤時間と退勤時間の差分よりも休憩時間の値が大きければエラーを返す
+//        if(totalLeavingMinutes - totalAttendanceMinutes < totalRestMinutes) {
+//			return 5;
+//        }
+//        //問題なければ処理を抜ける
+//        return 0;
+//	}
 	
-	
+	//confirmWorkFormメソッドで使用する定数を宣言
+	public static final Integer SUCCESS = 0;
+	public static final Integer INCORRECT_TARGET_DATE = 1;
+	public static final Integer INCOMPLETE_WORK_FORM = 2;
+	public static final Integer INCORRECT_WORK_TIME = 3;
+	public static final Integer INCORRECT_REST_TIME = 4;
+	public static final Integer UNNECESSARY_WORK_FORM = 5;
 	//★入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッド
 	public static Integer confirmWorkForm(Integer year, Integer month, Integer date, Integer workStatus, Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
+		//カレンダークラスのオブジェクトを生成
+		Calendar calendar = Calendar.getInstance();
+		//現在の日付と対象の日付の比較(yyyyMMdd形式)
+		Integer today = Integer.parseInt(String.format("%04d%02d%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE)));
+		Integer targetDay = Integer.parseInt(String.format("%04d%02d%02d", year, month, date));
 		//出勤ステータスが「出勤」であれば
 		if(workStatus == 1) {
-			//カレンダークラスのオブジェクトを生成
-			Calendar calendar = Calendar.getInstance();
-			//現在の年を取得
-	        Integer yearNow = calendar.get(Calendar.YEAR);
-	        //現在の月(Str)宣言
-	        String monthNowStr;
-	        //現在の月が２桁かどうかで条件分岐
-	        if(calendar.get(Calendar.MONTH) + 1 < 10) {
-	        	//１桁であれば先頭に0をつける
-	        	monthNowStr = "0" +  (calendar.get(Calendar.MONTH) + 1);
-	        } else {
-	        	//２桁であればそのまま
-	        	Integer monthInt = (calendar.get(Calendar.MONTH) + 1);
-	        	monthNowStr = Integer.toString(monthInt);
-	        }
-	        //現在の日(Str)宣言
-	        String dateNowStr;
-	        //現在の日が２桁かどうかで条件分岐
-	        if(calendar.get(Calendar.DATE) < 10) {
-	        	//１桁であれば先頭に0をつける
-	        	dateNowStr = "0" +  calendar.get(Calendar.DATE);
-	        } else {
-	        	//２桁であればそのまま
-	        	Integer dateInt = calendar.get(Calendar.DATE);
-	        	dateNowStr = Integer.toString(dateInt);
-	        }
-	        //yyyyMMdd形式で変数に代入する
-	        String yyyyMMddNowStr = yearNow + monthNowStr + dateNowStr;
-	        //Integer形に変換
-	        Integer yyyyMMddNow = Integer.parseInt(yyyyMMddNowStr);
-	        //対象の月(Str)を宣言
-	        String monthStr;
-	        //対象の月が２桁かどうかで条件分岐
-	        if(month < 10) {
-	        	//１桁であれば先頭に0をつける
-	        	monthStr = "0" +  month;
-	        } else {
-	        	//２桁であればそのまま
-	        	monthStr = Integer.toString(month);
-	        }
-	        //対象の日(Str)を宣言
-	        String dateStr;
-	        //現在の月が２桁かどうかで条件分岐
-	        if(date < 10) {
-	        	//１桁であれば先頭に0をつける
-	        	dateStr = "0" +  date;
-	        } else {
-	        	//２桁であればそのまま
-	        	dateStr = Integer.toString(date);
-	        }
-	        //yyyyMMdd形式で変数に代入する
-	        String yyyyMMddStr = year + monthStr + dateStr;
-	        //Integer形に変換
-	        Integer yyyyMMdd = Integer.parseInt(yyyyMMddStr);
-	        //現在年月日と対象年月日を比較する
-	        if(yyyyMMddNow < yyyyMMdd) {
-	        	//対象年月日の値の方が大きければエラーを返す
-	        	return 1;
-	        }
-			//時間入力部分が全て入力されていないとエラーを返す
-			if(attendanceHour == null || attendanceMinute == null || leavingHour == null || leavingMinute == null || restHour == null || restMinute  == null) {
-				return 2;
+			//現在の日付より対象の日付の方が大きければエラーを返す
+			if(today < targetDay) {
+				return INCORRECT_TARGET_DATE;
 			}
-		}
-		//出勤ステータスが「出勤」以外であれば
-		if(workStatus != 1) {
-			//時間入力部分に値が入力されているとエラーになる
-			if(attendanceHour != null || attendanceMinute != null || leavingHour != null || leavingMinute != null || restHour != null || restMinute  != null) {
-				return 3;
-			}
-			//問題なければ処理を抜ける
-			return 0;
-		}
-		//出勤時間、退勤時間、休憩時間を分換算する
-		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
-        Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
-        Integer totalRestMinutes = restHour * 60 + restMinute;
-        //出勤時間が退勤時間よりも遅い時間になっていたらエラーを返す
-        if(totalAttendanceMinutes > totalLeavingMinutes) {
-			return 4;
-        }
-        //出勤時間と退勤時間の差分よりも休憩時間の値が大きければエラーを返す
-        if(totalLeavingMinutes - totalAttendanceMinutes < totalRestMinutes) {
-			return 5;
-        }
-        //問題なければ処理を抜ける
-        return 0;
+			//時間入力フォームにnullがあればエラーを返す
+			if(attendanceHour == null || attendanceMinute == null || leavingHour == null || leavingMinute == null || restHour == null || restMinute == null) {
+                return INCOMPLETE_WORK_FORM;
+            }
+            //出勤時間、退勤時間、休憩時間を分換算する
+            Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
+        	Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
+       		Integer totalRestMinutes = restHour * 60 + restMinute;
+			//出勤時間が退勤時間よりも遅い時間になっていたらエラーを返す
+			if(totalAttendanceMinutes > totalLeavingMinutes) {
+				return INCORRECT_WORK_TIME;
+	        }
+	        //出勤時間と退勤時間の差分よりも休憩時間の値が大きければエラーを返す
+	        if(totalLeavingMinutes - totalAttendanceMinutes < totalRestMinutes) {
+	        	return INCORRECT_REST_TIME;
+	        }
+	      //出勤ステータスが「出勤」以外であれば
+	    } else {
+	    	//時間入力フォームに値が入力されているとエラーになる
+	    	if(attendanceHour != null || attendanceMinute != null || leavingHour != null || leavingMinute != null || restHour != null || restMinute != null) {
+	    		return UNNECESSARY_WORK_FORM;
+	    	}
+	    }
+	    //問題なければ処理を抜ける
+        return SUCCESS;
 	}
 	
 	/*----------------------------*/
