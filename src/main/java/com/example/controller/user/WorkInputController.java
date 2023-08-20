@@ -31,7 +31,7 @@ public class WorkInputController {
 	
 	//★出退勤時間入力画面に遷移するためのメソッド
 	@GetMapping("/work/input")
-	public String getUserWorkInput(Model model, int year, int month) {
+	public String getUserWorkInput(Model model, Integer year, Integer month) {
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//現在の年を取得

@@ -36,7 +36,7 @@ public class WorkIndexController {
 	
 	//★出退勤一覧画面に遷移するためのメソッド
 	@GetMapping("/work/{year}/{month}")
-	public String getUserWorkIndex(int userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model, MUser loginUser, RedirectAttributes redirectAttributes) {
+	public String getUserWorkIndex(Integer userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model, MUser loginUser, RedirectAttributes redirectAttributes) {
 		//年と月が指定されていない場合、現在の年と月を取得
 		if (year == null || month == null) {
 			Calendar calendar = Calendar.getInstance();
