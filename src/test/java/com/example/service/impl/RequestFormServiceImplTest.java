@@ -57,7 +57,7 @@ class RequestFormServiceImplTest {
 	@DisplayName("申請フォーム詳細取得テスト")
 	void testSelectRequestFormDetail() {
 		//ダミーデータを宣言(selectRequestFormDetailメソッドの引数用)
-		Integer testId = 1;
+		int testId = 1;
 		//モックのRequestFormを生成
 		RequestForm mockRequestFormDetail = new RequestForm();
 		//モックのRequestFormにダミーデータのセット
@@ -74,7 +74,7 @@ class RequestFormServiceImplTest {
 	@DisplayName("申請フォーム削除テスト")
 	void testDeleteRequestForm() {
 		//ダミーデータを宣言(deleteRequestFormメソッドの引数用)
-		Integer testId = 1;
+		int testId = 1;
 		//テスト対象のメソッドを実行してRequestFormを削除する
 		requestFormService.deleteRequestForm(testId);
 		//mapperのdeleteRequestFormが1度だけ呼び出されたことを確認

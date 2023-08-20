@@ -104,7 +104,7 @@ public class MUserServiceImplTest {
 	@DisplayName("ユーザーのuserId(Str)詳細取得テスト")
 	public void testSelectUserIdStr() {
 		//ダミーデータを宣言(selectUserIdStrメソッドの引数用)
-		Integer testId = 1;
+		int testId = 1;
 		//モックのMUserインスタンスの生成
 		MUser mockUserDetail = new MUser();
 		//モックのMUserにダミーデータのセット

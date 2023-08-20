@@ -12,34 +12,34 @@ import com.example.form.WorkEditForm;
 public class CommonUtils {
 	
 	//★就業時間と残業時間を計算するメソッド
-	public static Integer[] calcWorkingOver(Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
+	public static int[] calcWorkingOver(int attendanceHour, int attendanceMinute, int leavingHour, int leavingMinute, int restHour, int restMinute) {
 		//出勤時間、退勤時間、休憩時間を分換算する
-		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
-        Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
-        Integer totalRestMinutes = restHour * 60 + restMinute;
+		int totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
+        int totalLeavingMinutes = leavingHour * 60 + leavingMinute;
+        int totalRestMinutes = restHour * 60 + restMinute;
         //就業時間を分換算する
-        Integer totalWorkMinutes = totalLeavingMinutes - totalAttendanceMinutes - totalRestMinutes;
+        int totalWorkMinutes = totalLeavingMinutes - totalAttendanceMinutes - totalRestMinutes;
         //就業時間（時）の計算
-        Integer workingHour = totalWorkMinutes / 60;
+        int workingHour = totalWorkMinutes / 60;
 		//就業時間（分）の計算
-		Integer workingMinute = totalWorkMinutes % 60;
+		int workingMinute = totalWorkMinutes % 60;
         //定時の就業時間を設定
-        Integer standardWorkHour = 8;
-        Integer standardWorkMinute = 0;
+        int standardWorkHour = 8;
+        int standardWorkMinute = 0;
         //定時の就業時間を分換算する
-        Integer totalStandardMinutes = standardWorkHour * 60 + standardWorkMinute;
+        int totalStandardMinutes = standardWorkHour * 60 + standardWorkMinute;
         //残業時間を分換算する
-        Integer totalOvertimeMinutes = totalWorkMinutes - totalStandardMinutes;
+        int totalOvertimeMinutes = totalWorkMinutes - totalStandardMinutes;
         //就業時間が定時の就業時間を下回っていたら0を設定
         if (totalOvertimeMinutes < 0) {
             totalOvertimeMinutes = 0;
         }
         //残業時間（時）の計算
-        Integer overTimeHour = totalOvertimeMinutes / 60;
+        int overTimeHour = totalOvertimeMinutes / 60;
         //残業時間（分）の計算
-        Integer overTimeMinute = totalOvertimeMinutes % 60;
+        int overTimeMinute = totalOvertimeMinutes % 60;
         //就業時間と残業時間を配列にする
-        Integer[] calcWorkingOver = { workingHour, workingMinute, overTimeHour, overTimeMinute };
+        int[] calcWorkingOver = { workingHour, workingMinute, overTimeHour, overTimeMinute };
         return calcWorkingOver;
 	}
 	/*----------------------------*/
@@ -47,7 +47,7 @@ public class CommonUtils {
 	
 	
 	//★5捨6入をして現在時分を返すメソッド
-	public static Integer[] roundOff(Integer hour, Integer minute) {
+	public static int[] roundOff(int hour, int minute) {
 		//時を取得
 		if(minute >= 56) {
 			hour += 1;
@@ -67,7 +67,7 @@ public class CommonUtils {
 			minute = 0;
 		}
 		//時分を配列にする
-		Integer[] roundOff = { hour, minute };
+		int[] roundOff = { hour, minute };
 		return roundOff;
 	}
 	/*----------------------------*/
@@ -86,10 +86,10 @@ public class CommonUtils {
 	
 	
 	//★休憩時間に1or0をセットするメソッド
-	public static Integer calcRest(Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute) {
+	public static int calcRest(int attendanceHour, int attendanceMinute, int leavingHour, int leavingMinute) {
 		//出勤時間、退勤時間を分換算する
-		Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
-        Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
+		int totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
+        int totalLeavingMinutes = leavingHour * 60 + leavingMinute;
         //出勤時間、退勤時間の分換算が60より大きいかどうかで処理を分岐
         if(totalLeavingMinutes - totalAttendanceMinutes > 60) {
         	//60より大きければ1を返す
@@ -111,12 +111,12 @@ public class CommonUtils {
 	public static final int INCORRECT_REST_TIME = 4;
 	public static final int UNNECESSARY_WORK_FORM = 5;
 	//★入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッド
-	public static Integer confirmWorkForm(Integer year, Integer month, Integer date, Integer workStatus, Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
+	public static int confirmWorkForm(Integer year, Integer month, Integer date, Integer workStatus, Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//現在の日付と対象の日付の比較(yyyyMMdd形式)
-		Integer today = Integer.parseInt(String.format("%04d%02d%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE)));
-		Integer targetDay = Integer.parseInt(String.format("%04d%02d%02d", year, month, date));
+		int today = Integer.parseInt(String.format("%04d%02d%02d", calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE)));
+		int targetDay = Integer.parseInt(String.format("%04d%02d%02d", year, month, date));
 		//出勤ステータスが「出勤」であれば
 		if(workStatus == 1) {
 			//現在の日付より対象の日付の方が大きければエラーを返す
@@ -128,9 +128,9 @@ public class CommonUtils {
                 return INCOMPLETE_WORK_FORM;
             }
             //出勤時間、退勤時間、休憩時間を分換算する
-            Integer totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
-        	Integer totalLeavingMinutes = leavingHour * 60 + leavingMinute;
-       		Integer totalRestMinutes = restHour * 60 + restMinute;
+            int totalAttendanceMinutes = attendanceHour * 60 + attendanceMinute;
+        	int totalLeavingMinutes = leavingHour * 60 + leavingMinute;
+       		int totalRestMinutes = restHour * 60 + restMinute;
 			//出勤時間が退勤時間よりも遅い時間になっていたらエラーを返す
 			if(totalAttendanceMinutes > totalLeavingMinutes) {
 				return INCORRECT_WORK_TIME;

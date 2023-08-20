@@ -6,13 +6,13 @@ import lombok.Data;
 public class Notification {
 	
 	//ID
-	private Integer id;
+	private int id;
 		
 	//ユーザーID
-	private Integer userId;
+	private int userId;
 	
 	//勤怠ID
-	private Integer workId;
+	private int workId;
 	
 	//メッセージ
 	private String message;

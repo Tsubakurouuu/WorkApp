@@ -50,8 +50,8 @@ class UserIndexControllerTest {
         //カレンダークラスのオブジェクトを生成
   		Calendar mockCalendar = Calendar.getInstance();
   		//現在の年月を取得
-  		Integer testYear = mockCalendar.get(Calendar.YEAR);
-  		Integer testMonth = mockCalendar.get(Calendar.MONTH) + 1;
+  		int testYear = mockCalendar.get(Calendar.YEAR);
+  		int testMonth = mockCalendar.get(Calendar.MONTH) + 1;
         //mockMvcを使って/admin/usersにGETリクエストを送る
         mockMvc.perform(get("/admin/users"))
             //HTTPステータスが200（OK）であることを確認

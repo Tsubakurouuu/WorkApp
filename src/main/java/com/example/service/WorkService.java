@@ -13,21 +13,21 @@ public interface WorkService {
 	public void updateLeaving(Work work);
 	
 	//勤怠情報取得
-	public Work selectWork(Integer id);
+	public Work selectWork(int id);
 	
 	//勤怠情報更新
 	public void updateWork(Work work);
 	
 	//勤怠情報月毎取得
-	public List<Work> selectWorkListMonth(Integer userId, Integer year, Integer month);
+	public List<Work> selectWorkListMonth(int userId, int year, int month);
 	
 	//同日勤怠情報取得（退勤ボタン押下時）
-	public Work selectWorkAttendance(Integer userId, Integer year, Integer month, Integer date);
+	public Work selectWorkAttendance(int userId, int year, int month, int date);
 	
 	//勤怠情報新規登録
 	public void insertWork(Work work);
 	
 	//勤怠情報取得
-	public List<Work> selectWorkInfoList(Integer year, Integer month, Integer date);
+	public List<Work> selectWorkInfoList(int year, int month, int date);
 	
 }

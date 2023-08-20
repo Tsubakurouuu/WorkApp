@@ -53,7 +53,7 @@ class WorkServiceImplTest {
 	@DisplayName("勤怠情報取得テスト")
 	void testSelectWork() {
 		//ダミーデータを宣言(selectWorkメソッドの引数用)
-		Integer testId = 1;
+		int testId = 1;
 		//モックのWorkインスタンスの生成
 		Work mockWorkDetail = new Work();
 		//モックのWorkにダミーデータのセット
@@ -81,9 +81,9 @@ class WorkServiceImplTest {
 	@DisplayName("勤怠情報月毎取得テスト")
 	void testSelectWorkListMonth() {
 		//ダミーデータを宣言(selectWorkListMonthメソッドの引数用)
-		Integer testUserId = 1;
-		Integer testYear = 1;
-		Integer testMonth = 1;
+		int testUserId = 1;
+		int testYear = 1;
+		int testMonth = 1;
 		//モックのWorkリストを生成
 		List<Work> mockWorkList = new ArrayList<>();
 		//Workリストが空でないことを保証
@@ -101,10 +101,10 @@ class WorkServiceImplTest {
 	@DisplayName("同日勤怠情報取得（退勤ボタン押下時）テスト")
 	void testSelectWorkAttendance() {
 		//ダミーデータを宣言(selectWorkAttendanceメソッドの引数用)
-		Integer testUserId = 1;
-		Integer testYear = 1;
-		Integer testMonth = 1;
-		Integer testDate = 1;
+		int testUserId = 1;
+		int testYear = 1;
+		int testMonth = 1;
+		int testDate = 1;
 		//モックのWorkを生成
 		Work mockWorkDetail = new Work();
 		//モックのWorkにダミーデータのセット
@@ -135,9 +135,9 @@ class WorkServiceImplTest {
 	@DisplayName("勤怠情報取得テスト")
 	void testSelectWorkInfoList() {
 		//ダミーデータを宣言(selectWorkInfoListメソッドの引数用)
-		Integer testYear = 1;
-		Integer testMonth = 1;
-		Integer testDate = 1;
+		int testYear = 1;
+		int testMonth = 1;
+		int testDate = 1;
 		//モックのWorkリストを生成
 		List<Work> mockWorkList = new ArrayList<>();
 		//Workリストが空でないことを保証

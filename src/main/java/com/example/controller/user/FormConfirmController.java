@@ -44,7 +44,7 @@ public class FormConfirmController {
 	
 	//★出退勤申請確認画面に遷移するためのメソッド
 	@GetMapping("/form/confirm")
-	public String getUserFormConfirm(@ModelAttribute RequestFormForm form, Integer id, Model model, Integer year, Integer month, Integer date, Work workDetail) {
+	public String getUserFormConfirm(@ModelAttribute RequestFormForm form, int id, Model model, int year, int month, int date, Work workDetail) {
 		//勤怠情報取得
 		workDetail = workService.selectWork(id);
 		//該当日の勤怠情報が存在するかどうかの条件分岐
@@ -62,7 +62,7 @@ public class FormConfirmController {
 	
 	//★戻るボタン押下時のメソッド(勤怠情報登録時)
 	@PostMapping("/form/{id}")
-	public String postUserForm(@ModelAttribute RequestFormForm form, Model model, @PathVariable("id") Integer id) {
+	public String postUserForm(@ModelAttribute RequestFormForm form, Model model, @PathVariable("id") int id) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		//該当日の勤怠情報が存在するかどうかの条件分岐
@@ -89,7 +89,7 @@ public class FormConfirmController {
 	
 	//★戻るボタン押下時のメソッド(勤怠情報未登録時)
 	@PostMapping("/form/{year}/{month}/{date}")
-	public String PostUserForm(@ModelAttribute RequestFormForm form, Integer year, Integer month, Integer date, Model model) {
+	public String PostUserForm(@ModelAttribute RequestFormForm form, int year, int month, int date, Model model) {
 		//出勤ステータスのMap
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
 		//Modelに登録
@@ -105,7 +105,7 @@ public class FormConfirmController {
 	
 	//★申請ボタン押下時のメソッド
 	@PostMapping("/form/complete")
-	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month) {
+	public String postUserFormComplete(@ModelAttribute RequestFormForm form, MUser loginUser, Model model, RedirectAttributes redirectAttributes, int year, int month) {
 		//ログインユーザー情報取得
 		loginUser = userDetailsServiceImpl.selectLoginUser();
 		//フラッシュスコープ

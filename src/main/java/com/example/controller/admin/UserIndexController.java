@@ -23,7 +23,7 @@ public class UserIndexController {
 	
 	//★ユーザー一覧画面に遷移するためのメソッド
 	@GetMapping("/users")
-	public String getAdminUserIndex(Model model, Integer year, Integer month) {
+	public String getAdminUserIndex(Model model, int year, int month) {
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//現在の年を取得

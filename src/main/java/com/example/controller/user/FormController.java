@@ -35,7 +35,7 @@ public class FormController {
 	
 	//★出退勤申請画面に遷移するためのメソッド(勤怠情報登録時)
 	@GetMapping("/form/{id}")
-	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") Integer id, Model model, @ModelAttribute("model") ModelMap modelMap) {
+	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("id") int id, Model model, @ModelAttribute("model") ModelMap modelMap) {
 		//エラー時にリダイレクトされてきた値を受け取る
 		RequestFormForm formRedirect = (RequestFormForm) modelMap.get("form");
 		//formRedirectメソッドの呼び出し
@@ -61,7 +61,7 @@ public class FormController {
 	
 	//★出退勤申請画面に遷移するためのメソッド(勤怠情報未登録時)
 	@GetMapping("/form/{year}/{month}/{date}")
-	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model, @ModelAttribute("model") ModelMap modelMap) {
+	public String getUserForm(@ModelAttribute RequestFormForm form, @PathVariable("year") int year, @PathVariable("month") int month, @PathVariable("date") int date, Model model, @ModelAttribute("model") ModelMap modelMap) {
 		//エラー時にリダイレクトされてきた値を受け取る
 		RequestFormForm formRedirect = (RequestFormForm) modelMap.get("form");
 		//formRedirectメソッドの呼び出し
@@ -81,7 +81,7 @@ public class FormController {
 	
 	//★確認画面へボタン押下時のメソッド
 	@PostMapping("/form/confirm")
-	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, Integer id, Model model, Integer year, Integer month, Integer date, RedirectAttributes redirectAttributes, @RequestParam(name = "workStatus", required = false) String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
+	public String postUserFormConfirm(@ModelAttribute @Validated(GroupOrder.class) RequestFormForm form, BindingResult bindingResult, int id, Model model, int year, int month, int date, RedirectAttributes redirectAttributes, @RequestParam(name = "workStatus", required = false) String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
 		//ModelMapインスタンスを生成
 		ModelMap modelMap = new ModelMap();
 		//エラー時にリダイレクトされてきた値をModelMapに格納する
@@ -120,11 +120,11 @@ public class FormController {
 			return "user/form";
 		}
 		//errorNumber(switch分を使用するための変数)を宣言
-		Integer errorNumber;
+		int errorNumber;
 		//CommonController.confirmWorkFormメソッドで使用する変数の宣言
-		Integer targetYear;
-		Integer targetMonth;
-		Integer targetDate;
+		int targetYear;
+		int targetMonth;
+		int targetDate;
 		//入力された内容があっているかどうかを判断するメソッド(勤怠情報が登録されているか否かで引数が変わる)
 		if(workDetail != null) {
 			//勤怠情報が登録されていれば年月日を取得する

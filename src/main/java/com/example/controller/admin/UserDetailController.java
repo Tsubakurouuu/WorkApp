@@ -61,7 +61,7 @@ public class UserDetailController {
 		//勤怠情報月毎取得
 		List<Work> workList = workService.selectWorkListMonth(userDetail.getId(), year, month);
 		//各月の最終日にちを取得
-		Integer lastDateOfMonth = YearMonth.of(year, month).lengthOfMonth();
+		int lastDateOfMonth = YearMonth.of(year, month).lengthOfMonth();
 		//日付をキーとして勤怠情報を格納するための空のハッシュマップを作成
 	    Map<Integer, Work> workMap = new HashMap<>();
 	    //勤怠情報のリストworkList内の各Workオブジェクトに対して、繰り返し処理を行う
@@ -92,7 +92,7 @@ public class UserDetailController {
 	
 	//★先月ボタン(◀︎)押下時のメソッド
 	@GetMapping("/{userId}/{year}/{month}/previous")
-	public String showPreviousMonthAttendance(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month) {
+	public String showPreviousMonthAttendance(@PathVariable("userId") String userId, @PathVariable("year") int year, @PathVariable("month") int month) {
 		//1ヶ月前の年と月を計算
 	    if (month == 1) {
 	    	year--;
@@ -106,7 +106,7 @@ public class UserDetailController {
 	
 	//★翌月ボタン(▶︎)押下時のメソッド
 	@GetMapping("/{userId}/{year}/{month}/next")
-	public String showNextMonthAttendance(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month) {
+	public String showNextMonthAttendance(@PathVariable("userId") String userId, @PathVariable("year") int year, @PathVariable("month") int month) {
 		//1ヶ月後の年と月を計算
 	    if (month == 12) {
 	    	year++;

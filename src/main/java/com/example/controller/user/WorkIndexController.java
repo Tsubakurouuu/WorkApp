@@ -36,7 +36,7 @@ public class WorkIndexController {
 	
 	//★出退勤一覧画面に遷移するためのメソッド
 	@GetMapping("/work/{year}/{month}")
-	public String getUserWorkIndex(Integer userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model, MUser loginUser, RedirectAttributes redirectAttributes) {
+	public String getUserWorkIndex(int userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model, MUser loginUser, RedirectAttributes redirectAttributes) {
 		//年と月が指定されていない場合、現在の年と月を取得
 		if (year == null || month == null) {
 			Calendar calendar = Calendar.getInstance();
@@ -62,7 +62,7 @@ public class WorkIndexController {
 		//勤怠情報月毎取得
 		List<Work> workList = workService.selectWorkListMonth(userId, year, month);
 		//各月の最終日にちを取得
-		Integer lastDateOfMonth = YearMonth.of(year, month).lengthOfMonth();
+		int lastDateOfMonth = YearMonth.of(year, month).lengthOfMonth();
 		//日付をキーとして勤怠情報を格納するための空のハッシュマップを作成
 	    Map<Integer, Work> workMap = new HashMap<>();
 	    //勤怠情報のリストworkList内の各Workオブジェクトに対して、繰り返し処理を行う
@@ -93,7 +93,7 @@ public class WorkIndexController {
 	
 	//★先月ボタン(◀︎)押下時のメソッド
 	@GetMapping("/work/{year}/{month}/previous")
-	public String showPreviousMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
+	public String showPreviousMonthAttendance(@PathVariable("year") int year, @PathVariable("month") int month) {
 		//1ヶ月前の年と月を計算
 	    if (month == 1) {
 	    	year--;
@@ -107,7 +107,7 @@ public class WorkIndexController {
 	
 	//★翌月ボタン(▶︎)押下時のメソッド
 	@GetMapping("/work/{year}/{month}/next")
-	public String showNextMonthAttendance(@PathVariable("year") Integer year, @PathVariable("month") Integer month) {
+	public String showNextMonthAttendance(@PathVariable("year") int year, @PathVariable("month") int month) {
 		//1ヶ月後の年と月を計算
 	    if (month == 12) {
 	    	year++;

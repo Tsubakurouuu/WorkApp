@@ -22,6 +22,6 @@ public interface MUserMapper {
 	public List<String> selectUserIdList();
 	
 	//ユーザーID(Str)詳細取得
-	public MUser selectUserIdStr(Integer id);
+	public MUser selectUserIdStr(int id);
 	
 }

@@ -13,6 +13,6 @@ public interface NotificationService {
 	public List<Notification> selectNotificationList();
 	
 	//通知削除
-	public void deleteNotification(Integer id);
+	public void deleteNotification(int id);
 	
 }

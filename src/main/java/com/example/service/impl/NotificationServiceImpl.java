@@ -29,7 +29,7 @@ public class NotificationServiceImpl implements NotificationService {
 	
 	//通知削除
 	@Override
-	public void deleteNotification(Integer id) {
+	public void deleteNotification(int id) {
 		mapper.deleteNotification(id);
 	}
 

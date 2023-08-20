@@ -8,7 +8,7 @@ import lombok.Data;
 public class MUser {
 	
 	//ID
-	private Integer id;
+	private int id;
 	
 	//ユーザーID
 	private String userId;

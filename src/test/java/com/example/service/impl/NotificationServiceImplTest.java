@@ -57,7 +57,7 @@ class NotificationServiceImplTest {
 	@DisplayName("通知削除テスト")
 	void testDeleteNotification() {
 		//ダミーデータを宣言(deleteNotificationメソッドの引数用)
-		Integer testId = 1;
+		int testId = 1;
 		//テスト対象のメソッドを実行してNotificationを削除する
 		notificationService.deleteNotification(testId);
 		//mapperのdeleteNotificationが1度だけ呼び出されたことを確認

@@ -29,7 +29,7 @@ public class FormDetailController {
 	
 	//★申請、通知詳細画面に遷移するためのメソッド(申請)
 	@GetMapping("/form/{id}")
-	public String getAdminFormDetail(Model model, @PathVariable("id") Integer id) {
+	public String getAdminFormDetail(Model model, @PathVariable("id") int id) {
 		//ユーザーを1件取得
 		RequestForm requestFormDetail = requestFormService.selectRequestFormDetail(id);
 		//Modelに登録
@@ -41,7 +41,7 @@ public class FormDetailController {
 	
 	//★申請内容を反映するボタン押下時のメソッド
 	@PostMapping("/form/update")
-	public String postAdminFormUpdate(Integer id, RedirectAttributes redirectAttributes) {
+	public String postAdminFormUpdate(int id, RedirectAttributes redirectAttributes) {
 		//ユーザーを1件取得
 		RequestForm requestFormDetail = requestFormService.selectRequestFormDetail(id);
 		//Workオブジェクトの生成
@@ -61,7 +61,7 @@ public class FormDetailController {
 			work.setRestHour(requestFormDetail.getRestHour());
 			work.setRestMinute(requestFormDetail.getRestMinute());
 			//出勤時間、退勤時間、休憩時間から就業時間と残業時間を計算するメソッド
-			Integer[] calcWorkingOver = CommonUtils.calcWorkingOver(requestFormDetail.getAttendanceHour(), requestFormDetail.getAttendanceMinute(), requestFormDetail.getLeavingHour(), requestFormDetail.getLeavingMinute(), requestFormDetail.getRestHour(), requestFormDetail.getRestMinute());
+			int[] calcWorkingOver = CommonUtils.calcWorkingOver(requestFormDetail.getAttendanceHour(), requestFormDetail.getAttendanceMinute(), requestFormDetail.getLeavingHour(), requestFormDetail.getLeavingMinute(), requestFormDetail.getRestHour(), requestFormDetail.getRestMinute());
 			//上記の結果から就業時間、残業時間をセット
 			work.setWorkingTimeHour(calcWorkingOver[0]);
 			work.setWorkingTimeMinute(calcWorkingOver[1]);

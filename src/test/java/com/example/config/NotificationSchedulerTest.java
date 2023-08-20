@@ -38,13 +38,13 @@ class NotificationSchedulerTest {
 	@DisplayName("出勤打刻がされていて退勤打刻がされていないときに通知テーブルの作成をするメソッドのテスト")
 	void testIsAttendanceButtonNotPressed() {
 		//ダミーデータを宣言(selectWorkメソッドの引数用)
-		Integer testAttendanceHour = 1;
+		int testAttendanceHour = 1;
 		//カレンダークラスのオブジェクトを生成
 		Calendar mockCalendar = Calendar.getInstance();
 		//現在の年月日を取得
-        Integer testYear = mockCalendar.get(Calendar.YEAR);
-        Integer testMonth = mockCalendar.get(Calendar.MONTH) + 1;
-        Integer testDate = mockCalendar.get(Calendar.DATE);
+        int testYear = mockCalendar.get(Calendar.YEAR);
+        int testMonth = mockCalendar.get(Calendar.MONTH) + 1;
+        int testDate = mockCalendar.get(Calendar.DATE);
         //モックのWorkを生成
         Work mockWork = new Work();
 		//モックのWorkにダミーデータのセット

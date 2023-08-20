@@ -39,7 +39,7 @@ public class CsvController {
 	
 	//★csv出力画面に遷移するためのメソッド
 	@GetMapping("/{userId:.+}/{year}/{month}/csv")
-	public String downloadCsv(HttpServletResponse response, @PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, Model model) {
+	public String downloadCsv(HttpServletResponse response, @PathVariable("userId") String userId, @PathVariable("year") int year, @PathVariable("month") int month, Model model) {
 		//レスポンスの設定("text/csv"とすることでcsv形式のテキストデータであることを認識する)
         response.setContentType("text/csv");
         //レスポンスの設定(Content-Disposition:ブラウザに対してレスポンスの内容の扱い方を伝えるために使用される※attachmentとすることでレスポンスの内容を「添付ファイル」としてダウンロードすることをブラウザに指示する)
@@ -49,7 +49,7 @@ public class CsvController {
         //勤怠情報月毎取得
   		List<Work> workList = workService.selectWorkListMonth(userDetail.getId(), year, month);
   		//各月の最終日にちを取得
-		Integer lastDateOfMonth = YearMonth.of(year, month).lengthOfMonth();
+		int lastDateOfMonth = YearMonth.of(year, month).lengthOfMonth();
 		//日付をキーとして勤怠情報を格納するための空のハッシュマップを作成
 	    Map<Integer, Work> workMap = new HashMap<>();
 	    //勤怠情報のリストworkList内の各Workオブジェクトに対して、繰り返し処理を行う
@@ -75,7 +75,7 @@ public class CsvController {
   		// ヘッダー行を追加
   		csvData.add(String.join(",", header));
   		//勤怠情報をcsvデータに変換(該当年月の1日から最終日にちまでのfor文)
-  		for (Integer i = 1; i <= lastDateOfMonth; i++) {
+  		for (int i = 1; i <= lastDateOfMonth; i++) {
   			//ユーザーID,年月日から出勤情報があるかを探す
             Work work = workService.selectWorkAttendance(userDetail.getId(), year, month, i);
             //年月日

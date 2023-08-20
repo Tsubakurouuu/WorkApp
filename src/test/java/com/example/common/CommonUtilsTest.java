@@ -20,16 +20,16 @@ class CommonUtilsTest {
 	@DisplayName("就業時間と残業時間を計算するメソッドのテスト1(残業時間が発生している場合)")
 	void testCalcWorkingOver1() {
 		//ダミーデータを宣言(calcWorkingOverメソッドの引数用)
-        Integer testAttendanceHour = 9;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 20;
-        Integer testLeavingMinute = 50;
-        Integer testRestHour = 1;
-        Integer testRestMinute = 10;
-        //テスト対象のメソッドを実行してInteger[]を受け取る
-        Integer[] result = CommonUtils.calcWorkingOver(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        int testAttendanceHour = 9;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 20;
+        int testLeavingMinute = 50;
+        int testRestHour = 1;
+        int testRestMinute = 10;
+        //テスト対象のメソッドを実行してint[]を受け取る
+        int[] result = CommonUtils.calcWorkingOver(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //calcWorkingOverメソッドの期待する値
-        Integer[] expected = { 10, 20, 2, 20 };
+        int[] expected = { 10, 20, 2, 20 };
         //calcWorkingOverメソッドの実行結果と期待値が同値であることを確認
         assertArrayEquals(expected, result);
 	}
@@ -38,16 +38,16 @@ class CommonUtilsTest {
 	@DisplayName("就業時間と残業時間を計算するメソッドのテスト2(就業時間が定時我をしている場合)")
 	void testCalcWorkingOver2() {
 		//ダミーデータを宣言(calcWorkingOverメソッドの引数用)
-        Integer testAttendanceHour = 9;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 17;
-        Integer testLeavingMinute = 50;
-        Integer testRestHour = 1;
-        Integer testRestMinute = 10;
-        //テスト対象のメソッドを実行してInteger[]を受け取る
-        Integer[] result = CommonUtils.calcWorkingOver(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        int testAttendanceHour = 9;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 17;
+        int testLeavingMinute = 50;
+        int testRestHour = 1;
+        int testRestMinute = 10;
+        //テスト対象のメソッドを実行してint[]を受け取る
+        int[] result = CommonUtils.calcWorkingOver(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //calcWorkingOverメソッドの期待する値
-        Integer[] expected = { 7, 20, 0, 0 };
+        int[] expected = { 7, 20, 0, 0 };
         //calcWorkingOverメソッドの実行結果と期待値が同値であることを確認
         assertArrayEquals(expected, result);
 	}
@@ -56,12 +56,12 @@ class CommonUtilsTest {
 	@DisplayName("5捨6入をして現在時分を返すメソッドのテスト1(分が切り捨てられるかのテスト)")
 	void testRoundOff1() {
 		//ダミーデータを宣言(roundOffメソッドの引数用)
-		Integer testHour = 5;
-		Integer testMinute = 23;
-		//テスト対象のメソッドを実行してInteger[]を受け取る
-		Integer[] result = CommonUtils.roundOff(testHour, testMinute);
+		int testHour = 5;
+		int testMinute = 23;
+		//テスト対象のメソッドを実行してint[]を受け取る
+		int[] result = CommonUtils.roundOff(testHour, testMinute);
 		//roundOffメソッドの期待する値
-		Integer[] expected = { 5, 20 };
+		int[] expected = { 5, 20 };
 		//roundOffメソッドの実行結果と期待値が同値であることを確認
 		assertArrayEquals(expected, result);
 	}
@@ -70,12 +70,12 @@ class CommonUtilsTest {
 	@DisplayName("5捨6入をして現在時分を返すメソッドのテスト2(分が切り上げられるかのテスト)")
 	void testRoundOff2() {
 		//ダミーデータを宣言(roundOffメソッドの引数用)
-		Integer testHour = 5;
-		Integer testMinute = 36;
-		//テスト対象のメソッドを実行してInteger[]を受け取る
-		Integer[] result = CommonUtils.roundOff(testHour, testMinute);
+		int testHour = 5;
+		int testMinute = 36;
+		//テスト対象のメソッドを実行してint[]を受け取る
+		int[] result = CommonUtils.roundOff(testHour, testMinute);
 		//roundOffメソッドの期待する値
-		Integer[] expected = { 5, 40 };
+		int[] expected = { 5, 40 };
 		//roundOffメソッドの実行結果と期待値が同値であることを確認
 		assertArrayEquals(expected, result);
 	}
@@ -84,12 +84,12 @@ class CommonUtilsTest {
 	@DisplayName("5捨6入をして現在時分を返すメソッドのテスト3(時が繰り上げられるかのテスト)")
 	void testRoundOff3() {
 		//ダミーデータを宣言(roundOffメソッドの引数用)
-		Integer testHour = 14;
-		Integer testMinute = 58;
-		//テスト対象のメソッドを実行してInteger[]を受け取る
-		Integer[] result = CommonUtils.roundOff(testHour, testMinute);
+		int testHour = 14;
+		int testMinute = 58;
+		//テスト対象のメソッドを実行してint[]を受け取る
+		int[] result = CommonUtils.roundOff(testHour, testMinute);
 		//roundOffメソッドの期待する値
-		Integer[] expected = { 15, 0 };
+		int[] expected = { 15, 0 };
 		//roundOffメソッドの実行結果と期待値が同値であることを確認
 		assertArrayEquals(expected, result);
 	}
@@ -99,7 +99,7 @@ class CommonUtilsTest {
 	void testFormNumbers() {
 		//モックのModelを生成
 		Model mockModel = new ExtendedModelMap();
-		//モックのList<Integer>を宣言(Modelの期待値)
+		//モックのList<int>を宣言(Modelの期待値)
 		List<Integer> mockHourNumbers = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
 		List<Integer> mockMinuteNumbers = Arrays.asList(0, 10, 20, 30, 40, 50);
 		//テスト対象のメソッドを実行する
@@ -118,14 +118,14 @@ class CommonUtilsTest {
 	@DisplayName("休憩時間に1or0をセットするメソッドのテスト1(返り値が1の時)")
 	void testCalcRest1() {
 		//ダミーデータを宣言(calcRestメソッドの引数用)
-		Integer testAttendanceHour = 9;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 20;
-        Integer testLeavingMinute = 50;
-        //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonUtils.calcRest(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute);
+		int testAttendanceHour = 9;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 20;
+        int testLeavingMinute = 50;
+        //テスト対象のメソッドを実行してintを受け取る
+        int result = CommonUtils.calcRest(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute);
         //calcRestメソッドの期待する値
-        Integer expected = 1;
+        int expected = 1;
         //calcRestメソッドの実行結果と期待値が同値であることを確認
         assertEquals(expected, result);
 	}
@@ -134,14 +134,14 @@ class CommonUtilsTest {
 	@DisplayName("休憩時間に1or0をセットするメソッドのテスト2(返り値が0の時)")
 	void testCalcRest2() {
 		//ダミーデータを宣言(calcRestメソッドの引数用)
-		Integer testAttendanceHour = 9;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 10;
-        Integer testLeavingMinute = 10;
-        //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonUtils.calcRest(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute);
+		int testAttendanceHour = 9;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 10;
+        int testLeavingMinute = 10;
+        //テスト対象のメソッドを実行してintを受け取る
+        int result = CommonUtils.calcRest(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute);
         //calcRestメソッドの期待する値
-        Integer expected = 0;
+        int expected = 0;
         //calcRestメソッドの実行結果と期待値が同値であることを確認
         assertEquals(expected, result);
 	}
@@ -150,20 +150,20 @@ class CommonUtilsTest {
 	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト1(未来日付の指定)")
 	void testConfirmWorkForm1() {
 		//ダミーデータを宣言(confirmWorkFormメソッドの引数用)
-		Integer testYear = 2024;
-		Integer testMonth = 3;
-		Integer testDate = 15;
-		Integer testWorkStatus = 1;
-		Integer testAttendanceHour = 9;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 17;
-        Integer testLeavingMinute = 50;
-        Integer testRestHour = 1;
-        Integer testRestMinute = 10;
-        //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+		int testYear = 2024;
+		int testMonth = 3;
+		int testDate = 15;
+		int testWorkStatus = 1;
+		int testAttendanceHour = 9;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 17;
+        int testLeavingMinute = 50;
+        int testRestHour = 1;
+        int testRestMinute = 10;
+        //テスト対象のメソッドを実行してintを受け取る
+        int result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
-        Integer expected = 1;
+        int expected = 1;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
         assertEquals(expected, result);
 	}
@@ -172,20 +172,20 @@ class CommonUtilsTest {
 	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト2(フォームの入力値にnullがある場合)")
 	void testConfirmWorkForm2() {
 		//ダミーデータを宣言(confirmWorkFormメソッドの引数用)
-		Integer testYear = 2023;
-		Integer testMonth = 3;
-		Integer testDate = 15;
-		Integer testWorkStatus = 1;
-		Integer testAttendanceHour = 9;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 17;
-        Integer testLeavingMinute = 50;
+		int testYear = 2023;
+		int testMonth = 3;
+		int testDate = 15;
+		int testWorkStatus = 1;
+		int testAttendanceHour = 9;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 17;
+        int testLeavingMinute = 50;
         Integer testRestHour = null;
-        Integer testRestMinute = 10;
-        //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        int testRestMinute = 10;
+        //テスト対象のメソッドを実行してintを受け取る
+        int result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
-        Integer expected = 2;
+        int expected = 2;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
         assertEquals(expected, result);
 	}
@@ -194,20 +194,20 @@ class CommonUtilsTest {
 	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト3(出勤時間が退勤時間よりも大きい場合)")
 	void testConfirmWorkForm3() {
 		//ダミーデータを宣言(confirmWorkFormメソッドの引数用)
-		Integer testYear = 2023;
-		Integer testMonth = 3;
-		Integer testDate = 15;
-		Integer testWorkStatus = 1;
-		Integer testAttendanceHour = 11;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 9;
-        Integer testLeavingMinute = 50;
-        Integer testRestHour = 1;
-        Integer testRestMinute = 10;
-        //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+		int testYear = 2023;
+		int testMonth = 3;
+		int testDate = 15;
+		int testWorkStatus = 1;
+		int testAttendanceHour = 11;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 9;
+        int testLeavingMinute = 50;
+        int testRestHour = 1;
+        int testRestMinute = 10;
+        //テスト対象のメソッドを実行してintを受け取る
+        int result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
-        Integer expected = 3;
+        int expected = 3;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
         assertEquals(expected, result);
 	}
@@ -216,20 +216,20 @@ class CommonUtilsTest {
 	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト4(休憩時間の値が就業時間の値よりも大きい場合)")
 	void testConfirmWorkForm4() {
 		//ダミーデータを宣言(confirmWorkFormメソッドの引数用)
-		Integer testYear = 2023;
-		Integer testMonth = 3;
-		Integer testDate = 15;
-		Integer testWorkStatus = 1;
-		Integer testAttendanceHour = 15;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 17;
-        Integer testLeavingMinute = 50;
-        Integer testRestHour = 3;
-        Integer testRestMinute = 30;
-        //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+		int testYear = 2023;
+		int testMonth = 3;
+		int testDate = 15;
+		int testWorkStatus = 1;
+		int testAttendanceHour = 15;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 17;
+        int testLeavingMinute = 50;
+        int testRestHour = 3;
+        int testRestMinute = 30;
+        //テスト対象のメソッドを実行してintを受け取る
+        int result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
-        Integer expected = 4;
+        int expected = 4;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
         assertEquals(expected, result);
 	}
@@ -238,20 +238,20 @@ class CommonUtilsTest {
 	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト5(出勤ステータスが出勤以外の時にフォームの値を入力)")
 	void testConfirmWorkForm5() {
 		//ダミーデータを宣言(confirmWorkFormメソッドの引数用)
-		Integer testYear = 2023;
-		Integer testMonth = 3;
-		Integer testDate = 15;
-		Integer testWorkStatus = 3;
+		int testYear = 2023;
+		int testMonth = 3;
+		int testDate = 15;
+		int testWorkStatus = 3;
 		Integer testAttendanceHour = null;
         Integer testAttendanceMinute = null;
         Integer testLeavingHour = null;
-        Integer testLeavingMinute = 50;
+        int testLeavingMinute = 50;
         Integer testRestHour = null;
         Integer testRestMinute = null;
-        //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        //テスト対象のメソッドを実行してintを受け取る
+        int result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
-        Integer expected = 5;
+        int expected = 5;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
         assertEquals(expected, result);
 	}
@@ -260,20 +260,20 @@ class CommonUtilsTest {
 	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト6(エラーなし(出勤))")
 	void testConfirmWorkForm6() {
 		//ダミーデータを宣言(confirmWorkFormメソッドの引数用)
-		Integer testYear = 2023;
-		Integer testMonth = 3;
-		Integer testDate = 15;
-		Integer testWorkStatus = 1;
-		Integer testAttendanceHour = 9;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 17;
-        Integer testLeavingMinute = 50;
-        Integer testRestHour = 1;
-        Integer testRestMinute = 10;
-        //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+		int testYear = 2023;
+		int testMonth = 3;
+		int testDate = 15;
+		int testWorkStatus = 1;
+		int testAttendanceHour = 9;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 17;
+        int testLeavingMinute = 50;
+        int testRestHour = 1;
+        int testRestMinute = 10;
+        //テスト対象のメソッドを実行してintを受け取る
+        int result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
-        Integer expected = 0;
+        int expected = 0;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
         assertEquals(expected, result);
 	}
@@ -282,20 +282,20 @@ class CommonUtilsTest {
 	@DisplayName("入力された出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するメソッドのテスト7(エラーなし(有休))")
 	void testConfirmWorkForm7() {
 		//ダミーデータを宣言(confirmWorkFormメソッドの引数用)
-		Integer testYear = 2023;
-		Integer testMonth = 3;
-		Integer testDate = 15;
-		Integer testWorkStatus = 3;
+		int testYear = 2023;
+		int testMonth = 3;
+		int testDate = 15;
+		int testWorkStatus = 3;
 		Integer testAttendanceHour = null;
         Integer testAttendanceMinute = null;
         Integer testLeavingHour = null;
         Integer testLeavingMinute = null;
         Integer testRestHour = null;
         Integer testRestMinute = null;
-        //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        //テスト対象のメソッドを実行してintを受け取る
+        int result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
-        Integer expected = 0;
+        int expected = 0;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
         assertEquals(expected, result);
 	}
@@ -306,13 +306,13 @@ class CommonUtilsTest {
 		//モックのRequestFormFormを生成
 		RequestFormForm mockForm = new RequestFormForm();
 		//ダミーデータを宣言(FormRedirectメソッドの引数用)
-		Integer testWorkStatus = 1;
-		Integer testAttendanceHour = 9;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 17;
-        Integer testLeavingMinute = 50;
-        Integer testRestHour = 1;
-        Integer testRestMinute = 10;
+		int testWorkStatus = 1;
+		int testAttendanceHour = 9;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 17;
+        int testLeavingMinute = 50;
+        int testRestHour = 1;
+        int testRestMinute = 10;
         //モックのRequestFormForm(mockForm)にダミーデータのセット
         mockForm.setWorkStatus(testWorkStatus);
         mockForm.setAttendanceHour(testAttendanceHour);
@@ -340,13 +340,13 @@ class CommonUtilsTest {
 		RequestFormForm mockForm = new RequestFormForm();
 		RequestFormForm mockFormRedirect = new RequestFormForm();
 		//ダミーデータを宣言(FormRedirectメソッドの引数用)
-		Integer testWorkStatus = 1;
-		Integer testAttendanceHour = 9;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 17;
-        Integer testLeavingMinute = 50;
-        Integer testRestHour = 1;
-        Integer testRestMinute = 10;
+		int testWorkStatus = 1;
+		int testAttendanceHour = 9;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 17;
+        int testLeavingMinute = 50;
+        int testRestHour = 1;
+        int testRestMinute = 10;
         //モックのRequestFormForm(mockFormRedirect)にダミーデータのセット
         mockFormRedirect.setWorkStatus(testWorkStatus);
         mockFormRedirect.setAttendanceHour(testAttendanceHour);
@@ -373,13 +373,13 @@ class CommonUtilsTest {
 		//モックのWorkEditFormを生成
 		WorkEditForm mockForm = new WorkEditForm();
 		//ダミーデータを宣言(FormRedirectメソッドの引数用)
-		Integer testWorkStatus = 1;
-		Integer testAttendanceHour = 9;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 17;
-        Integer testLeavingMinute = 50;
-        Integer testRestHour = 1;
-        Integer testRestMinute = 10;
+		int testWorkStatus = 1;
+		int testAttendanceHour = 9;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 17;
+        int testLeavingMinute = 50;
+        int testRestHour = 1;
+        int testRestMinute = 10;
         //モックのWorkEditForm(mockForm)にダミーデータのセット
         mockForm.setWorkStatus(testWorkStatus);
         mockForm.setAttendanceHour(testAttendanceHour);
@@ -407,13 +407,13 @@ class CommonUtilsTest {
 		WorkEditForm mockForm = new WorkEditForm();
 		WorkEditForm mockFormRedirect = new WorkEditForm();
 		//ダミーデータを宣言(FormRedirectメソッドの引数用)
-		Integer testWorkStatus = 1;
-		Integer testAttendanceHour = 9;
-        Integer testAttendanceMinute = 20;
-        Integer testLeavingHour = 17;
-        Integer testLeavingMinute = 50;
-        Integer testRestHour = 1;
-        Integer testRestMinute = 10;
+		int testWorkStatus = 1;
+		int testAttendanceHour = 9;
+        int testAttendanceMinute = 20;
+        int testLeavingHour = 17;
+        int testLeavingMinute = 50;
+        int testRestHour = 1;
+        int testRestMinute = 10;
         //モックのWorkEditForm(mockFormRedirect)にダミーデータのセット
         mockFormRedirect.setWorkStatus(testWorkStatus);
         mockFormRedirect.setAttendanceHour(testAttendanceHour);
@@ -443,10 +443,10 @@ class CommonUtilsTest {
 	    //ダミーデータを宣言(FormRedirectメソッドの引数用)
 	    Integer testWorkStatus = null;
 	    Integer testAttendanceHour = null;
-	    Integer testAttendanceMinute = 20;
-	    Integer testLeavingHour = 17;
+	    int testAttendanceMinute = 20;
+	    int testLeavingHour = 17;
 	    Integer testLeavingMinute = null;
-	    Integer testRestHour = 1;
+	    int testRestHour = 1;
 	    Integer testRestMinute = null;
 	    //モックのWorkEditForm(mockFormRedirect)にダミーデータのセット
 	    mockFormRedirect.setWorkStatus(testWorkStatus);

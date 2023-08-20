@@ -45,7 +45,7 @@ public class UserWorkEditController {
 	
 	//★出退勤修正画面に遷移するためのメソッド(勤怠情報登録時)
 	@GetMapping("/{id}/edit")
-	public String getAdminUserWorkEdit(@ModelAttribute WorkEditForm form, @PathVariable("id") Integer id, Model model, @ModelAttribute("model") ModelMap modelMap) {
+	public String getAdminUserWorkEdit(@ModelAttribute WorkEditForm form, @PathVariable("id") int id, Model model, @ModelAttribute("model") ModelMap modelMap) {
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		form.setId(workDetail.getId());
@@ -83,7 +83,7 @@ public class UserWorkEditController {
 	
 	//★出退勤修正画面に遷移するためのメソッド(勤怠情報未登録時)
 	@GetMapping("/{userId}/{year}/{month}/{date}/edit")
-	public String getAdminUserWorkEdit(@PathVariable("userId") String userId, @PathVariable("year") Integer year, @PathVariable("month") Integer month, @PathVariable("date") Integer date, Model model, @ModelAttribute("model") ModelMap modelMap) {
+	public String getAdminUserWorkEdit(@PathVariable("userId") String userId, @PathVariable("year") int year, @PathVariable("month") int month, @PathVariable("date") int date, Model model, @ModelAttribute("model") ModelMap modelMap) {
 		//Workをformに変換
 		WorkEditForm form = new WorkEditForm();
 		//エラー時にリダイレクトされてきた値を受け取る
@@ -113,7 +113,7 @@ public class UserWorkEditController {
 	
 	//★登録,修正ボタン押下時のメソッド
 	@PostMapping("/edit")
-	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, Integer id, Model model, RedirectAttributes redirectAttributes, Integer year, Integer month, Integer date, Integer userId, @RequestParam(name = "workStatus", required = false) String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
+	public String postAdminUserWorkEdit(@ModelAttribute @Validated(GroupOrder.class) WorkEditForm form, BindingResult bindingResult, int id, Model model, RedirectAttributes redirectAttributes, int year, int month, int date, int userId, @RequestParam(name = "workStatus", required = false) String workStatus, @RequestParam("attendanceHour") String attendanceHour, @RequestParam("attendanceMinute") String attendanceMinute, @RequestParam("leavingHour") String leavingHour, @RequestParam("leavingMinute") String leavingMinute, @RequestParam("restHour") String restHour, @RequestParam("restMinute") String restMinute) {
 		//ModelMapインスタンスを生成
 		ModelMap modelMap = new ModelMap();
 		//エラー時にリダイレクトされてきた値をModelMapに格納する
@@ -135,11 +135,11 @@ public class UserWorkEditController {
 		Work workDetail = workService.selectWork(id);
 		MUser userIdStr = userService.selectUserIdStr(form.getUserId());
 		//errorNumber(switch分を使用するための変数)を宣言
-		Integer errorNumber;
+		int errorNumber;
 		//CommonController.confirmWorkFormメソッドで使用する変数の宣言
-		Integer targetYear;
-		Integer targetMonth;
-		Integer targetDate;
+		int targetYear;
+		int targetMonth;
+		int targetDate;
 		//入力された内容があっているかどうかを判断するメソッド(勤怠情報が登録されているか否かで引数が変わる)
 		if(workDetail != null) {
 			//勤怠情報が登録されていれば年月日を取得する
@@ -198,7 +198,7 @@ public class UserWorkEditController {
 		//RequestFormに出勤時間(時)がnullかどうかで分岐処理を行う(有休申請の場合はnullになる)
 		if(form.getAttendanceHour() != null) {
 			//出勤時間、退勤時間、休憩時間から就業時間と残業時間を計算するメソッド
-			Integer[] calcWorkingOver = CommonUtils.calcWorkingOver(form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+			int[] calcWorkingOver = CommonUtils.calcWorkingOver(form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
 			//上記の結果から就業時間、残業時間をセット
 			work.setWorkingTimeHour(calcWorkingOver[0]);
 			work.setWorkingTimeMinute(calcWorkingOver[1]);

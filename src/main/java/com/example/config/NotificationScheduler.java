@@ -33,11 +33,11 @@ public class NotificationScheduler {
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//現在の年を取得
-        Integer year = calendar.get(Calendar.YEAR);
+        int year = calendar.get(Calendar.YEAR);
         //現在の月を取得
-        Integer month = calendar.get(Calendar.MONTH) + 1;
+        int month = calendar.get(Calendar.MONTH) + 1;
         //現在の日を取得
-        Integer date = calendar.get(Calendar.DATE);
+        int date = calendar.get(Calendar.DATE);
         //勤怠情報を取得し不備がないかの確認(今日日付の勤怠リストを取得)
         List<Work> workList = workService.selectWorkInfoList(year, month, date);
         //取得したデータで繰り返し分

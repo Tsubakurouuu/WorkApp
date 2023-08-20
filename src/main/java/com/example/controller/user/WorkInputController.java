@@ -31,7 +31,7 @@ public class WorkInputController {
 	
 	//★出退勤時間入力画面に遷移するためのメソッド
 	@GetMapping("/work/input")
-	public String getUserWorkInput(Model model, Integer year, Integer month) {
+	public String getUserWorkInput(Model model, int year, int month) {
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//現在の年を取得
@@ -39,9 +39,9 @@ public class WorkInputController {
         //現在の月を取得
         month = calendar.get(Calendar.MONTH) + 1;
         //現在の日を取得
-        Integer date = calendar.get(Calendar.DATE);
+        int date = calendar.get(Calendar.DATE);
         //現在の曜日を取得
-        Integer week = calendar.get(Calendar.DAY_OF_WEEK);
+        int week = calendar.get(Calendar.DAY_OF_WEEK);
         //曜日をModelに登録
         switch (week) {
         case Calendar.SUNDAY:
@@ -82,11 +82,11 @@ public class WorkInputController {
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//現在の年を取得
-        Integer year = calendar.get(Calendar.YEAR);
+        int year = calendar.get(Calendar.YEAR);
         //現在の月を取得
-        Integer month = calendar.get(Calendar.MONTH) + 1;
+        int month = calendar.get(Calendar.MONTH) + 1;
         //現在の日を取得
-        Integer date = calendar.get(Calendar.DATE);
+        int date = calendar.get(Calendar.DATE);
         //同日勤怠情報取得（退勤ボタン押下時）
 		Work workInfo = workService.selectWorkAttendance(loginUser.getId(), year, month, date);
 		//本日分の打刻登録がされていないかの確認
@@ -105,10 +105,10 @@ public class WorkInputController {
 		work.setMonth(calendar.get(Calendar.MONTH) + 1);
 		work.setDate(calendar.get(Calendar.DATE));
 		//現在時間の取得
-		Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
-		Integer minute = calendar.get(Calendar.MINUTE);
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		int minute = calendar.get(Calendar.MINUTE);
 		//現在分を5捨6入するメソッド
-		Integer[] roundOff = CommonUtils.roundOff(hour, minute);
+		int[] roundOff = CommonUtils.roundOff(hour, minute);
 		//上記結果を元に出勤時間を登録
 		work.setAttendanceHour(roundOff[0]);
 		work.setAttendanceMinute(roundOff[1]);
@@ -132,11 +132,11 @@ public class WorkInputController {
 		//カレンダークラスのオブジェクトを生成
 		Calendar calendar = Calendar.getInstance();
 		//現在の年を取得
-		Integer year = calendar.get(Calendar.YEAR);
+		int year = calendar.get(Calendar.YEAR);
 		//現在の月を取得
-		Integer month = calendar.get(Calendar.MONTH) + 1;
+		int month = calendar.get(Calendar.MONTH) + 1;
 		//現在の日を取得
-		Integer date = calendar.get(Calendar.DATE);
+		int date = calendar.get(Calendar.DATE);
 		//同日勤怠情報取得（退勤ボタン押下時）
 		Work workInfo = workService.selectWorkAttendance(loginUser.getId(), year, month, date);
 		//本日分の出勤打刻が登録されているかの確認
@@ -160,10 +160,10 @@ public class WorkInputController {
 		work.setMonth(month);
 		work.setDate(date);
 		//現在時間の取得
-		Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
-		Integer minute = calendar.get(Calendar.MINUTE);
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		int minute = calendar.get(Calendar.MINUTE);
 		//現在分を5捨6入するメソッド
-		Integer[] roundOff = CommonUtils.roundOff(hour, minute);
+		int[] roundOff = CommonUtils.roundOff(hour, minute);
 		//上記結果を元に退勤時間を登録
 		work.setLeavingHour(roundOff[0]);
 		work.setLeavingMinute(roundOff[1]);
@@ -171,7 +171,7 @@ public class WorkInputController {
 		work.setRestHour(CommonUtils.calcRest(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute()));
 		work.setRestMinute(0);
 		//出勤時間と退勤時間から就業時間と残業時間を計算するメソッド
-		Integer[] calcWorkingOver = CommonUtils.calcWorkingOver(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute(), work.getRestHour(),work.getRestMinute());
+		int[] calcWorkingOver = CommonUtils.calcWorkingOver(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute(), work.getRestHour(),work.getRestMinute());
 		//上記結果を元に就業時間と残業時間を登録
 		work.setWorkingTimeHour(calcWorkingOver[0]);
 		work.setWorkingTimeMinute(calcWorkingOver[1]);
