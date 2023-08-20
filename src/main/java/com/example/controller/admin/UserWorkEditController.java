@@ -154,51 +154,30 @@ public class UserWorkEditController {
 		}
 		//入力された内容があっているかどうかを判断するメソッド
 		errorNumber = CommonController.confirmWorkForm(targetYear, targetMonth, targetDate, form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
-		//入力された年月日、出勤時間、退勤時間、休憩時間が時間軸として正しいかどうかを判断するswitch文
+		//confirmWorkFormメソッドの実行結果によって得られるerrorMessageを宣言
+		String errorMessage = "";
+		//confirmWorkFormメソッドの実行結果によって得たerrorNumberのswitch文
 		switch (errorNumber) {
-		case 1:
+			case CommonController.INCORRECT_TARGET_DATE:
+				errorMessage = "出勤の場合、未来日付の指定はできません";
+				break;
+			case CommonController.INCOMPLETE_WORK_FORM:
+				errorMessage = "出勤の場合はフォームを全て入力してください。";
+				break;
+			case CommonController.INCORRECT_WORK_TIME:
+				errorMessage = "出勤時間が退勤時間よりも大きい値になっています。";
+				break;
+			case CommonController.INCORRECT_REST_TIME:
+				errorMessage = "休憩時間の値を修正してください。";
+				break;
+			case CommonController.UNNECESSARY_WORK_FORM:
+				errorMessage = "出勤以外の場合はフォームを全て入力しないでください。";
+				break;
+		}
+		//errorMessageがあるかどうかで処理を分岐
+		if(errorMessage.length() > 0) {
 			//フラッシュスコープ
-			redirectAttributes.addFlashAttribute("error", "出勤の場合、未来日付の指定はできません");
-			//時分フォーム入力用メソッド
-			CommonController.formNumbers(model);
-			//出勤情報があるかどうかでリダイレクト先URLが異なる
-			if(workDetail != null) {
-				return "redirect:/admin/" + id + "/edit";
-			}
-			return "redirect:/admin/" + userIdStr.getUserId() + "/" + year + "/" + month + "/" + date + "/edit";
-		case 2:	
-			//フラッシュスコープ
-			redirectAttributes.addFlashAttribute("error", "出勤の場合はフォームを全て入力してください。");
-			//時分フォーム入力用メソッド
-			CommonController.formNumbers(model);
-			//出勤情報があるかどうかでリダイレクト先URLが異なる
-			if(workDetail != null) {
-				return "redirect:/admin/" + id + "/edit";
-			}
-			return "redirect:/admin/" + userIdStr.getUserId() + "/" + year + "/" + month + "/" + date + "/edit";
-		case 3:
-			//フラッシュスコープ
-			redirectAttributes.addFlashAttribute("error", "出勤以外の場合はフォームを全て入力しないでください。");
-			//時分フォーム入力用メソッド
-			CommonController.formNumbers(model);
-			//出勤情報があるかどうかでリダイレクト先URLが異なる
-			if(workDetail != null) {
-				return "redirect:/admin/" + id + "/edit";
-			}
-			return "redirect:/admin/" + userIdStr.getUserId() + "/" + year + "/" + month + "/" + date + "/edit";
-		case 4:
-			//フラッシュスコープ
-			redirectAttributes.addFlashAttribute("error", "出勤時間が退勤時間よりも大きい値になっています。");
-			//時分フォーム入力用メソッド
-			CommonController.formNumbers(model);
-			//出勤情報があるかどうかでリダイレクト先URLが異なる
-			if(workDetail != null) {
-				return "redirect:/admin/" + id + "/edit";
-			}
-			return "redirect:/admin/" + userIdStr.getUserId() + "/" + year + "/" + month + "/" + date + "/edit";
-		case 5:
-			//フラッシュスコープ
-			redirectAttributes.addFlashAttribute("error", "休憩時間の値を修正してください。");
+			redirectAttributes.addFlashAttribute("error", errorMessage);
 			//時分フォーム入力用メソッド
 			CommonController.formNumbers(model);
 			//出勤情報があるかどうかでリダイレクト先URLが異なる
