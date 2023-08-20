@@ -1,17 +1,15 @@
-package com.example.controller.common;
+package com.example.common;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
 import com.example.form.RequestFormForm;
 import com.example.form.WorkEditForm;
 
-@Controller
-public class CommonController {
+public class CommonUtils {
 	
 	//★就業時間と残業時間を計算するメソッド
 	public static Integer[] calcWorkingOver(Integer attendanceHour, Integer attendanceMinute, Integer leavingHour, Integer leavingMinute, Integer restHour, Integer restMinute) {

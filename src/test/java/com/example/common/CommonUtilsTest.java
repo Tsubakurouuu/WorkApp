@@ -1,9 +1,7 @@
-package com.example.controller.common;
+package com.example.common;
 
 import static org.junit.Assert.assertNull;
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +14,7 @@ import org.springframework.ui.Model;
 import com.example.form.RequestFormForm;
 import com.example.form.WorkEditForm;
 
-class CommonControllerTest {
+class CommonUtilsTest {
 
 	@Test
 	@DisplayName("就業時間と残業時間を計算するメソッドのテスト1(残業時間が発生している場合)")
@@ -29,7 +27,7 @@ class CommonControllerTest {
         Integer testRestHour = 1;
         Integer testRestMinute = 10;
         //テスト対象のメソッドを実行してInteger[]を受け取る
-        Integer[] result = CommonController.calcWorkingOver(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        Integer[] result = CommonUtils.calcWorkingOver(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //calcWorkingOverメソッドの期待する値
         Integer[] expected = { 10, 20, 2, 20 };
         //calcWorkingOverメソッドの実行結果と期待値が同値であることを確認
@@ -47,7 +45,7 @@ class CommonControllerTest {
         Integer testRestHour = 1;
         Integer testRestMinute = 10;
         //テスト対象のメソッドを実行してInteger[]を受け取る
-        Integer[] result = CommonController.calcWorkingOver(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        Integer[] result = CommonUtils.calcWorkingOver(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //calcWorkingOverメソッドの期待する値
         Integer[] expected = { 7, 20, 0, 0 };
         //calcWorkingOverメソッドの実行結果と期待値が同値であることを確認
@@ -61,7 +59,7 @@ class CommonControllerTest {
 		Integer testHour = 5;
 		Integer testMinute = 23;
 		//テスト対象のメソッドを実行してInteger[]を受け取る
-		Integer[] result = CommonController.roundOff(testHour, testMinute);
+		Integer[] result = CommonUtils.roundOff(testHour, testMinute);
 		//roundOffメソッドの期待する値
 		Integer[] expected = { 5, 20 };
 		//roundOffメソッドの実行結果と期待値が同値であることを確認
@@ -75,7 +73,7 @@ class CommonControllerTest {
 		Integer testHour = 5;
 		Integer testMinute = 36;
 		//テスト対象のメソッドを実行してInteger[]を受け取る
-		Integer[] result = CommonController.roundOff(testHour, testMinute);
+		Integer[] result = CommonUtils.roundOff(testHour, testMinute);
 		//roundOffメソッドの期待する値
 		Integer[] expected = { 5, 40 };
 		//roundOffメソッドの実行結果と期待値が同値であることを確認
@@ -89,7 +87,7 @@ class CommonControllerTest {
 		Integer testHour = 14;
 		Integer testMinute = 58;
 		//テスト対象のメソッドを実行してInteger[]を受け取る
-		Integer[] result = CommonController.roundOff(testHour, testMinute);
+		Integer[] result = CommonUtils.roundOff(testHour, testMinute);
 		//roundOffメソッドの期待する値
 		Integer[] expected = { 15, 0 };
 		//roundOffメソッドの実行結果と期待値が同値であることを確認
@@ -105,7 +103,7 @@ class CommonControllerTest {
 		List<Integer> mockHourNumbers = Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23);
 		List<Integer> mockMinuteNumbers = Arrays.asList(0, 10, 20, 30, 40, 50);
 		//テスト対象のメソッドを実行する
-		CommonController.formNumbers(mockModel);
+		CommonUtils.formNumbers(mockModel);
 		//モックのModelが"hourNumbers"を持っているかの確認
 		assertTrue(mockModel.containsAttribute("hourNumbers"));
 		//モックのModelが"minuteNumbers"を持っているかの確認
@@ -125,7 +123,7 @@ class CommonControllerTest {
         Integer testLeavingHour = 20;
         Integer testLeavingMinute = 50;
         //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonController.calcRest(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute);
+        Integer result = CommonUtils.calcRest(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute);
         //calcRestメソッドの期待する値
         Integer expected = 1;
         //calcRestメソッドの実行結果と期待値が同値であることを確認
@@ -141,7 +139,7 @@ class CommonControllerTest {
         Integer testLeavingHour = 10;
         Integer testLeavingMinute = 10;
         //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonController.calcRest(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute);
+        Integer result = CommonUtils.calcRest(testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute);
         //calcRestメソッドの期待する値
         Integer expected = 0;
         //calcRestメソッドの実行結果と期待値が同値であることを確認
@@ -163,7 +161,7 @@ class CommonControllerTest {
         Integer testRestHour = 1;
         Integer testRestMinute = 10;
         //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonController.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
         Integer expected = 1;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
@@ -185,7 +183,7 @@ class CommonControllerTest {
         Integer testRestHour = null;
         Integer testRestMinute = 10;
         //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonController.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
         Integer expected = 2;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
@@ -207,7 +205,7 @@ class CommonControllerTest {
         Integer testRestHour = 1;
         Integer testRestMinute = 10;
         //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonController.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
         Integer expected = 3;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
@@ -229,7 +227,7 @@ class CommonControllerTest {
         Integer testRestHour = 3;
         Integer testRestMinute = 30;
         //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonController.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
         Integer expected = 4;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
@@ -251,7 +249,7 @@ class CommonControllerTest {
         Integer testRestHour = null;
         Integer testRestMinute = null;
         //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonController.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
         Integer expected = 5;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
@@ -273,7 +271,7 @@ class CommonControllerTest {
         Integer testRestHour = 1;
         Integer testRestMinute = 10;
         //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonController.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
         Integer expected = 0;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
@@ -295,7 +293,7 @@ class CommonControllerTest {
         Integer testRestHour = null;
         Integer testRestMinute = null;
         //テスト対象のメソッドを実行してIntegerを受け取る
-        Integer result = CommonController.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+        Integer result = CommonUtils.confirmWorkForm(testYear, testMonth, testDate, testWorkStatus, testAttendanceHour, testAttendanceMinute, testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
         //confirmWorkFormメソッドの期待する値
         Integer expected = 0;
         //confirmWorkFormメソッドの実行結果と期待値が同値であることを確認
@@ -324,7 +322,7 @@ class CommonControllerTest {
         mockForm.setRestHour(testRestHour);
         mockForm.setRestMinute(testRestMinute);
         //テスト対象のメソッドを実行する
-	    CommonController.formRedirect(mockForm, null);
+	    CommonUtils.formRedirect(mockForm, null);
 	    //FormRedirectメソッドの実行結果と期待値が同値であることを確認
 	    assertEquals(1, mockForm.getWorkStatus());
 	    assertEquals(9, mockForm.getAttendanceHour());
@@ -358,7 +356,7 @@ class CommonControllerTest {
         mockFormRedirect.setRestHour(testRestHour);
         mockFormRedirect.setRestMinute(testRestMinute);
         //テスト対象のメソッドを実行する
-	    CommonController.formRedirect(mockForm, mockFormRedirect);
+	    CommonUtils.formRedirect(mockForm, mockFormRedirect);
 	    //FormRedirectメソッドの実行結果と期待値が同値であることを確認
 	    assertEquals(1, mockForm.getWorkStatus());
 	    assertEquals(9, mockForm.getAttendanceHour());
@@ -391,7 +389,7 @@ class CommonControllerTest {
         mockForm.setRestHour(testRestHour);
         mockForm.setRestMinute(testRestMinute);
         //テスト対象のメソッドを実行する
-	    CommonController.formRedirect(mockForm, null);
+	    CommonUtils.formRedirect(mockForm, null);
 	    //FormRedirectメソッドの実行結果と期待値が同値であることを確認
 	    assertEquals(1, mockForm.getWorkStatus());
 	    assertEquals(9, mockForm.getAttendanceHour());
@@ -425,7 +423,7 @@ class CommonControllerTest {
         mockFormRedirect.setRestHour(testRestHour);
         mockFormRedirect.setRestMinute(testRestMinute);
         //テスト対象のメソッドを実行する
-	    CommonController.formRedirect(mockForm, mockFormRedirect);
+	    CommonUtils.formRedirect(mockForm, mockFormRedirect);
 	    //FormRedirectメソッドの実行結果と期待値が同値であることを確認
 	    assertEquals(1, mockForm.getWorkStatus());
 	    assertEquals(9, mockForm.getAttendanceHour());
@@ -459,7 +457,7 @@ class CommonControllerTest {
 	    mockFormRedirect.setRestHour(testRestHour);
 	    mockFormRedirect.setRestMinute(testRestMinute);
 	    //テスト対象のメソッドを実行する
-	    CommonController.formRedirect(mockForm, mockFormRedirect);
+	    CommonUtils.formRedirect(mockForm, mockFormRedirect);
 	    //FormRedirectメソッドの実行結果と期待値が同値であることを確認
 	    assertNull(mockForm.getWorkStatus());
 	    assertNull(mockForm.getAttendanceHour());
@@ -469,6 +467,5 @@ class CommonControllerTest {
 	    assertEquals(1, mockForm.getRestHour());
 	    assertNull(mockForm.getRestMinute());
 	}
-
 
 }

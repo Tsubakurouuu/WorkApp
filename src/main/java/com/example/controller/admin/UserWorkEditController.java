@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.application.service.WorkStatusService;
-import com.example.controller.common.CommonController;
+import com.example.common.CommonUtils;
 import com.example.form.GroupOrder;
 import com.example.form.WorkEditForm;
 import com.example.model.MUser;
@@ -72,11 +72,11 @@ public class UserWorkEditController {
 		//エラー時にリダイレクトされてきた値を受け取る
 		WorkEditForm formRedirect = (WorkEditForm) modelMap.get("form");
 		//formRedirectメソッドの呼び出し
-		CommonController.formRedirect(form, formRedirect);
+		CommonUtils.formRedirect(form, formRedirect);
 		//Modelに登録
 		model.addAttribute("workEditForm", form);
 		//時分フォーム入力用メソッド
-		CommonController.formNumbers(model);
+		CommonUtils.formNumbers(model);
 		//admin/user_work_edit.htmlを呼び出す
 		return "admin/user_work_edit";
 	}
@@ -89,7 +89,7 @@ public class UserWorkEditController {
 		//エラー時にリダイレクトされてきた値を受け取る
 		WorkEditForm formRedirect = (WorkEditForm) modelMap.get("form");
 		//formRedirectメソッドの呼び出し
-		CommonController.formRedirect(form, formRedirect);
+		CommonUtils.formRedirect(form, formRedirect);
 		//ユーザーを1件取得
 		MUser userDetail = userService.selectUserDetail(userId);
 		//Modelに登録
@@ -106,7 +106,7 @@ public class UserWorkEditController {
 		//Modelに登録
 		model.addAttribute("workStatusMap", workStatusMap);
 		//時分フォーム入力用メソッド
-		CommonController.formNumbers(model);
+		CommonUtils.formNumbers(model);
 		//admin/user_work_edit.htmlを呼び出す
 		return "admin/user_work_edit";
 	}
@@ -127,7 +127,7 @@ public class UserWorkEditController {
 			//Modelに登録
 			model.addAttribute("workStatusMap", workStatusMap);
 			//時分フォーム入力用メソッド
-			CommonController.formNumbers(model);
+			CommonUtils.formNumbers(model);
 			//NGがあれば出退勤修正画面に戻る
 			return "admin/user_work_edit";
 		}
@@ -153,24 +153,24 @@ public class UserWorkEditController {
 		    targetDate = date;
 		}
 		//入力された内容があっているかどうかを判断するメソッド
-		errorNumber = CommonController.confirmWorkForm(targetYear, targetMonth, targetDate, form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+		errorNumber = CommonUtils.confirmWorkForm(targetYear, targetMonth, targetDate, form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
 		//confirmWorkFormメソッドの実行結果によって得られるerrorMessageを宣言
 		String errorMessage = "";
 		//confirmWorkFormメソッドの実行結果によって得たerrorNumberのswitch文
 		switch (errorNumber) {
-			case CommonController.INCORRECT_TARGET_DATE:
+			case CommonUtils.INCORRECT_TARGET_DATE:
 				errorMessage = "出勤の場合、未来日付の指定はできません";
 				break;
-			case CommonController.INCOMPLETE_WORK_FORM:
+			case CommonUtils.INCOMPLETE_WORK_FORM:
 				errorMessage = "出勤の場合はフォームを全て入力してください。";
 				break;
-			case CommonController.INCORRECT_WORK_TIME:
+			case CommonUtils.INCORRECT_WORK_TIME:
 				errorMessage = "出勤時間が退勤時間よりも大きい値になっています。";
 				break;
-			case CommonController.INCORRECT_REST_TIME:
+			case CommonUtils.INCORRECT_REST_TIME:
 				errorMessage = "休憩時間の値を修正してください。";
 				break;
-			case CommonController.UNNECESSARY_WORK_FORM:
+			case CommonUtils.UNNECESSARY_WORK_FORM:
 				errorMessage = "出勤以外の場合はフォームを全て入力しないでください。";
 				break;
 		}
@@ -179,7 +179,7 @@ public class UserWorkEditController {
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", errorMessage);
 			//時分フォーム入力用メソッド
-			CommonController.formNumbers(model);
+			CommonUtils.formNumbers(model);
 			//出勤情報があるかどうかでリダイレクト先URLが異なる
 			if(workDetail != null) {
 				return "redirect:/admin/" + id + "/edit";
@@ -198,7 +198,7 @@ public class UserWorkEditController {
 		//RequestFormに出勤時間(時)がnullかどうかで分岐処理を行う(有休申請の場合はnullになる)
 		if(form.getAttendanceHour() != null) {
 			//出勤時間、退勤時間、休憩時間から就業時間と残業時間を計算するメソッド
-			Integer[] calcWorkingOver = CommonController.calcWorkingOver(form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+			Integer[] calcWorkingOver = CommonUtils.calcWorkingOver(form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
 			//上記の結果から就業時間、残業時間をセット
 			work.setWorkingTimeHour(calcWorkingOver[0]);
 			work.setWorkingTimeMinute(calcWorkingOver[1]);

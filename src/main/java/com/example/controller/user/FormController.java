@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.application.service.WorkStatusService;
-import com.example.controller.common.CommonController;
+import com.example.common.CommonUtils;
 import com.example.form.GroupOrder;
 import com.example.form.RequestFormForm;
 import com.example.model.Work;
@@ -39,7 +39,7 @@ public class FormController {
 		//エラー時にリダイレクトされてきた値を受け取る
 		RequestFormForm formRedirect = (RequestFormForm) modelMap.get("form");
 		//formRedirectメソッドの呼び出し
-		CommonController.formRedirect(form, formRedirect);
+		CommonUtils.formRedirect(form, formRedirect);
 		//勤怠情報取得
 		Work workDetail = workService.selectWork(id);
 		//Modelに登録
@@ -54,7 +54,7 @@ public class FormController {
 		model.addAttribute("month", workDetail.getMonth());
 		model.addAttribute("date", workDetail.getDate());
 		//時分フォーム入力用メソッド
-		CommonController.formNumbers(model);
+		CommonUtils.formNumbers(model);
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
@@ -65,7 +65,7 @@ public class FormController {
 		//エラー時にリダイレクトされてきた値を受け取る
 		RequestFormForm formRedirect = (RequestFormForm) modelMap.get("form");
 		//formRedirectメソッドの呼び出し
-		CommonController.formRedirect(form, formRedirect);
+		CommonUtils.formRedirect(form, formRedirect);
 		//出勤ステータスのMap
 		Map<String, Integer> workStatusMap = workStatusService.getWorkStatusMap();
 		//Modelに登録
@@ -74,7 +74,7 @@ public class FormController {
 		model.addAttribute("month", month);
 		model.addAttribute("date", date);
 		//時分フォーム入力用メソッド
-		CommonController.formNumbers(model);
+		CommonUtils.formNumbers(model);
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
@@ -115,7 +115,7 @@ public class FormController {
 		//入力チェック結果
 		if(bindingResult.hasErrors()) {
 			//時分フォーム入力用メソッド
-			CommonController.formNumbers(model);
+			CommonUtils.formNumbers(model);
 			//NGがあれば出退勤申請画面に戻る
 			return "user/form";
 		}
@@ -138,24 +138,24 @@ public class FormController {
 		    targetDate = date;
 		}
 		//入力された内容があっているかどうかを判断するメソッド
-		errorNumber = CommonController.confirmWorkForm(targetYear, targetMonth, targetDate, form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
+		errorNumber = CommonUtils.confirmWorkForm(targetYear, targetMonth, targetDate, form.getWorkStatus(), form.getAttendanceHour(), form.getAttendanceMinute(), form.getLeavingHour(), form.getLeavingMinute(), form.getRestHour(), form.getRestMinute());
 		//confirmWorkFormメソッドの実行結果によって得られるerrorMessageを宣言
 		String errorMessage = "";
 		//confirmWorkFormメソッドの実行結果によって得たerrorNumberのswitch文
 		switch (errorNumber) {
-		case CommonController.INCORRECT_TARGET_DATE:
+		case CommonUtils.INCORRECT_TARGET_DATE:
 			errorMessage = "出勤の場合、未来日付の指定はできません";
 			break;
-		case CommonController.INCOMPLETE_WORK_FORM:
+		case CommonUtils.INCOMPLETE_WORK_FORM:
 			errorMessage = "出勤の場合はフォームを全て入力してください。";
 			break;
-		case CommonController.INCORRECT_WORK_TIME:
+		case CommonUtils.INCORRECT_WORK_TIME:
 			errorMessage = "出勤時間が退勤時間よりも大きい値になっています。";
 			break;
-		case CommonController.INCORRECT_REST_TIME:
+		case CommonUtils.INCORRECT_REST_TIME:
 			errorMessage = "休憩時間の値を修正してください。";
 			break;
-		case CommonController.UNNECESSARY_WORK_FORM:
+		case CommonUtils.UNNECESSARY_WORK_FORM:
 			errorMessage = "出勤以外の場合はフォームを全て入力しないでください。";
 			break;
 		}
@@ -164,7 +164,7 @@ public class FormController {
 			//フラッシュスコープ
 			redirectAttributes.addFlashAttribute("error", errorMessage);
 			//時分フォーム入力用メソッド
-			CommonController.formNumbers(model);
+			CommonUtils.formNumbers(model);
 			//出勤情報があるかどうかでリダイレクト先URLが異なる
 			if(workDetail != null) {
 				return "redirect:/form/" + id;

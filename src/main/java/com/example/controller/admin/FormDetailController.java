@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.controller.common.CommonController;
+import com.example.common.CommonUtils;
 import com.example.model.RequestForm;
 import com.example.model.Work;
 import com.example.service.RequestFormService;
@@ -61,7 +61,7 @@ public class FormDetailController {
 			work.setRestHour(requestFormDetail.getRestHour());
 			work.setRestMinute(requestFormDetail.getRestMinute());
 			//出勤時間、退勤時間、休憩時間から就業時間と残業時間を計算するメソッド
-			Integer[] calcWorkingOver = CommonController.calcWorkingOver(requestFormDetail.getAttendanceHour(), requestFormDetail.getAttendanceMinute(), requestFormDetail.getLeavingHour(), requestFormDetail.getLeavingMinute(), requestFormDetail.getRestHour(), requestFormDetail.getRestMinute());
+			Integer[] calcWorkingOver = CommonUtils.calcWorkingOver(requestFormDetail.getAttendanceHour(), requestFormDetail.getAttendanceMinute(), requestFormDetail.getLeavingHour(), requestFormDetail.getLeavingMinute(), requestFormDetail.getRestHour(), requestFormDetail.getRestMinute());
 			//上記の結果から就業時間、残業時間をセット
 			work.setWorkingTimeHour(calcWorkingOver[0]);
 			work.setWorkingTimeMinute(calcWorkingOver[1]);

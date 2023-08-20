@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.example.controller.common.CommonController;
+import com.example.common.CommonUtils;
 import com.example.model.MUser;
 import com.example.model.Work;
 import com.example.service.WorkService;
@@ -108,7 +108,7 @@ public class WorkInputController {
 		Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
 		Integer minute = calendar.get(Calendar.MINUTE);
 		//現在分を5捨6入するメソッド
-		Integer[] roundOff = CommonController.roundOff(hour, minute);
+		Integer[] roundOff = CommonUtils.roundOff(hour, minute);
 		//上記結果を元に出勤時間を登録
 		work.setAttendanceHour(roundOff[0]);
 		work.setAttendanceMinute(roundOff[1]);
@@ -163,15 +163,15 @@ public class WorkInputController {
 		Integer hour = calendar.get(Calendar.HOUR_OF_DAY);
 		Integer minute = calendar.get(Calendar.MINUTE);
 		//現在分を5捨6入するメソッド
-		Integer[] roundOff = CommonController.roundOff(hour, minute);
+		Integer[] roundOff = CommonUtils.roundOff(hour, minute);
 		//上記結果を元に退勤時間を登録
 		work.setLeavingHour(roundOff[0]);
 		work.setLeavingMinute(roundOff[1]);
 		//休憩時間にはデフォルトで１時間０分をセット
-		work.setRestHour(CommonController.calcRest(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute()));
+		work.setRestHour(CommonUtils.calcRest(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute()));
 		work.setRestMinute(0);
 		//出勤時間と退勤時間から就業時間と残業時間を計算するメソッド
-		Integer[] calcWorkingOver = CommonController.calcWorkingOver(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute(), work.getRestHour(),work.getRestMinute());
+		Integer[] calcWorkingOver = CommonUtils.calcWorkingOver(workInfo.getAttendanceHour(), workInfo.getAttendanceMinute(), work.getLeavingHour(), work.getLeavingMinute(), work.getRestHour(),work.getRestMinute());
 		//上記結果を元に就業時間と残業時間を登録
 		work.setWorkingTimeHour(calcWorkingOver[0]);
 		work.setWorkingTimeMinute(calcWorkingOver[1]);

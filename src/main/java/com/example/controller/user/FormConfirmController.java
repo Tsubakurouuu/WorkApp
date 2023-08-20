@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.application.service.WorkStatusService;
-import com.example.controller.common.CommonController;
+import com.example.common.CommonUtils;
 import com.example.form.RequestFormForm;
 import com.example.model.MUser;
 import com.example.model.RequestForm;
@@ -82,7 +82,7 @@ public class FormConfirmController {
 		//Modelに登録
 		model.addAttribute("workStatusMap", workStatusMap);
 		//時分フォーム入力用メソッド
-		CommonController.formNumbers(model);
+		CommonUtils.formNumbers(model);
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
@@ -98,7 +98,7 @@ public class FormConfirmController {
 		model.addAttribute("month", month);
 		model.addAttribute("date", date);
 		//時分フォーム入力用メソッド
-		CommonController.formNumbers(model);
+		CommonUtils.formNumbers(model);
 		//user/form.htmlを呼び出す
 		return "user/form";
 	}
