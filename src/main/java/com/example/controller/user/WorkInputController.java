@@ -96,8 +96,6 @@ public class WorkInputController {
 			//出退勤時間入力画面にリダイレクト
 			return "redirect:/work/input";
 		}
-		//ログインユーザー情報取得
-		loginUser = userDetailsServiceImpl.selectLoginUser();
 		//Workにユーザーを登録
 		work.setUserId(loginUser.getId());
 		//Workに現在年月日をセット

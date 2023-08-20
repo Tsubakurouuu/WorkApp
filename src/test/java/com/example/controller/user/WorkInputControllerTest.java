@@ -25,6 +25,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import com.example.common.CommonUtils;
 import com.example.config.AuthenticationSuccessHandler;
 import com.example.model.MUser;
 import com.example.model.Work;
@@ -116,26 +117,24 @@ class WorkInputControllerTest {
 		MUser mockLoginUser = new MUser();
 		//モックのCalendarを生成
 		Calendar mockCalendar = Calendar.getInstance();
+		//現在時間の取得
+		Integer hour = mockCalendar.get(Calendar.HOUR_OF_DAY);
+		Integer minute = mockCalendar.get(Calendar.MINUTE);
+		//現在分を5捨6入するメソッド
+		Integer[] roundOff = CommonUtils.roundOff(hour, minute);
 		//ダミーデータを宣言(insertAttendanceメソッドの引数用)
 		Integer testUserId = 1;
-		Integer testYear = 2023;
-		Integer testMonth = 8;
-		Integer testDate = 15;
-		Integer testAttendanceHour = 10;
-		Integer testAttendanceMinute = 40;
+		Integer testYear = mockCalendar.get(Calendar.YEAR);
+		Integer testMonth = mockCalendar.get(Calendar.MONTH) + 1;
+		Integer testDate = mockCalendar.get(Calendar.DATE);
+		Integer testAttendanceHour = roundOff[0];
+		Integer testAttendanceMinute = roundOff[1];
 		//モックのMUser(mockLoginUser)にダミーデータのセット
 		mockLoginUser.setId(testUserId);
 		//userDetailsServiceImplのselectLoginUserメソッドが呼び出されたときにモックのMUserを返すように設定
 	    when(userDetailsServiceImpl.selectLoginUser()).thenReturn(mockLoginUser);
 		//mockMvcを使って"/work/attendance"にPOSTリクエストを送る
-	    mockMvc.perform(post("/work/attendance")
-	    		//HTTPリクエストのデータを設定
-	            .param("userId", testUserId.toString())
-	            .param("year", testYear.toString())
-	            .param("month", testMonth.toString())
-	            .param("date", testDate.toString())
-	            .param("attendanceHour", testAttendanceHour.toString())
-	            .param("attendanceMinute", testAttendanceMinute.toString()))
+	    mockMvc.perform(post("/work/attendance"))
 	        //HTTPステータスが302（Found）であるとをを確認
 	        .andExpect(status().isFound())
 	        //"/work/input"へリダイレクトされることを確認
