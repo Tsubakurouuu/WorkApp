@@ -87,7 +87,7 @@ public class WorkInputController {
         Integer month = calendar.get(Calendar.MONTH) + 1;
         //現在の日を取得
         Integer date = calendar.get(Calendar.DATE);
-        //同日勤怠情報取得（退勤ボタン押下時）
+        //同日勤怠情報取得（出勤ボタン押下時）
 		Work workInfo = workService.selectWorkAttendance(loginUser.getId(), year, month, date);
 		//本日分の打刻登録がされていないかの確認
 		if(workInfo != null) {

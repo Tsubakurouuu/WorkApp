@@ -2,11 +2,13 @@ package com.example.controller.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,6 +26,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
 import com.example.common.CommonUtils;
 import com.example.config.AuthenticationSuccessHandler;
@@ -134,11 +137,13 @@ class WorkInputControllerTest {
 		//userDetailsServiceImplのselectLoginUserメソッドが呼び出されたときにモックのMUserを返すように設定
 	    when(userDetailsServiceImpl.selectLoginUser()).thenReturn(mockLoginUser);
 		//mockMvcを使って"/work/attendance"にPOSTリクエストを送る
-	    mockMvc.perform(post("/work/attendance"))
+	    ResultActions resultActions = mockMvc.perform(post("/work/attendance"))
 	        //HTTPステータスが302（Found）であるとをを確認
 	        .andExpect(status().isFound())
 	        //"/work/input"へリダイレクトされることを確認
 	        .andExpect(redirectedUrl("/work/input"));
+	    //フラッシュスコープのメッセージを確認
+	    resultActions.andExpect(flash().attribute("complete", "出勤打刻が完了しました。"));
 	    //ArgumentCaptorの生成(Workの引数をキャッチするため)
 	    ArgumentCaptor<Work> argument = ArgumentCaptor.forClass(Work.class);
 	    //workServiceのinsertAttendanceが1度だけ呼び出されたことを確認
@@ -153,7 +158,46 @@ class WorkInputControllerTest {
 	    assertEquals(testAttendanceHour, workArgument.getAttendanceHour());
 	    assertEquals(testAttendanceMinute, workArgument.getAttendanceMinute());
 	}
-
+	
+	@Test
+	@DisplayName("出勤ボタン押下時のメソッド2(出勤打刻失敗時)")
+	void testPostUserWorkAttendance2() throws Exception {
+		//モックのMUserを生成
+		MUser mockLoginUser = new MUser();
+		//モックのWorkを生成
+		Work mockWork = new Work();
+		//モックのCalendarを生成
+		Calendar mockCalendar = Calendar.getInstance();
+		//ダミーデータを宣言(MUserに値を格納するため)
+		Integer testUserId = 1;
+		Integer testYear = mockCalendar.get(Calendar.YEAR);
+		Integer testMonth = mockCalendar.get(Calendar.MONTH) + 1;
+		Integer testDate = mockCalendar.get(Calendar.DATE);
+		Integer testAttendanceHour = 10;
+		Integer testAttendanceMinute = 30;
+		//Workに値をセット
+		mockWork.setUserId(testUserId);
+		mockWork.setYear(testYear);
+		mockWork.setMonth(testMonth);
+		mockWork.setDate(testDate);
+		mockWork.setAttendanceHour(testAttendanceHour);
+		mockWork.setAttendanceMinute(testAttendanceMinute);
+		//userDetailsServiceImplのselectLoginUserメソッドが呼び出されたときにモックのMUserを返すように設定
+	    when(userDetailsServiceImpl.selectLoginUser()).thenReturn(mockLoginUser);
+		//workServiceのselectWorkAttendanceメソッドが呼び出されたときにモックのWorkを返すように設定
+	    when(workService.selectWorkAttendance(any(), any(), any(), any())).thenReturn(mockWork);
+	    //mockMvcを使って"/work/attendance"にPOSTリクエストを送る
+	    ResultActions resultActions = mockMvc.perform(post("/work/attendance"))
+	        //HTTPステータスが302（Found）であるとをを確認
+	        .andExpect(status().isFound())
+	        //"/work/input"へリダイレクトされることを確認
+	        .andExpect(redirectedUrl("/work/input"));
+	    //フラッシュスコープのメッセージを確認
+	    resultActions.andExpect(flash().attribute("error", "本日分の出勤打刻は既にされています。"));
+	    //workServiceのinsertAttendanceが1度も呼び出されていないことを確認
+	    verify(workService, times(0)).insertAttendance(mockWork);
+	}
+	
 	@Test
 	void testPostUserWorkLeaving() {
 		fail("まだ実装されていません");
