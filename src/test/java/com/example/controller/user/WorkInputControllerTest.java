@@ -1,7 +1,6 @@
 package com.example.controller.user;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -132,6 +131,7 @@ class WorkInputControllerTest {
 		Integer testDate = mockCalendar.get(Calendar.DATE);
 		Integer testAttendanceHour = roundOff[0];
 		Integer testAttendanceMinute = roundOff[1];
+		Integer testWorkStatus = 1;
 		//モックのMUser(mockLoginUser)にダミーデータのセット
 		mockLoginUser.setId(testUserId);
 		//userDetailsServiceImplのselectLoginUserメソッドが呼び出されたときにモックのMUserを返すように設定
@@ -157,6 +157,7 @@ class WorkInputControllerTest {
 	    assertEquals(testDate, workArgument.getDate());
 	    assertEquals(testAttendanceHour, workArgument.getAttendanceHour());
 	    assertEquals(testAttendanceMinute, workArgument.getAttendanceMinute());
+	    assertEquals(testWorkStatus, workArgument.getWorkStatus());
 	}
 	
 	@Test
@@ -168,7 +169,7 @@ class WorkInputControllerTest {
 		Work mockWork = new Work();
 		//モックのCalendarを生成
 		Calendar mockCalendar = Calendar.getInstance();
-		//ダミーデータを宣言(MUserに値を格納するため)
+		//ダミーデータを宣言(Workに値を格納するため)
 		Integer testUserId = 1;
 		Integer testYear = mockCalendar.get(Calendar.YEAR);
 		Integer testMonth = mockCalendar.get(Calendar.MONTH) + 1;
@@ -199,8 +200,82 @@ class WorkInputControllerTest {
 	}
 	
 	@Test
-	void testPostUserWorkLeaving() {
-		fail("まだ実装されていません");
+	@DisplayName("退勤ボタン押下時のメソッド1(退勤打刻成功時)")
+	void testPostUserWorkLeaving1() throws Exception {
+		//モックのMUserを生成
+		MUser mockLoginUser = new MUser();
+		//モックのWorkを生成
+		Work mockWork = new Work();
+		//モックのCalendarを生成
+		Calendar mockCalendar = Calendar.getInstance();
+		//現在時間の取得
+		Integer hour = mockCalendar.get(Calendar.HOUR_OF_DAY);
+		Integer minute = mockCalendar.get(Calendar.MINUTE);
+		//現在分を5捨6入するメソッド
+		Integer[] roundOff = CommonUtils.roundOff(hour, minute);
+		//ダミーデータを宣言(Workに値を格納するため)
+		Integer testUserId = 1;
+		Integer testYear = mockCalendar.get(Calendar.YEAR);
+		Integer testMonth = mockCalendar.get(Calendar.MONTH) + 1;
+		Integer testDate = mockCalendar.get(Calendar.DATE);
+		Integer testAttendanceHour = roundOff[0] - 3;
+		Integer testAttendanceMinute = roundOff[1];
+		Integer testWorkStatus = 1;
+		//モックのMUser(mockLoginUser)にダミーデータのセット
+		mockLoginUser.setId(testUserId);
+		//Workに値をセット
+		mockWork.setUserId(testUserId);
+		mockWork.setYear(testYear);
+		mockWork.setMonth(testMonth);
+		mockWork.setDate(testDate);
+		mockWork.setAttendanceHour(testAttendanceHour);
+		mockWork.setAttendanceMinute(testAttendanceMinute);
+		mockWork.setWorkStatus(testWorkStatus);
+		//ダミーデータを宣言(updateLeavingメソッドの引数用)
+		Integer testLeavingHour = roundOff[0];
+		Integer testLeavingMinute = roundOff[1];
+		Integer testRestHour = CommonUtils.calcRest(mockWork.getAttendanceHour(), mockWork.getAttendanceMinute(), testLeavingHour, testLeavingMinute);
+		Integer testRestMinute = 0;
+		//出勤時間と退勤時間から就業時間と残業時間を計算するメソッド
+		Integer[] calcWorkingOver = CommonUtils.calcWorkingOver(mockWork.getAttendanceHour(), mockWork.getAttendanceMinute(), testLeavingHour, testLeavingMinute, testRestHour, testRestMinute);
+		Integer testWorkingTimeHour = calcWorkingOver[0];
+		Integer testWorkingTimeMinute = calcWorkingOver[1];
+		Integer testOverTimeHour = calcWorkingOver[2];
+		Integer testOverTimeMinute = calcWorkingOver[3];
+		//userDetailsServiceImplのselectLoginUserメソッドが呼び出されたときにモックのMUserを返すように設定
+	    when(userDetailsServiceImpl.selectLoginUser()).thenReturn(mockLoginUser);
+		//workServiceのselectWorkAttendanceメソッドが呼び出されたときにモックのWorkを返すように設定
+	    when(workService.selectWorkAttendance(any(), any(), any(), any())).thenReturn(mockWork);
+	    //mockMvcを使って"/work/attendance"にPOSTリクエストを送る
+	    ResultActions resultActions = mockMvc.perform(post("/work/leaving"))
+	        //HTTPステータスが302（Found）であるとをを確認
+	        .andExpect(status().isFound())
+	        //"/work/input"へリダイレクトされることを確認
+	        .andExpect(redirectedUrl("/work/input"));
+	    //フラッシュスコープのメッセージを確認
+	    resultActions.andExpect(flash().attribute("complete", "退勤打刻が完了しました。"));
+	    //ArgumentCaptorの生成(Workの引数をキャッチするため)
+	    ArgumentCaptor<Work> argument = ArgumentCaptor.forClass(Work.class);
+	    //workServiceのupdateLeavingが1度だけ呼び出されたことを確認
+	    verify(workService, times(1)).updateLeaving(argument.capture());
+	    //ArgumentCaptorでキャッチした引数の取得
+	    Work workArgument = argument.getValue();
+	    //updateLeavingメソッドの実行結果と期待値が同値であることを確認
+	    assertEquals(testUserId, workArgument.getUserId());
+	    assertEquals(testYear, workArgument.getYear());
+	    assertEquals(testMonth, workArgument.getMonth());
+	    assertEquals(testDate, workArgument.getDate());
+//	    assertEquals(testAttendanceHour, workArgument.getAttendanceHour());
+//	    assertEquals(testAttendanceMinute, workArgument.getAttendanceMinute());
+//	    assertEquals(testWorkStatus, workArgument.getWorkStatus());
+	    assertEquals(testLeavingHour, workArgument.getLeavingHour());
+	    assertEquals(testLeavingMinute, workArgument.getLeavingMinute());
+	    assertEquals(testRestHour, workArgument.getRestHour());
+	    assertEquals(testRestMinute, workArgument.getRestMinute());
+	    assertEquals(testWorkingTimeHour, workArgument.getWorkingTimeHour());
+	    assertEquals(testWorkingTimeMinute, workArgument.getWorkingTimeMinute());
+	    assertEquals(testOverTimeHour, workArgument.getOverTimeHour());
+	    assertEquals(testOverTimeMinute, workArgument.getOverTimeMinute());
 	}
 
 }
